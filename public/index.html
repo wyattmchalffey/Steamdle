@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steamdle - Guess the Game!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Steamdle</h1>
+        <p>Guess the game based on Steam review screenshots. You have 6 tries.</p>
+
+        <div id="reviews-container">
+            <!-- Review images will be dynamically added here -->
+            <p id="loading-message">Loading today's game...</p>
+        </div>
+
+        <div id="game-over-message" class="hidden">
+            <h2 id="win-lose-text"></h2>
+            <p>The game was: <strong id="correct-game-title"></strong></p>
+            <img id="game-image" src="" alt="Game Cover Art" class="hidden"/>
+            <a id="steam-link" href="#" target="_blank" class="hidden">View on Steam</a>
+            <button id="share-button" class="hidden">Share Results</button>
+        </div>
+        
+        <div id="input-area">
+            <input type="text" id="guess-input" placeholder="Enter game title..." list="game-titles-list" disabled>
+            <datalist id="game-titles-list">
+                <!-- Game titles for autocomplete will be populated here by script.js -->
+            </datalist>
+            <button id="guess-button" disabled>Guess</button>
+        </div>
+
+        <div id="previous-guesses-container">
+            <h3>Previous Guesses:</h3>
+            <ul id="previous-guesses-list">
+                <!-- Incorrect guesses will be listed here -->
+            </ul>
+        </div>
+        
+        <p>Guesses Remaining: <span id="guesses-remaining">6</span></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

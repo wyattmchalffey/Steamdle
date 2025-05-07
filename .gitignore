@@ -1,0 +1,31 @@
+# Dependencies
+/node_modules
+
+# SQLite Database file
+# (You might want to commit an EMPTY or SEEDED initial DB for convenience,
+# but generally, dynamically generated DB files on servers are not committed.
+# For Render's persistent disk, the DB will be created/managed there.
+# If you commit it, it might get overwritten on deploy unless you handle it carefully.)
+*.sqlite
+*.sqlite-journal
+
+# Environment variables file (if you were using one like .env)
+.env
+.env.*
+!.env.example
+
+# Log files
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Build output (if you had a separate build step)
+/dist
+/build
+
+# OS generated files
+.DS_Store
+Thumbs.db
