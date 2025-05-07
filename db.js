@@ -109,11 +109,11 @@ async function seedInitialData() {
             steam_app_id: "1569580",
             reviews: [
                 "/images/reviews/blueprince_1.png", // MAKE SURE THIS FILE EXISTS
-                "/images/reviews/blueprince_1.png", // MAKE SURE THIS FILE EXISTS
-                "/images/reviews/blueprince_1.png", // MAKE SURE THIS FILE EXISTS
-                "/images/reviews/blueprince_1.png", // MAKE SURE THIS FILE EXISTS
-                "/images/reviews/blueprince_1.png", // MAKE SURE THIS FILE EXISTS
-                "/images/reviews/blueprince_1.png"  // MAKE SURE THIS FILE EXISTS
+                "/images/reviews/blueprince_2.png", // MAKE SURE THIS FILE EXISTS
+                "/images/reviews/blueprince_3.png", // MAKE SURE THIS FILE EXISTS
+                "/images/reviews/blueprince_4.png", // MAKE SURE THIS FILE EXISTS
+                "/images/reviews/blueprince_5.png", // MAKE SURE THIS FILE EXISTS
+                "/images/reviews/blueprince_6.png"  // MAKE SURE THIS FILE EXISTS
             ]
         },
         {
