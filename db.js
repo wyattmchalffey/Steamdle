@@ -6,22 +6,20 @@ const path = require('path'); // Import path module
 const persistentDiskMountPath = process.env.SQLITE_DISK_PATH || '/data'; // Render example path
 const DBSOURCE = path.join(persistentDiskMountPath, "steamdle.sqlite");
 
-// Ensure the directory exists (Render might create the mount point, but not subdirs)
-const fs = require('fs');
-if (!fs.existsSync(persistentDiskMountPath)) {
-    try {
-        fs.mkdirSync(persistentDiskMountPath, { recursive: true });
-        console.log(`[DB_INFO] Created directory for SQLite DB: ${persistentDiskMountPath}`);
-    } catch (e) {
-        console.error(`[DB_ERROR] Could not create directory for SQLite DB at ${persistentDiskMountPath}:`, e);
-        // Potentially throw e or handle gracefully if this is critical
-    }
-}
-
 console.log(`[DB_INFO] Using SQLite database at: ${DBSOURCE}`);
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
-  
+    if (err) {
+        console.error("[DB_ERROR] Could not connect to/create database file at " + DBSOURCE + ":", err.message);
+        // If EACCES here, it means your app can't WRITE the steamdle.sqlite file into /data
+        // This would point to a problem with disk permissions or the disk not being mounted.
+        // No need to throw err here, as initializeDatabaseStructure will be called and log further if it fails.
+    } else {
+        console.log("[DB_INFO] Successfully opened/created SQLite database file at:", DBSOURCE);
+    }
+    // Proceed to initialize structure regardless of initial open error,
+    // as table creation might also provide more specific errors.
+    initializeDatabaseStructure();
 });
 
 function initializeDatabaseStructure() {
