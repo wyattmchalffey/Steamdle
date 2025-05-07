@@ -8,7 +8,10 @@
 </head>
 <body>
     <div class="container">
-        <h1>Steamdle</h1>
+        <div class="title-container">
+            <img src="/images/steam-logo.png" alt="Steam Logo" id="steam-logo-header"> <!-- Or .png -->
+            <h1>Steamdle</h1>
+        </div>
         <p>Guess the game based on Steam review screenshots. You have 6 tries.</p>
 
         <div id="reviews-container">
@@ -19,11 +22,11 @@
         <div id="game-over-message" class="hidden">
             <h2 id="win-lose-text"></h2>
             <p>The game was: <strong id="correct-game-title"></strong></p>
-            <img id="game-image" src="" alt="Game Cover Art" class="hidden"/>
+            <img id="game-image" src="" alt="Game Cover Art" class="hidden" />
             <a id="steam-link" href="#" target="_blank" class="hidden">View on Steam</a>
             <button id="share-button" class="hidden">Share Results</button>
         </div>
-        
+
         <div id="input-area">
             <input type="text" id="guess-input" placeholder="Enter game title..." list="game-titles-list" disabled>
             <datalist id="game-titles-list">
@@ -38,7 +41,7 @@
                 <!-- Incorrect guesses will be listed here -->
             </ul>
         </div>
-        
+
         <p>Guesses Remaining: <span id="guesses-remaining">6</span></p>
     </div>
 

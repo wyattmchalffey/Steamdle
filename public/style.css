@@ -3,7 +3,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 100vh;
+    min-height: 200vh;
     margin: 0;
     background-color: #1b2838; /* Steam-ish dark blue */
     color: #c7d5e0; /* Light grey/blue text */
@@ -17,8 +17,8 @@ body {
     border-radius: 8px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.4);
     text-align: center;
-    width: 95%;
-    max-width: 700px;
+    width: auto;
+    max-width: 1000px;
 }
 
 h1 {
@@ -36,16 +36,17 @@ p {
 #reviews-container {
     margin-top: 20px;
     margin-bottom: 25px;
-    border: 1px solid #4b607c;
-    padding: 20px;
+   /* border: 1px solid #4b607c; */
+    padding: 10px;
     border-radius: 5px;
     min-height: 120px; 
     background-color: #17212e; /* Even darker for review area */
-    max-height: 70vh; 
+    max-height: auto;
+    max-width: auto;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Spacing between review items */
+    gap: 5px; /* Spacing between review items */
 }
 
 #loading-message {
@@ -54,13 +55,17 @@ p {
 }
 
 .review-item-wrapper {
-    padding: 10px;
-    background-color: #223145;
-    border: 1px solid #3a4e68;
-    border-radius: 4px;
+    padding: 0px;
+    /*background-color: #223145;
+    border: 1px solid #3a4e68; */
+    border-radius: 0px;
     opacity: 0;
     transform: translateY(15px);
     transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
 }
 
 .review-item-wrapper.loaded {
@@ -71,21 +76,23 @@ p {
 .clue-number {
     display: block;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     color: #8999a8;
-    font-size: 0.9em;
+    font-size: 1em;
 }
 
 .review-screenshot {
-    max-width: 100%;
+    width: 100%;
+    max-width: auto;
     height: auto;
     border-radius: 3px;
     border: 1px solid #4a5c74;
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     display: block;
-    margin-top: 5px;
+    /* margin-top: 5px; */
     margin-left: auto; /* This centers the block element horizontally */
     margin-right: auto; /* This centers the block element horizontally */
+    margin-bottom: 10px;
 }
 
 .review-image-error {
@@ -97,6 +104,7 @@ p {
 }
 
 #input-area {
+    margin-top: 10px;
     margin-bottom: 25px;
     display: flex;
     justify-content: center;
@@ -205,10 +213,13 @@ p {
 #game-over-message strong { color: #fff; font-weight: bold;}
 
 #game-image {
-    max-width: 250px; /* Larger game cover */
+    max-width: 500px; /* Larger game cover */
     margin-top: 15px;
+    margin-right: auto;
+    margin-left: auto;
     border-radius: 4px;
     border: 2px solid #4a5c74;
+    display: block;
 }
 
 #steam-link, #share-button {
@@ -228,7 +239,7 @@ p {
 #steam-link {
     background-color: #101d2f; /* Dark blue for Steam link */
     color: #66c0f4;
-    margin-right: 10px;
+    cursor: pointer;
     border: 1px solid #66c0f4;
 }
 
@@ -237,4 +248,27 @@ p {
     color: white;
     border: none;
     cursor: pointer;
+}
+
+.title-container {
+    display: flex; /* Enables Flexbox */
+    align-items: center; /* Vertically aligns items in the middle */
+    justify-content: center; /* Horizontally aligns items to the center */
+    gap: 10px; /* Adds a small space between the logo and the title text */
+    margin-bottom: 15px; /* Space below the title block */
+}
+
+#steam-logo-header {
+    height: 40px; /* Adjust height as needed. Width will scale automatically if SVG/PNG aspect is maintained */
+    /* width: 40px; */ /* You can set width instead, or both if not an SVG that scales well */
+    vertical-align: middle; /* Helps with inline alignment, though flexbox align-items is primary */
+}
+
+/* Adjust existing h1 style if needed, or keep as is */
+.container h1 { /* Made selector more specific in case of other h1s */
+    color: #66c0f4;
+    margin-top: 0;
+    margin-bottom: 0; /* Remove bottom margin since .title-container handles it */
+    font-size: 2.5em; /* Keep or adjust */
+    /* No need for text-align: center; here if .title-container handles centering */
 }
