@@ -117,6 +117,42 @@ async function seedInitialData() {
                 "https://steamcommunity.com/id/hangover66st/recommended/620/"  // MAKE SURE THIS FILE EXISTS
             ]
         },
+        {
+            title: "Stardew Valley",
+            steam_app_id: "413150",
+            reviews: [
+                "https://steamcommunity.com/id/Kekkykekkekkekky/recommended/413150/",
+                "https://steamcommunity.com/id/Focusta_/recommended/413150/",
+                "https://steamcommunity.com/id/ItsDommyMommy/recommended/413150/",
+                "https://steamcommunity.com/profiles/76561198261179773/recommended/413150/",
+                "https://steamcommunity.com/id/nuance/recommended/413150/",
+                "https://steamcommunity.com/id/killerzimmer/recommended/413150/"
+            ]
+        },
+        {
+            title: "Terraria",
+            steam_app_id: "105600",
+            reviews: [
+                "https://steamcommunity.com/id/sugarfanged/recommended/105600/",
+                "https://steamcommunity.com/id/CornetTheory/recommended/105600/",
+                "https://steamcommunity.com/profiles/76561199014671970/recommended/105600/",
+                "https://steamcommunity.com/profiles/76561199003326280/recommended/105600/",
+                "https://steamcommunity.com/id/ClarifiedClara/recommended/105600/",
+                "https://steamcommunity.com/profiles/76561199480521925/recommended/105600/"
+            ]
+        },
+        {
+            title: "Satisfactory",
+            steam_app_id: "526870",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198994752998/recommended/526870/",
+                "https://steamcommunity.com/id/GalaxyFops/recommended/526870/",
+                "https://steamcommunity.com/profiles/76561198119457419/recommended/526870/",
+                "https://steamcommunity.com/id/aByZMaI/recommended/526870/",
+                "https://steamcommunity.com/profiles/76561198127775791/recommended/526870/",
+                "https://steamcommunity.com/id/NeoVexan/recommended/526870/"
+            ]
+        },
         // {
         //     title: "Your Next Game Title",
         //     steam_app_id: "YOUR_APP_ID",
