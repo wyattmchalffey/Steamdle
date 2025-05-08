@@ -127,42 +127,138 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function displayNextReview() {
         if (isGameOver || !currentGame || currentReviewIndex >= currentGame.reviews.length) {
-            return; // Don't display if game over or no more reviews
+            return;
         }
 
-        const reviewImageUrl = currentGame.reviews[currentReviewIndex];
-        console.log(`Frontend: Displaying review clue ${currentReviewIndex + 1}: ${reviewImageUrl}`);
-        
+        const reviewData = currentGame.reviews[currentReviewIndex]; // This is now an object
+        console.log(`Frontend: Displaying review clue ${currentReviewIndex + 1} data:`, reviewData);
+
+        if (reviewData.error) {
+            // Handle cases where scraping failed for this specific review
+            const errorWrapper = document.createElement('div');
+            errorWrapper.classList.add('review-item-wrapper', 'loaded', 'review-error-item');
+            errorWrapper.innerHTML = `
+            <span class="clue-number">Clue ${currentReviewIndex + 1} of ${currentGame.reviews.length}:</span>
+            <p class="review-image-error">Oops! Could not load this review clue. '${reviewData.message}'</p>
+            <p class="review-source-url-error">(Source: ${reviewData.originalUrl || 'N/A'})</p>
+        `;
+            reviewsContainer.appendChild(errorWrapper);
+            reviewsContainer.scrollTop = reviewsContainer.scrollHeight;
+            return;
+        }
+
+        // --- Create HTML structure for the review ---
         const reviewWrapper = document.createElement('div');
         reviewWrapper.classList.add('review-item-wrapper');
 
+        // Clue Number
         const clueNumberSpan = document.createElement('span');
         clueNumberSpan.classList.add('clue-number');
         clueNumberSpan.textContent = `Clue ${currentReviewIndex + 1} of ${currentGame.reviews.length}:`;
         reviewWrapper.appendChild(clueNumberSpan);
 
-        const img = document.createElement('img');
-        img.src = reviewImageUrl; // This is the relative path like /images/reviews/image.png
-        img.alt = `Steam Review Clue ${currentReviewIndex + 1}`;
-        img.classList.add('review-screenshot');
-        
-        img.onload = () => {
-            reviewWrapper.classList.add('loaded'); // Triggers fade-in/slide-in animation
+        // Main review card div
+        const reviewCard = document.createElement('div');
+        reviewCard.classList.add('steam-review-card');
+
+        // --- Review Header Section ---
+        const reviewHeader = document.createElement('div');
+        reviewHeader.classList.add('review-header');
+        let headerHasContent = false; // Flag to track if we add anything
+
+        // Add Avatar if available
+        if (reviewData.reviewerAvatarUrl) {
+            // *** START RESTORED CODE ***
+            const avatarImg = document.createElement('img');
+            avatarImg.src = reviewData.reviewerAvatarUrl;
+            avatarImg.alt = "Reviewer avatar"; // Keep alt simple
+            avatarImg.classList.add('reviewer-avatar');
+            reviewHeader.appendChild(avatarImg);
+            headerHasContent = true;
+            // *** END RESTORED CODE ***
         }
-        img.onerror = () => {
-            console.error(`Frontend: Failed to load review image: ${reviewImageUrl}`);
-            img.alt = "Review image failed to load.";
-            const errorText = document.createElement('p');
-            errorText.textContent = "Sorry, this review image couldn't be loaded.";
-            errorText.classList.add('review-image-error');
-            reviewWrapper.appendChild(errorText); // Append error inside the wrapper instead of replacing image
-            reviewWrapper.classList.add('loaded'); // Still show the wrapper
+
+        // Add Name if available (or use fallback)
+        // We'll create the span regardless and use the scraped name or "A Steam User"
+        const reviewerNameSpan = document.createElement('span');
+        reviewerNameSpan.classList.add('reviewer-name');
+        // *** START RESTORED CODE (modified slightly) ***
+        reviewerNameSpan.textContent = reviewData.reviewerName || "A Steam User"; // Use scraped name or default
+        reviewHeader.appendChild(reviewerNameSpan);
+        headerHasContent = true; // We are always adding at least the name span
+        // *** END RESTORED CODE ***
+
+
+        // Append header to card ONLY if it has content
+        if (headerHasContent) {
+            reviewCard.appendChild(reviewHeader);
         }
-        
-        reviewWrapper.appendChild(img);
+        // --- End Review Header Section ---
+
+
+        // --- Recommendation Block Structure (Keep as before) ---
+        const recommendationDiv = document.createElement('div');
+        recommendationDiv.classList.add('review-recommendation');
+        const isRecommended = reviewData.recommendation && reviewData.recommendation.toLowerCase() === 'recommended';
+        const notRecommended = reviewData.recommendation && reviewData.recommendation.toLowerCase() === 'not recommended';
+
+        if (isRecommended) { recommendationDiv.classList.add('recommended'); }
+        else if (notRecommended) { recommendationDiv.classList.add('not-recommended'); }
+
+        const iconDiv = document.createElement('div');
+        iconDiv.classList.add('recommendation-icon');
+        recommendationDiv.appendChild(iconDiv);
+
+        const detailsDiv = document.createElement('div');
+        detailsDiv.classList.add('recommendation-details');
+
+        if (reviewData.recommendation) {
+            const recTextSpan = document.createElement('span');
+            recTextSpan.classList.add('recommendation-text');
+            recTextSpan.textContent = reviewData.recommendation;
+            detailsDiv.appendChild(recTextSpan);
+        }
+
+        if (reviewData.playtime && reviewData.playtime !== "Playtime not shown") {
+            const playtimeP = document.createElement('p');
+            playtimeP.classList.add('review-playtime');
+            playtimeP.textContent = reviewData.playtime;
+            detailsDiv.appendChild(playtimeP);
+        }
+
+        if (detailsDiv.hasChildNodes()) { recommendationDiv.appendChild(detailsDiv); }
+        if (recommendationDiv.hasChildNodes()) { reviewCard.appendChild(recommendationDiv); }
+        // --- End Recommendation Block ---
+
+        // Date Posted (Keep as before)
+        if (reviewData.datePosted && reviewData.datePosted !== "Date not found") {
+            const dateP = document.createElement('p');
+            dateP.classList.add('review-date');
+            dateP.textContent = `Posted: ${reviewData.datePosted}`;
+            reviewCard.appendChild(dateP);
+        }
+
+        // Review Text (Keep as before)
+        if (reviewData.reviewText && reviewData.reviewText !== "Could not load review text.") {
+            const reviewTextP = document.createElement('p');
+            reviewTextP.classList.add('review-text-content');
+            reviewTextP.style.whiteSpace = 'pre-line';
+            reviewTextP.textContent = reviewData.reviewText;
+            reviewCard.appendChild(reviewTextP);
+        }
+
+        // --- End Review Card Content ---
+
+        reviewWrapper.appendChild(reviewCard);
         reviewsContainer.appendChild(reviewWrapper);
-        reviewsContainer.scrollTop = reviewsContainer.scrollHeight; // Auto-scroll to new review
-    }
+
+        // Animation trigger
+        setTimeout(() => {
+            reviewWrapper.classList.add('loaded');
+        }, 10);
+
+        reviewsContainer.scrollTop = reviewsContainer.scrollHeight;
+    } // End of displayNextReview function
 
     function handleGuess() {
         console.log("[handleGuess] Function called.");
@@ -272,6 +368,32 @@ document.addEventListener('DOMContentLoaded', () => {
                  reviewsContainer.appendChild(reviewWrapper);
             });
         }
+        if (!didWin) { // If lost, reveal all clues
+        reviewsContainer.innerHTML = ''; // Clear current for re-render
+        currentGame.reviews.forEach((rData, index) => { // rData is now the review object
+            // Simplified display for all revealed reviews (or reuse displayNextReview structure)
+            const reviewWrapper = document.createElement('div');
+            reviewWrapper.classList.add('review-item-wrapper', 'loaded');
+            reviewWrapper.innerHTML = `
+                <span class="clue-number">Clue ${index + 1}:</span>
+                <div class="steam-review-card">
+                    <div class="review-header">
+                        ${rData.reviewerAvatarUrl ? `<img src="${rData.reviewerAvatarUrl}" alt="Avatar" class="reviewer-avatar">` : ''}
+                        <span class="reviewer-name">${rData.reviewerName || 'A Steam User'}</span>
+                    </div>
+                    <div class="review-recommendation">
+                        <span class="recommendation-icon">${rData.recommendation?.toLowerCase() === 'recommended' ? '👍' : '👎'}</span>
+                        <span>${rData.recommendation || ''}</span>
+                    </div>
+                    ${rData.playtime ? `<p class="review-playtime">${rData.playtime}</p>` : ''}
+                    ${rData.datePosted ? `<p class="review-date">Posted: ${rData.datePosted}</p>` : ''}
+                    <p class="review-text-content" style="white-space: pre-line;">${rData.reviewText || 'Review text not available.'}</p>
+                    ${rData.error ? `<p class="review-image-error">Could not load this review: ${rData.message}</p>` : ''}
+                </div>
+            `;
+            reviewsContainer.appendChild(reviewWrapper);
+        });
+    }
         shareButton.classList.remove('hidden');
     }
 

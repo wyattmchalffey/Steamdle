@@ -1,12 +1,12 @@
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: "Motiva Sans", Arial, Helvetica, sans-serif; /* Using Steam's font stack */
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 200vh;
+    min-height: 100vh;
     margin: 0;
-    background-color: #1b2838; /* Steam-ish dark blue */
-    color: #c7d5e0; /* Light grey/blue text */
+    background-color: #1b2838;
+    color: #c7d5e0;
     padding: 20px;
     box-sizing: border-box;
 }
@@ -17,8 +17,8 @@ body {
     border-radius: 8px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.4);
     text-align: center;
-    width: auto;
-    max-width: 1000px;
+    width: 95%;
+    max-width: 800px;
 }
 
 h1 {
@@ -31,22 +31,21 @@ h1 {
 p {
     line-height: 1.6;
     margin-bottom: 15px;
+    color: #acb2b8;
 }
 
 #reviews-container {
     margin-top: 20px;
     margin-bottom: 25px;
-   /* border: 1px solid #4b607c; */
-    padding: 10px;
-    border-radius: 5px;
-    min-height: 120px; 
-    background-color: #17212e; /* Even darker for review area */
-    max-height: auto;
-    max-width: auto;
+    border: none; /* Remove border around the whole clue area */
+    padding: 0; /* Remove padding around the whole clue area */
+    min-height: 120px;
+    /* background-color: #17212e; */ /* Remove background if not needed */
+    max-height: 75vh; /* Slightly more height? */
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 5px; /* Spacing between review items */
+    gap: 15px;
 }
 
 #loading-message {
@@ -55,17 +54,14 @@ p {
 }
 
 .review-item-wrapper {
-    padding: 0px;
-    /*background-color: #223145;
-    border: 1px solid #3a4e68; */
-    border-radius: 0px;
+    padding: 0;
     opacity: 0;
     transform: translateY(15px);
     transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-    
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center content horizontally */
+    align-items: center;
+    width: 100%;
 }
 
 .review-item-wrapper.loaded {
@@ -75,25 +71,13 @@ p {
 
 .clue-number {
     display: block;
-    font-weight: bold;
+    font-weight: normal;
     margin-bottom: 10px;
     color: #8999a8;
-    font-size: 1em;
+    font-size: 0.95em;
+    text-align: center;
 }
 
-.review-screenshot {
-    width: 100%;
-    max-width: auto;
-    height: auto;
-    border-radius: 3px;
-    border: 1px solid #4a5c74;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    display: block;
-    /* margin-top: 5px; */
-    margin-left: auto; /* This centers the block element horizontally */
-    margin-right: auto; /* This centers the block element horizontally */
-    margin-bottom: 10px;
-}
 
 .review-image-error {
     color: #ff6666;
@@ -254,7 +238,7 @@ p {
     display: flex; /* Enables Flexbox */
     align-items: center; /* Vertically aligns items in the middle */
     justify-content: center; /* Horizontally aligns items to the center */
-    gap: 10px; /* Adds a small space between the logo and the title text */
+    gap: 12px; /* Adds a small space between the logo and the title text */
     margin-bottom: 15px; /* Space below the title block */
 }
 
@@ -271,4 +255,125 @@ p {
     margin-bottom: 0; /* Remove bottom margin since .title-container handles it */
     font-size: 2.5em; /* Keep or adjust */
     /* No need for text-align: center; here if .title-container handles centering */
+}
+.review-item-wrapper.review-error-item .review-image-error { /* Style for when scraping fails for a clue */
+    margin-top: 10px;
+}
+
+.review-item-wrapper.review-error-item .review-source-url-error {
+    font-size: 0.8em;
+    color: #8999a8;
+    word-break: break-all;
+    margin-top: 5px;
+}
+
+
+.steam-review-card {
+    background-color: #1e2d40; /* Slightly lighter dark blue-grey from screenshot */
+    color: #8f98a0; /* Default text color inside card - slightly dimmer */
+    padding: 12px; /* Adjust padding */
+    border-radius: 2px;
+    /* border: 1px solid #111923; */ /* Very dark border, almost black */
+    box-shadow: 0 0 3px rgba(0,0,0,0.4);
+    text-align: left;
+    font-size: 13px;
+    width: 100%;
+    max-width: 634px; /* Steam seems to use around this width */
+    box-sizing: border-box;
+    margin-left: auto; /* Center card if .review-item-wrapper is wider */
+    margin-right: auto; /* Center card */
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.reviewer-avatar {
+    width: 48px; /* Steam avatar size */
+    height: 48px;
+    border-radius: 2px;
+    margin-right: 10px;
+}
+
+.reviewer-name {
+    color: #c7d5e0; /* Brighter name color */
+    font-weight: normal;
+    font-size: 18px;
+}
+
+.review-recommendation {
+    display: flex; /* Use flexbox to align thumb and text block */
+    align-items: flex-start; /* Align items to the top */
+    background-color: rgba( 38, 54, 79, 0.5 ); /* Semi-transparent darker background */
+    padding: 10px;
+    border-radius: 2px;
+    margin-bottom: 12px;
+}
+
+.recommendation-icon {
+    width: 48px; /* Adjust size to match target screenshot */
+    height: 48px; /* Adjust size */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin-right: 10px; /* Space between icon and text */
+    flex-shrink: 0;
+    margin-top: 0;
+}
+
+/* Apply specific icon based on class added by JS */
+.review-recommendation.recommended .recommendation-icon {
+    background-image: url('/images/thumb-up.png');
+}
+
+.review-recommendation.not-recommended .recommendation-icon {
+    background-image: url('/images/thumb-down.png');
+}
+/* Add a placeholder if no recommendation? Optional */
+.review-recommendation:not(.recommended):not(.not-recommended) .recommendation-icon {
+    /* Maybe a grey dot or different icon */
+    /* background-color: #555; border-radius: 50%; */
+}
+
+.recommendation-details {
+    display: flex;
+    flex-direction: column; /* Stack text elements vertically */
+}
+
+.recommendation-text {
+    font-size: 16px; /* Larger "Recommended" text */
+    font-weight: bold;
+    color: #ffffff; /* White text for 'Recommended' */
+    line-height: 1.2;
+    margin-bottom: 4px; /* Space between 'Recommended' and playtime */
+}
+/* Specific colors if needed (though maybe redundant if icon shows it) */
+/* .review-recommendation.recommended .recommendation-text { color: #fff; } */
+/* .review-recommendation.not-recommended .recommendation-text { color: #ff8080; } */
+
+.review-playtime {
+    font-size: 12px; /* Match Steam's slightly larger metadata size here */
+    color: #8091a1;
+    margin-bottom: 0; /* Remove bottom margin if it's the last item here */
+    line-height: 1.4;
+}
+
+.review-date {
+    font-size: 11px;
+    color: #556772;
+    margin-bottom: 12px; /* Space below date before review text */
+    line-height: 1.4;
+    padding-left: 10px; /* Indent slightly like screenshot? */
+}
+
+.review-text-content {
+    color: #acb2b8;
+    line-height: 1.6;
+    white-space: pre-line;
+    word-wrap: break-word;
+    font-size: 14px; /* Slightly larger review text */
+    padding-left: 10px; /* Indent review text */
+    margin-top: 0;
 }

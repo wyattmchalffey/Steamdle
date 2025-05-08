@@ -1,6 +1,9 @@
-const express = require('express');
+﻿const express = require('express');
 const cors = require('cors');
 const db = require('./db.js'); // Your database connection and seeding logic
+
+const axios = require('axios'); // For fetching HTML
+const cheerio = require('cheerio'); // For parsing HTML
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -114,26 +117,137 @@ app.get('/api/daily-game', (req, res) => {
     });
 });
 
+// Helper function to scrape a single Steam review page
+async function scrapeSteamReview(reviewUrl) {
+    console.log(`[SCRAPER_INFO] Attempting to scrape review: ${reviewUrl}`);
+    try {
+        const { data: html } = await axios.get(reviewUrl, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36',
+                'Accept-Language': 'en-US,en;q=0.9'
+            }
+        });
+        const $ = cheerio.load(html);
+        const reviewData = {};
+
+        // 1. Reviewer Name
+        // From: <a class="whiteLink persona_name_text_content" href="https://steamcommunity.com/id/Etra_">etra</a>
+        reviewData.reviewerName = $('.profile_small_header_name a.persona_name_text_content').text().trim();
+        if (!reviewData.reviewerName) { // Fallback if the above is not found (e.g., different profile structure)
+            reviewData.reviewerName = "A Steam User"; // Default
+        }
+
+        // 2. Reviewer Avatar URL
+        // From: <div class="playerAvatar medium offline"> ... <img src="URL_HERE"> (second img tag)
+        // The first img seems to be a frame, the second is the actual avatar.
+        reviewData.reviewerAvatarUrl = $('.profile_small_header_avatar .playerAvatar img').eq(1).attr('src'); // .eq(1) gets the second img
+        if (!reviewData.reviewerAvatarUrl) { // Fallback if the above is not found
+            reviewData.reviewerAvatarUrl = $('.profile_small_header_avatar .playerAvatar img').first().attr('src'); // try the first one
+        }
+
+
+        // 3. Recommendation (Thumbs Up/Down Text)
+        // From: <div class="ratingSummary">Recommended</div>
+        reviewData.recommendation = $('.ratingSummaryBlock .ratingSummaryHeader .ratingSummary').text().trim();
+        if (!reviewData.recommendation) {
+            reviewData.recommendation = "Not specified";
+        }
+
+        // 4. Playtime (Specifically "at review time" if available)
+        // From: <div class="playTime"> ... (119.4 hrs at review time) ... </div>
+        const playTimeText = $('.ratingSummaryBlock .ratingSummaryHeader .playTime').text().trim();
+        const atReviewTimeMatch = playTimeText.match(/\(([^)]+) at review time\)/);
+        if (atReviewTimeMatch && atReviewTimeMatch[1]) {
+            reviewData.playtime = atReviewTimeMatch[1]; // "119.4 hrs"
+        } else {
+            // Fallback to the main playtime text if "at review time" is not found
+            reviewData.playtime = playTimeText.split('/')[1]?.trim().split('on record')[0]?.trim() || "Playtime not shown";
+            if (reviewData.playtime && !reviewData.playtime.includes("hrs")) { // Add "hrs" if missing
+                reviewData.playtime += " hrs";
+            }
+        }
+        if (reviewData.playtime === "hrs") reviewData.playtime = "Playtime not shown"; // Cleanup if only "hrs" was captured
+
+
+        // 5. Date Posted
+        // From: <div class="recommendation_date">Posted: Nov 27, 2022 @ 11:20pm</div>
+        reviewData.datePosted = $('.ratingSummaryBlock .recommendation_date').text().trim().replace('Posted: ', '');
+        if (!reviewData.datePosted) {
+            reviewData.datePosted = "Date not found";
+        }
+
+        // 6. Review Text
+        // From: <div id="ReviewText"> ... review content ... </div>
+        // This ID looks promising and more stable.
+        let reviewContentHTML = $('#ReviewText').html(); // Using the ID selector
+        if (reviewContentHTML) {
+            // Basic cleanup: remove "Show more/less" links (if any, though not apparent in this snippet for #ReviewText),
+            // convert <br> to newlines.
+            // The provided HTML for #ReviewText is clean, so complex regex might not be needed here.
+            reviewContentHTML = reviewContentHTML.replace(/<br\s*\/?>/gi, '\n');
+            const tempElement = $('<div>').html(reviewContentHTML);
+            reviewData.reviewText = tempElement.text().trim();
+        } else {
+            reviewData.reviewText = "Could not load review text.";
+        }
+
+        // Log the extracted data for debugging
+        console.log(`[SCRAPER_SUCCESS] Scraped data for ${reviewUrl}:`, {
+            name: reviewData.reviewerName,
+            avatar: reviewData.reviewerAvatarUrl,
+            rec: reviewData.recommendation,
+            playtime: reviewData.playtime,
+            date: reviewData.datePosted,
+            textLength: reviewData.reviewText?.length
+        });
+        return reviewData;
+
+    } catch (error) {
+        // ... (your existing error handling) ...
+        console.error(`[SCRAPER_ERROR] Failed to scrape ${reviewUrl}:`, error.message);
+        if (error.response) {
+            console.error(`[SCRAPER_ERROR] Status: ${error.response.status}`);
+        }
+        return { error: true, message: "Could not load review details.", originalUrl: reviewUrl };
+    }
+}
+
+
 // Helper to fetch reviews for a given game and send the response
-function fetchReviewsForGameAndRespond(game, res) {
-    db.all("SELECT review_image_url FROM game_reviews WHERE game_id = ? ORDER BY clue_order ASC LIMIT 6", [game.id], (err, reviews) => {
-        if (err) {
-            console.error(`[DB_ERROR] Error fetching reviews for game ID ${game.id} ("${game.title}"):`, err.message);
-            return res.status(500).json({ error: "Could not fetch reviews for the selected game." });
+async function fetchReviewsForGameAndRespond(game, res) { // Make it async
+    try {
+        const reviewPageUrls = await new Promise((resolve, reject) => {
+            db.all("SELECT review_page_url FROM game_reviews WHERE game_id = ? ORDER BY clue_order ASC LIMIT 6", [game.id], (err, rows) => {
+                if (err) {
+                    console.error(`[DB_ERROR] Error fetching review URLs for game ID ${game.id} ("${game.title}"):`, err.message);
+                    reject(new Error("Could not fetch review URLs."));
+                } else {
+                    resolve(rows.map(r => r.review_page_url));
+                }
+            });
+        });
+
+        if (reviewPageUrls.length === 0) {
+            console.warn(`[DB_WARN] No review URLs found for game ID ${game.id} ("${game.title}").`);
+            return res.json({ title: game.title, appId: game.steam_app_id, reviews: [] }); // Send empty reviews
         }
-        if (reviews.length === 0) {
-            console.warn(`[DB_WARN] No reviews found in database for game ID ${game.id} ("${game.title}"). The game will have no clues.`);
-        } else if (reviews.length < 6) {
-            console.warn(`[DB_WARN] Fewer than 6 reviews (${reviews.length}) found for game ID ${game.id} ("${game.title}").`);
-        }
-        console.log(`[SERVER_INFO] Found ${reviews.length} reviews for game ID ${game.id}.`);
-        
+
+        // Scrape all review pages in parallel
+        const scrapedReviewsPromises = reviewPageUrls.map(url => scrapeSteamReview(url));
+        const scrapedReviews = await Promise.all(scrapedReviewsPromises);
+
+        console.log(`[SERVER_INFO] Sending ${scrapedReviews.filter(r => !r.error).length} successfully scraped reviews for game ID ${game.id}.`);
+
         res.json({
             title: game.title,
             appId: game.steam_app_id,
-            reviews: reviews.map(r => r.review_image_url) // Array of image URLs
+            reviews: scrapedReviews // Array of scraped review data objects
         });
-    });
+
+    } catch (dbError) {
+        // This catch is for errors from the db.all promise
+        return res.status(500).json({ error: dbError.message || "Database error while fetching review URLs." });
+    }
 }
 
 // --- Start Server ---
