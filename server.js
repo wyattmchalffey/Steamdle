@@ -28,8 +28,9 @@ async function fetchAndCacheSteamApps() {
         if (data.applist && data.applist.apps) {
             steamAppsCache = data.applist.apps
                 .filter(app => app.name && app.name.trim() !== "") // Ensure name exists
-                .map(app => ({ appid: app.appid, name: app.name })); // Keep only id and name
-            steamAppsCache.sort((a, b) => a.name.localeCompare(b.name)); // Sort for consistency
+                .map(app => (app.name)) // Keep only name
+            steamAppsCache.sort((a, b) => a.localeCompare(b)); // Sort for consistency
+            steamAppsCache = [ ...new Set(steamAppsCache) ]; //remove duplicate names
             lastSteamAppsFetchTime = Date.now();
             console.log(`[STEAM_API_SUCCESS] Successfully fetched and cached ${steamAppsCache.length} Steam apps.`);
         } else {
@@ -58,10 +59,10 @@ app.get('/api/search-steam-games', async (req, res) => {
     }
 
     const suggestions = steamAppsCache
-        .filter(app => app.name.toLowerCase().includes(searchTerm))
+        .filter(name => name.toLowerCase().includes(searchTerm))
         .slice(0, limit);
 
-    res.json(suggestions.map(app => app.name)); // Send back only the names
+    res.json(suggestions); // Send back only the names
 });
 
 // Get the daily game and its review image URLs
