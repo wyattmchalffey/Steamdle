@@ -153,6 +153,30 @@ async function seedInitialData() {
                 "https://steamcommunity.com/id/NeoVexan/recommended/526870/"
             ]
         },
+        {
+            title: "Apex Legends",
+            steam_app_id: "1172470",
+            reviews: [
+                "https://steamcommunity.com/id/Impades/recommended/1172470/",
+                "https://steamcommunity.com/id/jacobmuno/recommended/1172470/",
+                "https://steamcommunity.com/profiles/76561198258941202/recommended/1172470/",
+                "https://steamcommunity.com/id/IWasAbadGirl/recommended/1172470/",
+                "https://steamcommunity.com/id/kenyylol/recommended/1172470/",
+                "https://steamcommunity.com/id/5tock/recommended/1172470/"
+            ]
+        },
+        {
+            title: "Elden Ring",
+            steam_app_id: "1245620",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198038703897/recommended/1245620/",
+                "https://steamcommunity.com/id/RtKitty/recommended/1245620/",
+                "https://steamcommunity.com/id/TheRealDripMonkey/recommended/1245620/",
+                "https://steamcommunity.com/id/76561198004031162/recommended/1245620/",
+                "https://steamcommunity.com/id/haisyub/recommended/1245620/",
+                "https://steamcommunity.com/id/schyeah/recommended/1245620/"
+            ]
+        },
         // {
         //     title: "Your Next Game Title",
         //     steam_app_id: "YOUR_APP_ID",
