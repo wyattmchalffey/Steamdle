@@ -51,21 +51,49 @@ app.get('/api/search-steam-games', async (req, res) => {
     const currentTime = Date.now();
     if (steamAppsCache.length === 0 || (currentTime - lastSteamAppsFetchTime > STEAM_APPS_CACHE_DURATION)) {
         console.log("[SERVER_INFO] Autocomplete cache is empty or stale. Re-fetching Steam apps...");
-        await fetchAndCacheSteamApps();
+        await fetchAndCacheSteamApps(); // This populates steamAppsCache
     }
 
-    const searchTerm = req.query.term ? req.query.term.toLowerCase().trim() : "";
-    const limit = parseInt(req.query.limit, 10) || 15; // Default to 15 suggestions
+    const searchTermLower = req.query.term ? req.query.term.toLowerCase().trim() : "";
+    const limit = parseInt(req.query.limit, 10) || 15;
 
-    if (!searchTerm || searchTerm.length < 2) { // Require at least 2 characters
-        return res.json([]); 
+    if (!searchTermLower || searchTermLower.length < 2) {
+        return res.json([]);
     }
 
-    const suggestions = steamAppsCache
-        .filter(name => name.toLowerCase().includes(searchTerm))
-        .slice(0, limit);
+    // 1. Filter all names that include the search term
+    let allMatches = steamAppsCache.filter(appName => {
+        if (typeof appName === 'string') { // Ensure we are working with strings
+            return appName.toLowerCase().includes(searchTermLower);
+        }
+        return false;
+    });
 
-    res.json(suggestions); // Send back only the names
+    // 2. Sort these matches to prioritize those that start with the search term
+    allMatches.sort((a, b) => {
+        const aLower = a.toLowerCase();
+        const bLower = b.toLowerCase();
+
+        const aStartsWith = aLower.startsWith(searchTermLower);
+        const bStartsWith = bLower.startsWith(searchTermLower);
+
+        if (aStartsWith && !bStartsWith) {
+            return -1; // a comes before b
+        }
+        if (!aStartsWith && bStartsWith) {
+            return 1;  // b comes before a
+        }
+
+        // If both start with the term, or neither does (but both include it),
+        // sort alphabetically as a secondary criterion.
+        return aLower.localeCompare(bLower);
+    });
+
+    // 3. Take the top 'limit' results
+    const finalSuggestions = allMatches.slice(0, limit);
+
+    // If steamAppsCache stores strings:
+    res.json(finalSuggestions);
 });
 
 // Get the daily game and its review image URLs

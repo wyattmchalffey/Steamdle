@@ -37,12 +37,9 @@ p {
 #reviews-container {
     margin-top: 20px;
     margin-bottom: 25px;
-    border: none; /* Remove border around the whole clue area */
-    padding: 0; /* Remove padding around the whole clue area */
+    border: none;
+    padding: 0; 
     min-height: 120px;
-    /* background-color: #17212e; */ /* Remove background if not needed */
-    max-height: 75vh; /* Slightly more height? */
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -155,8 +152,6 @@ p {
 #previous-guesses-list {
     list-style-type: none;
     padding-left: 0;
-    max-height: 150px;
-    overflow-y: auto;
 }
 
 #previous-guesses-list li {
@@ -197,13 +192,17 @@ p {
 #game-over-message strong { color: #fff; font-weight: bold;}
 
 #game-image {
-    max-width: 500px; /* Larger game cover */
-    margin-top: 15px;
-    margin-right: auto;
-    margin-left: auto;
+    display: block; /* Ensures margin auto works for centering if needed */
+    width: 70%; /* Make the image take up a percentage of its container's width */
+    max-width: 400px; /* Set a maximum pixel width it shouldn't exceed on large screens */
+    height: auto; /* CRUCIAL: Maintains the aspect ratio of the image */
+    margin-top: 20px; /* Adjust spacing as needed */
+    margin-bottom: 15px; /* Add some space below */
+    margin-left: auto; /* Center the image within its container */
+    margin-right: auto; /* Center the image */
     border-radius: 4px;
-    border: 2px solid #4a5c74;
-    display: block;
+    border: 1px solid #4a5c74; /* Slightly thinner border maybe */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
 #steam-link, #share-button {

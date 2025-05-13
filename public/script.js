@@ -257,7 +257,9 @@ document.addEventListener('DOMContentLoaded', () => {
             reviewWrapper.classList.add('loaded');
         }, 10);
 
-        reviewsContainer.scrollTop = reviewsContainer.scrollHeight;
+        setTimeout(() => {
+            window.scrollTo(0, document.body.scrollHeight);
+        }, 50);
     } // End of displayNextReview function
 
     function handleGuess() {
@@ -327,74 +329,135 @@ document.addEventListener('DOMContentLoaded', () => {
 
         gameOverMessageDiv.classList.remove('hidden');
         correctGameTitleSpan.textContent = currentGame.title;
-        
+
         if (currentGame.appId) {
             steamLink.href = `https://store.steampowered.com/app/${currentGame.appId}/`;
             steamLink.classList.remove('hidden');
-            // Game cover image from Steam CDN
             gameImage.src = `https://cdn.akamai.steamstatic.com/steam/apps/${currentGame.appId}/header.jpg`;
             gameImage.onload = () => gameImage.classList.remove('hidden');
             gameImage.onerror = () => {
                 console.warn(`[endGame] Failed to load game cover for AppID ${currentGame.appId}`);
-                gameImage.classList.add('hidden'); // Hide if image fails to load
+                gameImage.classList.add('hidden');
             }
         } else {
             steamLink.classList.add('hidden');
             gameImage.classList.add('hidden');
         }
 
+        // --- LOGIC FOR REVEALING ALL CLUES ON WIN OR LOSS ---
+        reviewsContainer.innerHTML = ''; // Clear current clues for a fresh render of all clues
+
+        currentGame.reviews.forEach((reviewData, index) => { // reviewData is the object from backend
+            // Determine if it's the scraped data object or just a URL string (if scraping failed on backend)
+            // For this version, we assume reviewData is always the scraped object from the backend
+
+            const clueWrapper = document.createElement('div');
+            clueWrapper.classList.add('review-item-wrapper', 'loaded'); // Mark as loaded immediately
+
+            const clueNumberSpan = document.createElement('span');
+            clueNumberSpan.classList.add('clue-number');
+            clueNumberSpan.textContent = `Clue ${index + 1} of ${currentGame.reviews.length}:`;
+            clueWrapper.appendChild(clueNumberSpan);
+
+            const reviewCard = document.createElement('div');
+            reviewCard.classList.add('steam-review-card');
+
+            // Handle cases where reviewData might be an error object from the scraper
+            if (reviewData.error) {
+                reviewCard.innerHTML = `
+                <p class="review-image-error">Oops! Could not load this review clue. '${reviewData.message}'</p>
+                <p class="review-source-url-error">(Source: ${reviewData.originalUrl || 'N/A'})</p>
+            `;
+            } else {
+                // Header: Avatar and Reviewer Name
+                const reviewHeader = document.createElement('div');
+                reviewHeader.classList.add('review-header');
+                let headerHasContent = false;
+                if (reviewData.reviewerAvatarUrl) {
+                    const avatarImg = document.createElement('img');
+                    avatarImg.src = reviewData.reviewerAvatarUrl;
+                    avatarImg.alt = "Reviewer avatar";
+                    avatarImg.classList.add('reviewer-avatar');
+                    reviewHeader.appendChild(avatarImg);
+                    headerHasContent = true;
+                }
+                const reviewerNameSpan = document.createElement('span');
+                reviewerNameSpan.classList.add('reviewer-name');
+                reviewerNameSpan.textContent = reviewData.reviewerName || "A Steam User";
+                reviewHeader.appendChild(reviewerNameSpan);
+                headerHasContent = true; // Always has at least the name
+
+                if (headerHasContent) {
+                    reviewCard.appendChild(reviewHeader);
+                }
+
+                // Recommendation Block
+                const recommendationDiv = document.createElement('div');
+                recommendationDiv.classList.add('review-recommendation');
+                const isRecommended = reviewData.recommendation && reviewData.recommendation.toLowerCase() === 'recommended';
+                const notRecommended = reviewData.recommendation && reviewData.recommendation.toLowerCase() === 'not recommended';
+                if (isRecommended) recommendationDiv.classList.add('recommended');
+                else if (notRecommended) recommendationDiv.classList.add('not-recommended');
+
+                const iconDiv = document.createElement('div');
+                iconDiv.classList.add('recommendation-icon');
+                recommendationDiv.appendChild(iconDiv);
+
+                const detailsDiv = document.createElement('div');
+                detailsDiv.classList.add('recommendation-details');
+                if (reviewData.recommendation) {
+                    const recTextSpan = document.createElement('span');
+                    recTextSpan.classList.add('recommendation-text');
+                    recTextSpan.textContent = reviewData.recommendation;
+                    detailsDiv.appendChild(recTextSpan);
+                }
+                if (reviewData.playtime && reviewData.playtime !== "Playtime not shown") {
+                    const playtimeP = document.createElement('p');
+                    playtimeP.classList.add('review-playtime');
+                    playtimeP.textContent = reviewData.playtime;
+                    detailsDiv.appendChild(playtimeP);
+                }
+                if (detailsDiv.hasChildNodes()) recommendationDiv.appendChild(detailsDiv);
+                if (recommendationDiv.hasChildNodes()) reviewCard.appendChild(recommendationDiv);
+
+                // Date Posted
+                if (reviewData.datePosted && reviewData.datePosted !== "Date not found") {
+                    const dateP = document.createElement('p');
+                    dateP.classList.add('review-date');
+                    dateP.textContent = `Posted: ${reviewData.datePosted}`;
+                    reviewCard.appendChild(dateP);
+                }
+
+                // Review Text
+                if (reviewData.reviewText && reviewData.reviewText !== "Could not load review text.") {
+                    const reviewTextP = document.createElement('p');
+                    reviewTextP.classList.add('review-text-content');
+                    reviewTextP.style.whiteSpace = 'pre-line';
+                    reviewTextP.textContent = reviewData.reviewText;
+                    reviewCard.appendChild(reviewTextP);
+                }
+            }
+            clueWrapper.appendChild(reviewCard);
+            reviewsContainer.appendChild(clueWrapper);
+        });
+        // --- END LOGIC FOR REVEALING ALL CLUES ---
+
+
         if (didWin) {
             winLoseText.textContent = "Congratulations! You guessed it!";
             gameOverMessageDiv.classList.add('win');
-            // Fill remaining share grid with grey if won early (optional Wordle style)
-            // while(shareGrid.length < currentGame.reviews.length) shareGrid.push('⬜');
         } else {
             winLoseText.textContent = "Game Over! Better luck next time.";
             gameOverMessageDiv.classList.add('lose');
-            // Reveal all review images if lost and not already shown
-            reviewsContainer.innerHTML = ''; // Clear current for re-render
-            currentGame.reviews.forEach((reviewImageUrl, index) => {
-                 const reviewWrapper = document.createElement('div');
-                 reviewWrapper.classList.add('review-item-wrapper', 'loaded'); // Mark as loaded immediately
-                 const clueNumberSpan = document.createElement('span');
-                 clueNumberSpan.classList.add('clue-number');
-                 clueNumberSpan.textContent = `Clue ${index + 1}:`;
-                 reviewWrapper.appendChild(clueNumberSpan);
-                 const img = document.createElement('img');
-                 img.src = reviewImageUrl;
-                 img.alt = `Steam Review Clue ${index + 1} for ${currentGame.title}`;
-                 img.classList.add('review-screenshot');
-                 reviewWrapper.appendChild(img);
-                 reviewsContainer.appendChild(reviewWrapper);
-            });
+            // Note: The "reveal all clues" logic above already handles the loss case.
+            // If you wanted different behavior for loss vs. win reveals, you'd separate it.
         }
-        if (!didWin) { // If lost, reveal all clues
-        reviewsContainer.innerHTML = ''; // Clear current for re-render
-        currentGame.reviews.forEach((rData, index) => { // rData is now the review object
-            // Simplified display for all revealed reviews (or reuse displayNextReview structure)
-            const reviewWrapper = document.createElement('div');
-            reviewWrapper.classList.add('review-item-wrapper', 'loaded');
-            reviewWrapper.innerHTML = `
-                <span class="clue-number">Clue ${index + 1}:</span>
-                <div class="steam-review-card">
-                    <div class="review-header">
-                        ${rData.reviewerAvatarUrl ? `<img src="${rData.reviewerAvatarUrl}" alt="Avatar" class="reviewer-avatar">` : ''}
-                        <span class="reviewer-name">${rData.reviewerName || 'A Steam User'}</span>
-                    </div>
-                    <div class="review-recommendation">
-                        <span class="recommendation-icon">${rData.recommendation?.toLowerCase() === 'recommended' ? '👍' : '👎'}</span>
-                        <span>${rData.recommendation || ''}</span>
-                    </div>
-                    ${rData.playtime ? `<p class="review-playtime">${rData.playtime}</p>` : ''}
-                    ${rData.datePosted ? `<p class="review-date">Posted: ${rData.datePosted}</p>` : ''}
-                    <p class="review-text-content" style="white-space: pre-line;">${rData.reviewText || 'Review text not available.'}</p>
-                    ${rData.error ? `<p class="review-image-error">Could not load this review: ${rData.message}</p>` : ''}
-                </div>
-            `;
-            reviewsContainer.appendChild(reviewWrapper);
-        });
-    }
         shareButton.classList.remove('hidden');
+        function scrollToPageBottom() {
+            window.scrollTo(0, document.body.scrollHeight);
+            console.log("[endGame] Scrolled page to bottom after answer reveal.");
+        }
+        setTimeout(scrollToPageBottom, 100);
     }
 
     function generateShareText() {

@@ -163,6 +163,259 @@ async function seedInitialData() {
                 "https://steamcommunity.com/id/schyeah/recommended/1245620/"
             ]
         },
+        {
+            title: "R.E.P.O",
+            steam_app_id: "3241660",
+            reviews: [
+                "https://steamcommunity.com/id/sathiriya/recommended/3241660/",
+                "https://steamcommunity.com/id/Ellie__/recommended/3241660/",
+                "https://steamcommunity.com/id/ehuxley/recommended/3241660/",
+                "https://steamcommunity.com/id/bestboi_/recommended/3241660/",
+                "https://steamcommunity.com/id/FuzzyIsAlive/recommended/3241660/",
+                "https://steamcommunity.com/id/kaitlyngibson/recommended/3241660/"
+            ]
+        },
+        {
+            title: "Resident Evil 4",
+            steam_app_id: "2050650",
+            reviews: [
+                "https://steamcommunity.com/id/czechem/recommended/2050650/",
+                "https://steamcommunity.com/id/left4shred/recommended/2050650/",
+                "https://steamcommunity.com/id/Avargrist/recommended/2050650/",
+                "https://steamcommunity.com/profiles/76561198374265199/recommended/2050650/",
+                "https://steamcommunity.com/profiles/76561198100249649/recommended/2050650/",
+                "https://steamcommunity.com/id/nemesist-type/recommended/2050650/"
+            ]
+        },
+        {
+            title: "The Forest",
+            steam_app_id: "242760",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561199091914736/recommended/242760/",
+                "https://steamcommunity.com/profiles/76561199125806861/recommended/242760/",
+                "https://steamcommunity.com/profiles/76561198208941887/recommended/242760/",
+                "https://steamcommunity.com/profiles/76561198078451667/recommended/242760/",
+                "https://steamcommunity.com/profiles/76561198310845163/recommended/242760/",
+                "https://steamcommunity.com/id/TitanMind/recommended/242760/"
+            ]
+        },
+        {
+            title: "Subnautica",
+            steam_app_id: "264710",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561199417250065/recommended/264710/",
+                "https://steamcommunity.com/profiles/76561199388576645/recommended/264710/",
+                "https://steamcommunity.com/id/TheNopeRoad/recommended/264710/",
+                "https://steamcommunity.com/id/951329149/recommended/264710/",
+                "https://steamcommunity.com/profiles/76561198403670745/recommended/264710/",
+                "https://steamcommunity.com/id/parallacks/recommended/264710/"
+            ]
+        },
+        {
+            title: "Halo Infinite",
+            steam_app_id: "1240440",
+            reviews: [
+                "https://steamcommunity.com/id/couragethecat/recommended/1240440/",
+                "https://steamcommunity.com/profiles/76561198039328649/recommended/1240440/",
+                "https://steamcommunity.com/profiles/76561198808723893/recommended/1240440/",
+                "https://steamcommunity.com/id/Delcorexd/recommended/1240440/",
+                "https://steamcommunity.com/id/anorak21/recommended/1240440/",
+                "https://steamcommunity.com/id/espectrohunk/recommended/1240440/"
+            ]
+        },
+        {
+            title: "Borderlands 2",
+            steam_app_id: "49520",
+            reviews: [
+                "https://steamcommunity.com/id/Joequel/recommended/49520/",
+                "https://steamcommunity.com/profiles/76561198982170820/recommended/49520/",
+                "https://steamcommunity.com/id/POtat0Child/recommended/49520/",
+                "https://steamcommunity.com/profiles/76561198283893715/recommended/49520/",
+                "https://steamcommunity.com/id/NeeKrox/recommended/49520/",
+                "https://steamcommunity.com/id/IS0LAT0R/recommended/49520/"
+            ]
+        },
+        {
+            title: "ANIMAL WELL",
+            steam_app_id: "813230",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198119700865/recommended/813230/",
+                "https://steamcommunity.com/id/_SpiderTroll_/recommended/813230/",
+                "https://steamcommunity.com/id/OneRockyBoi/recommended/813230/",
+                "https://steamcommunity.com/profiles/76561198284853936/recommended/813230/",
+                "https://steamcommunity.com/id/Banishmento-dis-waludo/recommended/813230/",
+                "https://steamcommunity.com/profiles/76561197978394418/recommended/813230/"
+            ]
+        },
+        {
+            title: "Outer Wilds",
+            steam_app_id: "753640",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198846112985/recommended/753640/",
+                "https://steamcommunity.com/profiles/76561198141721312/recommended/753640/",
+                "https://steamcommunity.com/profiles/76561198248869468/recommended/753640/",
+                "https://steamcommunity.com/profiles/76561198182740454/recommended/753640/",
+                "https://steamcommunity.com/id/Zombie1I1/recommended/753640/",
+                "https://steamcommunity.com/id/Fludella/recommended/753640/"
+            ]
+        },
+        {
+            title: "Storyteller",
+            steam_app_id: "1624540",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198106113475/recommended/1624540/",
+                "https://steamcommunity.com/profiles/76561198851809658/recommended/1624540/",
+                "https://steamcommunity.com/id/jemkatkitty/recommended/1624540/",
+                "https://steamcommunity.com/id/BluntSam/recommended/1624540/",
+                "https://steamcommunity.com/profiles/76561199109946202/recommended/1624540/",
+                "https://steamcommunity.com/id/eerflas027/recommended/1624540/"
+            ]
+        },
+        {
+            title: "Myst",
+            steam_app_id: "1255560",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198130408520/recommended/1255560/",
+                "https://steamcommunity.com/id/aclfx/recommended/1255560/",
+                "https://steamcommunity.com/id/cthulhucrisis/recommended/1255560/",
+                "https://steamcommunity.com/id/PogChampion3791/recommended/1255560/",
+                "https://steamcommunity.com/profiles/76561198078151458/recommended/1255560/",
+                "https://steamcommunity.com/profiles/76561198049183091/recommended/1255560/"
+            ]
+        },
+        {
+            title: "Lies of P",
+            steam_app_id: "16277720",
+            reviews: [
+                "https://steamcommunity.com/id/sneezyplays/recommended/1627720/",
+                "https://steamcommunity.com/profiles/76561198070110348/recommended/1627720/",
+                "https://steamcommunity.com/id/GrannyStation/recommended/1627720/",
+                "https://steamcommunity.com/profiles/76561199476656861/recommended/1627720/",
+                "https://steamcommunity.com/profiles/76561198393192099/recommended/1627720/",
+                "https://steamcommunity.com/profiles/76561198126957161/recommended/1627720/"
+            ]
+        },
+        {
+            title: "Hogwarts Legacy",
+            steam_app_id: "990080",
+            reviews: [
+                "https://steamcommunity.com/id/akumikagi/recommended/990080/",
+                "https://steamcommunity.com/id/swedishtish/recommended/990080/",
+                "https://steamcommunity.com/profiles/76561197969670214/recommended/990080/",
+                "https://steamcommunity.com/profiles/76561198290120667/recommended/990080/",
+                "https://steamcommunity.com/profiles/76561198142247081/recommended/990080/",
+                "https://steamcommunity.com/id/X2Eliah/recommended/990080/"
+            ]
+        },
+        {
+            title: "Among Us",
+            steam_app_id: "945360",
+            reviews: [
+                "https://steamcommunity.com/id/brugonometry/recommended/945360/",
+                "https://steamcommunity.com/id/omgitspriest/recommended/945360/",
+                "https://steamcommunity.com/id/hashu23/recommended/945360/",
+                "https://steamcommunity.com/id/fortaime/recommended/945360/",
+                "https://steamcommunity.com/profiles/76561198043377725/recommended/945360/",
+                "https://steamcommunity.com/id/EarlyZ/recommended/945360/"
+            ]
+        },
+        {
+            title: "Gorilla Tag",
+            steam_app_id: "1533390",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561199222814163/recommended/1533390/",
+                "https://steamcommunity.com/id/coolguy1260/recommended/1533390/",
+                "https://steamcommunity.com/profiles/76561198320644207/recommended/1533390/",
+                "https://steamcommunity.com/profiles/76561199612997292/recommended/1533390/",
+                "https://steamcommunity.com/id/PlayzerGames/recommended/1533390/",
+                "https://steamcommunity.com/id/chineselxsoft/recommended/1533390/"
+            ]
+        },
+        {
+            title: "Pizza Tower",
+            steam_app_id: "2231450",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561199527916598/recommended/2231450/",
+                "https://steamcommunity.com/id/bursy/recommended/2231450/",
+                "https://steamcommunity.com/profiles/76561199601186130/recommended/2231450/",
+                "https://steamcommunity.com/id/fiddlestone/recommended/2231450/",
+                "https://steamcommunity.com/id/pOllOXD789/recommended/2231450/",
+                "https://steamcommunity.com/id/RIPOOB/recommended/2231450/"
+            ]
+        },
+        {
+            title: "Half-Life",
+            steam_app_id: "70",
+            reviews: [
+                "https://steamcommunity.com/id/megaapple/recommended/70/",
+                "https://steamcommunity.com/profiles/76561198112180826/recommended/70/",
+                "https://steamcommunity.com/id/Vatonix/recommended/70/",
+                "https://steamcommunity.com/id/janjon98/recommended/70/",
+                "https://steamcommunity.com/profiles/76561198359339915/recommended/70/",
+                "https://steamcommunity.com/id/megakabuterimon/recommended/70/"
+            ]
+        },
+        {
+            title: "Dwarf Fortress",
+            steam_app_id: "975370",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198039209165/recommended/975370/",
+                "https://steamcommunity.com/id/bleepbloopbeert/recommended/975370/",
+                "https://steamcommunity.com/profiles/76561199452745082/recommended/975370/",
+                "https://steamcommunity.com/profiles/76561198042666928/recommended/975370/",
+                "https://steamcommunity.com/profiles/76561198041798902/recommended/975370/",
+                "https://steamcommunity.com/profiles/76561198114319682/recommended/975370/"
+            ]
+        },
+        {
+            title: "Vampire Survivors",
+            steam_app_id: "1794680",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198198629187/recommended/1794680/",
+                "https://steamcommunity.com/profiles/76561198201928415/recommended/1794680/",
+                "https://steamcommunity.com/profiles/76561199596285991/recommended/1794680/",
+                "https://steamcommunity.com/id/brigkline/recommended/1794680/",
+                "https://steamcommunity.com/id/squallyboo/recommended/1794680/",
+                "https://steamcommunity.com/profiles/76561198100249649/recommended/1794680/"
+            ]
+        },
+        {
+            title: "",
+            steam_app_id: "",
+            reviews: [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        {
+            title: "",
+            steam_app_id: "",
+            reviews: [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        {
+            title: "",
+            steam_app_id: "",
+            reviews: [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+
         // {
         //     title: "Your Next Game Title",
         //     steam_app_id: "YOUR_APP_ID",
