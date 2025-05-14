@@ -451,7 +451,7 @@ async function seedInitialData() {
 
     // 1. Process games in gamesToSeed (Upsert: Update existing, Insert new)
     for (const gameData of gamesToSeed) {
-        console.log(`[SEED_INFO] Processing (Upsert): "${gameData.title}" (App ID: ${gameData.steam_app_id})`);
+        // console.log(`[SEED_INFO] Processing (Upsert): "${gameData.title}" (App ID: ${gameData.steam_app_id})`);
 
         // Basic validation
         if (!gameData.title || !gameData.steam_app_id || !Array.isArray(gameData.reviews) || gameData.reviews.length === 0) {
@@ -493,7 +493,7 @@ async function seedInitialData() {
                             console.error(`[SEED_DB_ERROR] Error inserting new game "${gameData.title}":`, err.message);
                             reject(err);
                         } else {
-                            console.log(`[SEED_SUCCESS] Inserted new game "${gameData.title}", Game ID: ${this.lastID}`);
+                            // console.log(`[SEED_SUCCESS] Inserted new game "${gameData.title}", Game ID: ${this.lastID}`);
                             resolve(this.lastID);
                         }
                     });
@@ -502,7 +502,7 @@ async function seedInitialData() {
             }
 
             // Insert current reviews for this game
-            console.log(`[SEED_INFO] Inserting ${gameData.reviews.length} review URLs for Game ID ${gameId} ("${gameData.title}")`);
+            // console.log(`[SEED_INFO] Inserting ${gameData.reviews.length} review URLs for Game ID ${gameId} ("${gameData.title}")`);
             for (let i = 0; i < gameData.reviews.length; i++) {
                 const reviewPageUrl = gameData.reviews[i];
                 if (!reviewPageUrl || typeof reviewPageUrl !== 'string' || !(reviewPageUrl.toLowerCase().startsWith('http://') || reviewPageUrl.toLowerCase().startsWith('https://'))) {

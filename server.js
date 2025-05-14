@@ -9,7 +9,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // --- Steam App List Cache (for autocomplete) ---
-// In a larger app, this might use Redis or another external cache
 let steamAppsCache = []; 
 let lastSteamAppsFetchTime = 0;
 const STEAM_APPS_CACHE_DURATION = 24 * 60 * 60 * 1000; // Cache for 24 hours
@@ -209,9 +208,6 @@ async function scrapeSteamReview(reviewUrl) {
         // This ID looks promising and more stable.
         let reviewContentHTML = $('#ReviewText').html(); // Using the ID selector
         if (reviewContentHTML) {
-            // Basic cleanup: remove "Show more/less" links (if any, though not apparent in this snippet for #ReviewText),
-            // convert <br> to newlines.
-            // The provided HTML for #ReviewText is clean, so complex regex might not be needed here.
             reviewContentHTML = reviewContentHTML.replace(/<br\s*\/?>/gi, '\n');
             const tempElement = $('<div>').html(reviewContentHTML);
             reviewData.reviewText = tempElement.text().trim();
@@ -219,15 +215,6 @@ async function scrapeSteamReview(reviewUrl) {
             reviewData.reviewText = "Could not load review text.";
         }
 
-        // Log the extracted data for debugging
-        console.log(`[SCRAPER_SUCCESS] Scraped data for ${reviewUrl}:`, {
-            name: reviewData.reviewerName,
-            avatar: reviewData.reviewerAvatarUrl,
-            rec: reviewData.recommendation,
-            playtime: reviewData.playtime,
-            date: reviewData.datePosted,
-            textLength: reviewData.reviewText?.length
-        });
         return reviewData;
 
     } catch (error) {
