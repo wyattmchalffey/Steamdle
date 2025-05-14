@@ -6,6 +6,30 @@
     <title>Steamdle - Guess the Game!</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- General Meta Tags for SEO and Basic Description -->
+    <meta name="description" content="Steamdle: A daily puzzle game where you guess the Steam game based on its reviews. Test your game knowledge!">
+    <meta name="keywords" content="steamdle, steam, game, puzzle, wordle, guess, reviews, daily game">
+    <meta name="author" content="Wyatt McHalffey">
+
+    <!-- Open Graph / Facebook / Discord / Slack / WhatsApp Meta Tags -->
+    <meta property="og:title" content="Steamdle - Guess the Game from Reviews!">
+    <meta property="og:description" content="Think you know Steam games? Try Steamdle! A daily puzzle where you guess the game based on a series of review clues.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://steamdle.com/">
+    <meta property="og:image" content="https://steamdle.com/images/steamdle-og-image.png"> <!-- IMPORTANT: URL to a preview image -->
+    <meta property="og:image:alt" content="Steamdle Game Logo or Gameplay Preview">
+    <meta property="og:site_name" content="Steamdle">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image"> <!-- "summary_large_image" or "summary" -->
+    <meta name="twitter:title" content="Steamdle - Guess the Game from Reviews!">
+    <meta name="twitter:description" content="Think you know Steam games? Try Steamdle! A daily puzzle where you guess the game based on a series of review clues.">
+    <meta name="twitter:image" content="https://steamdle.com/images/steamdle-og-image.png"> <!-- IMPORTANT: URL to a preview image (can be same as og:image) -->
+    <meta name="twitter:image:alt" content="Steamdle Game Logo">
+    <meta name="twitter:creator" content="@YourPersonalTwitterHandle">
+
+
 </head>
 <body>
     <div class="container">
@@ -13,7 +37,11 @@
             <img src="/images/Steam-logo.png" alt="Steam Logo" id="steam-logo-header"> <!-- Or .png -->
             <h1>Steamdle</h1>
         </div>
-        <p>Guess the game based on the Steam review! You have 6 tries.</p>
+        <p>
+            Guess the game based on the Steam review! You have 6 tries.
+            <br />Refreshes daily!
+        </p>
+        
 
         <div id="reviews-container">
             <!-- Review images will be dynamically added here -->
