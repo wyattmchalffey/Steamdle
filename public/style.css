@@ -242,7 +242,7 @@ p {
 }
 
 #steam-logo-header {
-    height: 40px; /* Adjust height as needed. Width will scale automatically if SVG/PNG aspect is maintained */
+    height: 50px; /* Adjust height as needed. Width will scale automatically if SVG/PNG aspect is maintained */
     /* width: 40px; */ /* You can set width instead, or both if not an SVG that scales well */
     vertical-align: middle; /* Helps with inline alignment, though flexbox align-items is primary */
 }
