@@ -306,9 +306,9 @@ p {
     display: flex; /* Use flexbox to align thumb and text block */
     align-items: flex-start; /* Align items to the top */
     background-color: rgba( 38, 54, 79, 0.5 ); /* Semi-transparent darker background */
-    padding: 10px;
-    border-radius: 2px;
-    margin-bottom: 12px;
+    padding: 0px;
+    border-radius: 0px;
+    margin-bottom: 0px;
 }
 
 .recommendation-icon {
@@ -319,7 +319,6 @@ p {
     background-position: center center;
     margin-right: 10px; /* Space between icon and text */
     flex-shrink: 0;
-    margin-top: 0;
 }
 
 /* Apply specific icon based on class added by JS */
@@ -342,28 +341,26 @@ p {
 }
 
 .recommendation-text {
-    font-size: 16px; /* Larger "Recommended" text */
-    font-weight: bold;
-    color: #ffffff; /* White text for 'Recommended' */
-    line-height: 1.2;
-    margin-bottom: 4px; /* Space between 'Recommended' and playtime */
+    font-size: 16px;
+    font-weight: normal;
+    padding-top: 6px;
+    padding-bottom: 0px;
+    color: #D6D7D8;
+    font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
+    
 }
-/* Specific colors if needed (though maybe redundant if icon shows it) */
-/* .review-recommendation.recommended .recommendation-text { color: #fff; } */
-/* .review-recommendation.not-recommended .recommendation-text { color: #ff8080; } */
 
 .review-playtime {
     font-size: 12px; /* Match Steam's slightly larger metadata size here */
-    color: #8091a1;
+    color: #D6D7D8;
     margin-bottom: 0; /* Remove bottom margin if it's the last item here */
-    line-height: 1.4;
+
 }
 
 .review-date {
     font-size: 11px;
-    color: #556772;
+    color: #a0a08b;
     margin-bottom: 12px; /* Space below date before review text */
-    line-height: 1.4;
     padding-left: 10px; /* Indent slightly like screenshot? */
 }
 
