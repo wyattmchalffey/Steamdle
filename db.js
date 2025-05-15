@@ -47,7 +47,9 @@ function initializeDatabaseStructure() {
             CREATE TABLE IF NOT EXISTS games (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL UNIQUE,
-                steam_app_id TEXT NOT NULL
+                steam_app_id TEXT NOT NULL,
+                last_played_on DATE,
+                is_active BOOLEAN DEFAULT TRUE
             );
 
             CREATE TABLE IF NOT EXISTS game_reviews (

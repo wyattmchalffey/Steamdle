@@ -290,8 +290,8 @@ p {
 }
 
 .reviewer-avatar {
-    width: 48px; /* Steam avatar size */
-    height: 48px;
+    width: 44px; /* Steam avatar size */
+    height: 44px;
     border-radius: 2px;
     margin-right: 10px;
 }
@@ -304,7 +304,7 @@ p {
 
 .review-recommendation {
     display: flex; /* Use flexbox to align thumb and text block */
-    align-items: flex-start; /* Align items to the top */
+    align-items: center; /* Align items to the top */
     background-color: rgba( 38, 54, 79, 0.5 ); /* Semi-transparent darker background */
     padding: 0px;
     border-radius: 0px;
@@ -312,8 +312,8 @@ p {
 }
 
 .recommendation-icon {
-    width: 48px; /* Adjust size to match target screenshot */
-    height: 48px; /* Adjust size */
+    width: 44px; /* Adjust size to match target screenshot */
+    height: 44px; /* Adjust size */
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
@@ -343,8 +343,8 @@ p {
 .recommendation-text {
     font-size: 16px;
     font-weight: normal;
-    padding-top: 6px;
-    padding-bottom: 0px;
+    padding-top: 4px;
+
     color: #D6D7D8;
     font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
     
@@ -353,8 +353,8 @@ p {
 .review-playtime {
     font-size: 12px; /* Match Steam's slightly larger metadata size here */
     color: #D6D7D8;
-    margin-bottom: 0; /* Remove bottom margin if it's the last item here */
-
+    margin-top: 0;
+    margin-bottom: 1px; /* Remove bottom margin if it's the last item here */
 }
 
 .review-date {

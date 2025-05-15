@@ -95,6 +95,76 @@ app.get('/api/search-steam-games', async (req, res) => {
     res.json(finalSuggestions);
 });
 
+// 
+
+const { format } = require('date-fns'); // `npm install date-fns` - for easy date formatting
+
+app.get('/api/daily-game', async (req, res) => { // Make it async
+    console.log("[SERVER_INFO] Request received for /api/daily-game");
+    const todayStr = format(new Date(), 'yyyy-MM-dd');
+
+    try {
+        // 1. Check if a game is already marked for today
+        let game = await new Promise((resolve, reject) => {
+            db.get("SELECT id, title, steam_app_id FROM games WHERE last_played_on = ? AND is_active = TRUE", [todayStr], (err, row) => {
+                err ? reject(err) : resolve(row);
+            });
+        });
+
+        if (game) {
+            console.log(`[SERVER_INFO] Daily game: Found pre-selected game for ${todayStr}: ID ${game.id} ("${game.title}")`);
+        } else {
+            console.log(`[SERVER_INFO] Daily game: No game pre-selected for ${todayStr}. Selecting a new one.`);
+            // 2. Select a new game
+            // Try to find an active game that has never been played
+            game = await new Promise((resolve, reject) => {
+                db.get("SELECT id, title, steam_app_id FROM games WHERE last_played_on IS NULL AND is_active = TRUE ORDER BY RANDOM() LIMIT 1", (err, row) => {
+                    // ORDER BY id ASC LIMIT 1 for deterministic first cycle, RANDOM() for variety on first cycle
+                    err ? reject(err) : resolve(row);
+                });
+            });
+
+            if (!game) {
+                // All active games have been played, find the one played least recently
+                console.log("[SERVER_INFO] Daily game: All active games have been played. Selecting least recently played.");
+                game = await new Promise((resolve, reject) => {
+                    db.get("SELECT id, title, steam_app_id FROM games WHERE is_active = TRUE ORDER BY last_played_on ASC, RANDOM() LIMIT 1", (err, row) => {
+                        err ? reject(err) : resolve(row);
+                    });
+                });
+            }
+
+            if (game) {
+                // Mark this game as played today
+                await new Promise((resolve, reject) => {
+                    db.run("UPDATE games SET last_played_on = ? WHERE id = ?", [todayStr, game.id], function (err) {
+                        if (err) {
+                            console.error(`[DB_ERROR] Failed to update last_played_on for game ID ${game.id}:`, err.message);
+                            // Decide if you should still serve the game or return an error
+                            reject(err);
+                        } else {
+                            console.log(`[SERVER_INFO] Daily game: Marked game ID ${game.id} ("${game.title}") as played on ${todayStr}.`);
+                            resolve();
+                        }
+                    });
+                });
+            }
+        }
+
+        if (!game) {
+            console.error("[DB_ERROR] Daily game: Could not select any game from the database.");
+            return res.status(500).json({ error: "No games available to select for today." });
+        }
+
+        console.log(`[SERVER_INFO] Daily game: Serving game ID ${game.id}: "${game.title}"`);
+        fetchReviewsForGameAndRespond(game, res); // Your existing function to get reviews
+
+    } catch (error) {
+        console.error("[SERVER_ERROR] Error in /api/daily-game logic:", error);
+        return res.status(500).json({ error: "Internal server error while selecting daily game." });
+    }
+});
+
 // Get the daily game and its review image URLs
 app.get('/api/daily-game', (req, res) => {
     console.log("[SERVER_INFO] Request received for /api/daily-game");
