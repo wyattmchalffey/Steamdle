@@ -162,7 +162,7 @@ async function seedInitialData() {
                 "https://steamcommunity.com/id/TheRealDripMonkey/recommended/1245620/",
                 "https://steamcommunity.com/id/76561198004031162/recommended/1245620/",
                 "https://steamcommunity.com/id/haisyub/recommended/1245620/",
-                "https://steamcommunity.com/id/schyeah/recommended/1245620/"
+                "https://steamcommunity.com/id/dyrwk/recommended/1245620/"
             ]
         },
         {
@@ -382,27 +382,87 @@ async function seedInitialData() {
             ]
         },
         {
-            title: "",
-            steam_app_id: "",
+            title: "Counter-Strike 2",
+            steam_app_id: "730",
             reviews: [
-                "",
-                "",
-                "",
-                "",
-                "",
-                ""
+                "https://steamcommunity.com/profiles/76561198335590980/recommended/730/",
+                "https://steamcommunity.com/profiles/76561198341139450/recommended/730/",
+                "https://steamcommunity.com/id/IMANGEL1337/recommended/730/",
+                "https://steamcommunity.com/id/zima25/recommended/730/",
+                "https://steamcommunity.com/id/lampostjohny19/recommended/730/",
+                "https://steamcommunity.com/id/FATEYYYY/recommended/730/"
             ]
         },
         {
-            title: "",
-            steam_app_id: "",
+            title: "Marvel Rivals",
+            steam_app_id: "2767030",
             reviews: [
-                "",
-                "",
-                "",
-                "",
-                "",
-                ""
+                "https://steamcommunity.com/id/SilvanusVT/recommended/2767030/",
+                "https://steamcommunity.com/profiles/76561198881029636/recommended/2767030/",
+                "https://steamcommunity.com/id/Fryrrs/recommended/2767030/",
+                "https://steamcommunity.com/id/yubuu/recommended/2767030/",
+                "https://steamcommunity.com/id/kelfezond/recommended/2767030/",
+                "https://steamcommunity.com/id/Zerathos_Dagon/recommended/2767030/"
+            ]
+        },
+        {
+            title: "Balatro",
+            steam_app_id: "2379780",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198296118902/recommended/2379780/",
+                "https://steamcommunity.com/profiles/76561199029912652/recommended/2379780/",
+                "https://steamcommunity.com/id/sayteenies/recommended/2379780/",
+                "https://steamcommunity.com/id/JuniperTheory2/recommended/2379780/",
+                "https://steamcommunity.com/id/mscupcakes/recommended/2379780/",
+                "https://steamcommunity.com/profiles/76561198987185457/recommended/2379780/"
+            ]
+        },
+        {
+            title: "Path of Exile",
+            steam_app_id: "238960",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198078333010/recommended/238960/",
+                "https://steamcommunity.com/id/yiyuanian/recommended/238960/",
+                "https://steamcommunity.com/profiles/76561198076472166/recommended/238960/",
+                "https://steamcommunity.com/id/fu-fu-fuu/recommended/238960/",
+                "https://steamcommunity.com/id/Kristofer432525/recommended/238960/",
+                "https://steamcommunity.com/id/SeaDjinn/recommended/238960/"
+            ]
+        },
+        {
+            title: "The Witcher 3: Wild Hunt",
+            steam_app_id: "292030",
+            reviews: [
+                "https://steamcommunity.com/id/iamkio/recommended/292030/",
+                "https://steamcommunity.com/profiles/76561199164802263/recommended/292030/",
+                "https://steamcommunity.com/profiles/76561199371649476/recommended/292030/",
+                "https://steamcommunity.com/id/MilchChocolate/recommended/292030/",
+                "https://steamcommunity.com/profiles/76561198038931832/recommended/292030/",
+                "https://steamcommunity.com/profiles/76561198801655891/recommended/292030/"
+            ]
+        },
+        {
+            title: "Dead by Daylight",
+            steam_app_id: "381210",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198054225396/recommended/381210/",
+                "https://steamcommunity.com/id/thisisnotbritney/recommended/381210/",
+                "https://steamcommunity.com/id/raerihel/recommended/381210/",
+                "https://steamcommunity.com/id/lifeisfine/recommended/381210/",
+                "https://steamcommunity.com/id/AllGunny/recommended/381210/",
+                "https://steamcommunity.com/id/JupiterGhoul/recommended/381210/"
+            ]
+        },
+        {
+            title: "Lethal Company",
+            steam_app_id: "1966720",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561199202598599/recommended/1966720/",
+                "https://steamcommunity.com/profiles/76561199002363268/recommended/1966720/",
+                "https://steamcommunity.com/id/djboogyCSGO/recommended/1966720/",
+                "https://steamcommunity.com/id/iprobablydontexist/recommended/1966720/",
+                "https://steamcommunity.com/profiles/76561199122063117/recommended/1966720/",
+                "https://steamcommunity.com/profiles/76561198984489068/recommended/1966720/"
             ]
         },
         {
