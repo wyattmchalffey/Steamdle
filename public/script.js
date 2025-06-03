@@ -19,13 +19,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentReviewIndex;
     let guessesLeft;
     let isGameOver;
-    let shareGrid = []; // For Wordle-like sharing results
+    let shareGrid = []; 
     let autocompleteDebounceTimer;
 
     // --- Helper Functions ---
     function normalizeString(str) {
         if (typeof str !== 'string') return '';
-        return str.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, ' ').trim();
+
+        let normalized = str.toLowerCase();
+
+        normalized = normalized.replace(/[^a-z0-9]/gi, '');
+
+        return normalized; 
     }
 
     // --- Autocomplete Logic ---
