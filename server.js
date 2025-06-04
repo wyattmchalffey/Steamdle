@@ -1,6 +1,6 @@
 ﻿const express = require('express');
 const cors = require('cors');
-const db = require('./db.js'); // Your database connection and seeding logic
+const db = require('./db.js'); // Database connection and seeding logic
 const axios = require('axios'); // For fetching HTML
 const cheerio = require('cheerio'); // For parsing HTML
 const { format } = require('date-fns'); // For easy date formatting
@@ -13,6 +13,12 @@ const PORT = process.env.PORT || 3000;
 let steamAppsCache = [];
 let lastSteamAppsFetchTime = 0;
 const STEAM_APPS_CACHE_DURATION = 24 * 60 * 60 * 1000; // Cache for 24 hours
+
+// --- Daily Game Cache ---
+let dailyGameCache = {
+    date: null,
+    gameData: null
+};
 
 // --- Middleware ---
 app.use(cors());
@@ -27,7 +33,6 @@ function normalizeStringServer(str) {
 }
 
 // --- Helper: Fetch and Cache Steam App List (for autocomplete) ---
-// MODIFIED to store objects with original name for display, and allow filtering DLCs
 const NON_GAME_KEYWORDS = [
     'dlc', 'soundtrack', 'ost', 'artbook', 'art book', 'expansion',
     'pack', 'demo', 'beta', 'playtest', 'bonus', 'season pass',
@@ -46,21 +51,25 @@ async function fetchAndCacheSteamApps() {
             let rawApps = data.applist.apps;
             console.log(`[STEAM_API_INFO] Fetched ${rawApps.length} raw entries from Steam.`);
 
-            steamAppsCache = rawApps
-                .filter(app => { // Your DLC filtering logic
+            let processedApps = rawApps
+                .filter(app => {
                     if (!app.name || app.name.trim() === "") return false;
                     const lowerCaseName = app.name.toLowerCase();
-                    for (const keyword of NON_GAME_KEYWORDS) { // Make sure NON_GAME_KEYWORDS is defined
+                    for (const keyword of NON_GAME_KEYWORDS) {
                         if (lowerCaseName.includes(keyword)) return false;
                     }
                     return true;
                 })
-                .map(app => ({ name: app.name, appid: app.appid })) // Store objects: original name + appid
-                .filter((app, index, self) => // Remove duplicates based on name, keeping first occurrence
-                    index === self.findIndex((t) => t.name === app.name)
-                );
+                .map(app => ({ name: app.name, appid: app.appid }));
 
-            steamAppsCache.sort((a, b) => a.name.localeCompare(b.name)); // Sort by original name
+            const uniqueAppsByName = new Map();
+            processedApps.forEach(app => {
+                if (!uniqueAppsByName.has(app.name)) {
+                    uniqueAppsByName.set(app.name, app);
+                }
+            });
+            steamAppsCache = Array.from(uniqueAppsByName.values());
+            steamAppsCache.sort((a, b) => a.name.localeCompare(b.name));
             lastSteamAppsFetchTime = Date.now();
             console.log(`[STEAM_API_SUCCESS] Successfully filtered and cached ${steamAppsCache.length} Steam apps (objects).`);
         } else {
@@ -74,7 +83,7 @@ async function fetchAndCacheSteamApps() {
 
 // --- API Endpoints ---
 
-// Autocomplete for game titles (Using Approach 1: Normalize search, filter normalized, display original)
+// Autocomplete for game titles (Normalize search, filter normalized, display original)
 app.get('/api/search-steam-games', async (req, res) => {
     const currentTime = Date.now();
     if (steamAppsCache.length === 0 || (currentTime - lastSteamAppsFetchTime > STEAM_APPS_CACHE_DURATION)) {
@@ -112,90 +121,135 @@ app.get('/api/search-steam-games', async (req, res) => {
     res.json(suggestions);
 });
 
+// Helper function to get and scrape review data
+async function getAndScrapeReviewDataForGame(gameSelection) {
+    console.log(`[REVIEWS_LOGIC] Getting/Scraping reviews for game ID ${gameSelection.id} ("${gameSelection.title}")`);
+    try {
+        const reviewPageUrls = await new Promise((resolve, reject) => {
+            db.all("SELECT review_page_url FROM game_reviews WHERE game_id = ? ORDER BY clue_order ASC LIMIT 6", [gameSelection.id], (err, rows) => {
+                if (err) {
+                    console.error(`[DB_ERROR] Error fetching review URLs for game ID ${gameSelection.id}:`, err.message);
+                    return reject(new Error("Could not fetch review URLs."));
+                }
+                if (!rows) {
+                    console.error("[DB_ERROR] db.all returned null rows for review URLs.");
+                    return reject(new Error("Database returned unexpected null for review URLs."));
+                }
+                resolve(rows.map(r => r.review_page_url));
+            });
+        });
 
-// Daily Game Selection (Using Method 1: last_played_on date)
+        if (reviewPageUrls.length === 0) {
+            console.warn(`[DB_WARN] No review URLs found for game ID ${gameSelection.id} ("${gameSelection.title}").`);
+            return { title: gameSelection.title, appId: gameSelection.steam_app_id, reviews: [] };
+        }
+
+        const scrapedReviewsPromises = reviewPageUrls.map(url => scrapeSteamReview(url)); // Uses your existing scrapeSteamReview
+        const scrapedReviews = await Promise.all(scrapedReviewsPromises);
+
+        const successfulScrapesCount = scrapedReviews.filter(r => !(r && r.error)).length;
+        console.log(`[REVIEWS_LOGIC] ${successfulScrapesCount}/${scrapedReviews.length} reviews scraped for ${gameSelection.title}.`);
+
+        return {
+            title: gameSelection.title,
+            appId: gameSelection.steam_app_id,
+            reviews: scrapedReviews
+        };
+    } catch (error) {
+        console.error(`[REVIEWS_ERROR] Failed in getAndScrapeReviewDataForGame for "${gameSelection.title || 'Unknown Game'}":`, error);
+        return { error: true, message: "Failed to process game reviews.", title: gameSelection.title || "Unknown", appId: gameSelection.steam_app_id || null, reviews: [] };
+    }
+}
+
+
+
+// Daily Game Selection (last_played_on date AND NOW WITH CACHING)
 app.get('/api/daily-game', async (req, res) => {
-    console.log("[SERVER_INFO] Request received for /api/daily-game"); // Log 1
+    console.log("[SERVER_INFO] Request received for /api/daily-game (Cache Integrated)");
     const todayStr = format(new Date(), 'yyyy-MM-dd');
 
+    // 1. Check cache first
+    if (dailyGameCache.date === todayStr && dailyGameCache.gameData) {
+        if (dailyGameCache.gameData.error) {
+            console.warn(`[CACHE_HIT_ERROR] Serving ERROR state from cache for ${todayStr} for game: ${dailyGameCache.gameData.title}`);
+            return res.status(500).json({ error: dailyGameCache.gameData.message || "Failed to get daily game data (cached error)." });
+        }
+        console.log(`[CACHE_HIT] Serving daily game from cache for ${todayStr} for game: ${dailyGameCache.gameData.title}`);
+        return res.json(dailyGameCache.gameData);
+    }
+    console.log(`[CACHE_MISS] No valid cache for ${todayStr}. Proceeding to select and process game.`);
+
     try {
-        // Block A: Check if a game is already marked for today
-        console.log("[SERVER_INFO] Daily game: Checking for pre-selected game for", todayStr); // Log 2
-        let game = await new Promise((resolve, reject) => {
+        // --- This is your existing game selection logic (Blocks A, B, C, D from your file) ---
+        console.log("[SERVER_INFO] Daily game: Checking for pre-selected game for", todayStr);
+        let game = await new Promise((resolve, reject) => { /* ...Block A: db.get for last_played_on = todayStr ... */
             db.get("SELECT id, title, steam_app_id FROM games WHERE last_played_on = ? AND is_active = TRUE", [todayStr], (err, row) => {
-                if (err) {
-                    console.error("[DB_ERROR] Daily game A: Error checking for pre-selected game:", err.message); // Log A-Err
-                    reject(err); // Make sure to reject on error
-                } else {
-                    console.log("[DB_INFO] Daily game A: Pre-selected game check result:", row); // Log A-Res
-                    resolve(row);
-                }
+                if (err) { console.error("[DB_ERROR] Daily game A: Error checking for pre-selected game:", err.message); reject(err); }
+                else { console.log("[DB_INFO] Daily game A: Pre-selected game check result:", row); resolve(row); }
             });
         });
 
         if (game) {
-            console.log(`[SERVER_INFO] Daily game: Found pre-selected game for ${todayStr}: ID ${game.id} ("${game.title}")`); // Log 3
+            console.log(`[SERVER_INFO] Daily game: Found pre-selected game for ${todayStr}: ID ${game.id} ("${game.title}")`);
         } else {
-            console.log(`[SERVER_INFO] Daily game: No game pre-selected for ${todayStr}. Selecting a new one.`); // Log 4
-
-            // Block B: Try to find an active game that has never been played
-            console.log("[SERVER_INFO] Daily game: Checking for unplayed active game..."); // Log B-Check
-            game = await new Promise((resolve, reject) => {
+            console.log(`[SERVER_INFO] Daily game: No game pre-selected for ${todayStr}. Selecting a new one.`);
+            console.log("[SERVER_INFO] Daily game: Checking for unplayed active game...");
+            game = await new Promise((resolve, reject) => { /* ...Block B: db.get for last_played_on IS NULL ... */
                 db.get("SELECT id, title, steam_app_id FROM games WHERE last_played_on IS NULL AND is_active = TRUE ORDER BY RANDOM() LIMIT 1", (err, row) => {
-                    if (err) {
-                        console.error("[DB_ERROR] Daily game B: Error fetching unplayed game:", err.message); // Log B-Err
-                        reject(err);
-                    } else {
-                        console.log("[DB_INFO] Daily game B: Unplayed game check result:", row); // Log B-Res
-                        resolve(row);
-                    }
+                    if (err) { console.error("[DB_ERROR] Daily game B: Error fetching unplayed game:", err.message); reject(err); }
+                    else { console.log("[DB_INFO] Daily game B: Unplayed game check result:", row); resolve(row); }
                 });
             });
 
             if (!game) {
-                // Block C: All active games have been played, find the one played least recently
-                console.log("[SERVER_INFO] Daily game: All active games have been played. Selecting least recently played."); // Log C-Check
-                game = await new Promise((resolve, reject) => {
+                console.log("[SERVER_INFO] Daily game: All active games have been played. Selecting least recently played.");
+                game = await new Promise((resolve, reject) => { /* ...Block C: db.get ORDER BY last_played_on ASC ... */
                     db.get("SELECT id, title, steam_app_id FROM games WHERE is_active = TRUE ORDER BY last_played_on ASC, RANDOM() LIMIT 1", (err, row) => {
-                        if (err) {
-                            console.error("[DB_ERROR] Daily game C: Error fetching least recently played game:", err.message); // Log C-Err
-                            reject(err);
-                        } else {
-                            console.log("[DB_INFO] Daily game C: Least recently played check result:", row); // Log C-Res
-                            resolve(row);
-                        }
+                        if (err) { console.error("[DB_ERROR] Daily game C: Error fetching least recently played game:", err.message); reject(err); }
+                        else { console.log("[DB_INFO] Daily game C: Least recently played check result:", row); resolve(row); }
                     });
                 });
             }
 
             if (game) {
-                // Block D: Mark this game as played today
-                console.log(`[SERVER_INFO] Daily game: Attempting to mark game ID ${game.id} as played.`); // Log D-Attempt
-                await new Promise((resolve, reject) => {
+                console.log(`[SERVER_INFO] Daily game: Attempting to mark game ID ${game.id} as played.`);
+                await new Promise((resolve, reject) => { /* ...Block D: db.run UPDATE last_played_on ... */
                     db.run("UPDATE games SET last_played_on = ? WHERE id = ?", [todayStr, game.id], function (err) {
-                        if (err) {
-                            console.error(`[DB_ERROR] Daily game D: Failed to update last_played_on for game ID ${game.id}:`, err.message); // Log D-Err
-                            reject(err); // CRITICAL: If this rejects and isn't caught, the route hangs
-                        } else {
-                            console.log(`[SERVER_INFO] Daily game D: Marked game ID ${game.id} ("${game.title}") as played on ${todayStr}. Changes: ${this.changes}`); // Log D-Success
-                            resolve();
-                        }
+                        if (err) { console.error(`[DB_ERROR] Daily game D: Failed to update last_played_on for game ID ${game.id}:`, err.message); reject(err); }
+                        else { console.log(`[SERVER_INFO] Daily game D: Marked game ID ${game.id} ("${game.title}") as played on ${todayStr}. Changes: ${this.changes}`); resolve(); }
                     });
                 });
             }
         }
+        // --- End of your existing game selection logic ---
 
         if (!game) {
-            console.error("[DB_ERROR] Daily game: Could not select any game from the database after all checks."); // Log 5
-            return res.status(500).json({ error: "No games available to select for today." });
+            console.error("[DB_ERROR] Daily game: Could not select any game from the database after all checks.");
+            dailyGameCache = { date: todayStr, gameData: { error: true, message: "No games available to select for today." } };
+            return res.status(500).json(dailyGameCache.gameData);
         }
 
-        console.log(`[SERVER_INFO] Daily game: Preparing to serve game ID ${game.id}: "${game.title}"`); // Log 6
-        fetchReviewsForGameAndRespond(game, res); // This function itself is async and sends the response
+        console.log(`[SERVER_INFO] Daily game: Game selected ID ${game.id}: "${game.title}". Fetching and scraping reviews...`);
 
-    } catch (error) { // This catch block handles rejections from the awaited promises
-        console.error("[SERVER_ERROR] Critical error in /api/daily-game's try block:", error);
-        return res.status(500).json({ error: "Internal server error while selecting daily game." });
+        // Call the helper to get/scrape review data
+        const fullGameDataWithReviews = await getAndScrapeReviewDataForGame(game);
+
+        // Update cache with the freshly fetched/scraped data (or its error state)
+        dailyGameCache = { date: todayStr, gameData: fullGameDataWithReviews };
+        console.log(`[CACHE_UPDATE] Daily game data for ${todayStr} (Game: "${fullGameDataWithReviews.title || game.title}") cached.`);
+
+        if (fullGameDataWithReviews.error) {
+            console.error(`[SERVER_ERROR] Failed to get reviews for daily game "${fullGameDataWithReviews.title || game.title}": ${fullGameDataWithReviews.message}`);
+            return res.status(500).json({ error: fullGameDataWithReviews.message || "Failed to process reviews for the daily game." });
+        }
+
+        console.log(`[SERVER_INFO] Sending daily game data for "${fullGameDataWithReviews.title}" to client.`);
+        res.json(fullGameDataWithReviews);
+
+    } catch (error) {
+        console.error("[SERVER_ERROR] Critical error in /api/daily-game's main try-catch block:", error);
+        dailyGameCache = { date: todayStr, gameData: { error: true, message: "Internal server error while selecting daily game." } };
+        return res.status(500).json(dailyGameCache.gameData);
     }
 });
 
@@ -269,50 +323,6 @@ async function scrapeSteamReview(reviewUrl) {
     }
 }
 
-// --- Helper to fetch reviews for a given game and send the response ---
-async function fetchReviewsForGameAndRespond(game, res) {
-    console.log(`[FETCH_REVIEWS_INFO] Fetching reviews for game ID ${game.id} ("${game.title}")`);
-    try {
-        const reviewPageUrls = await new Promise((resolve, reject) => {
-            db.all("SELECT review_page_url FROM game_reviews WHERE game_id = ? ORDER BY clue_order ASC LIMIT 6", [game.id], (err, rows) => {
-                if (err) {
-                    console.error(`[DB_ERROR] Error fetching review URLs for game ID ${game.id}:`, err.message);
-                    reject(new Error("Could not fetch review URLs."));
-                } else {
-                    if (!rows) {
-                        console.error("[DB_ERROR] db.all returned null rows for review URLs.");
-                        reject(new Error("Database returned unexpected null for review URLs."));
-                        return;
-                    }
-                    resolve(rows.map(r => r.review_page_url));
-                }
-            });
-        });
-
-        if (reviewPageUrls.length === 0) {
-            console.warn(`[DB_WARN] No review URLs found for game ID ${game.id} ("${game.title}"). Sending empty reviews array.`);
-            return res.json({ title: game.title, appId: game.steam_app_id, reviews: [] });
-        }
-
-        const scrapedReviewsPromises = reviewPageUrls.map(url => scrapeSteamReview(url));
-        const scrapedReviews = await Promise.all(scrapedReviewsPromises);
-
-        const successfulScrapesCount = scrapedReviews.filter(r => !(r && r.error)).length;
-        console.log(`[SERVER_INFO] Sending ${successfulScrapesCount} (of ${scrapedReviews.length}) scraped reviews for game ID ${game.id}.`);
-
-        res.json({
-            title: game.title,
-            appId: game.steam_app_id,
-            reviews: scrapedReviews
-        });
-
-    } catch (errorInPromiseChain) {
-        console.error(`[FETCH_REVIEWS_ERROR] Error in fetchReviewsForGameAndRespond for game ID ${game.id}:`, errorInPromiseChain);
-        if (!res.headersSent) {
-            res.status(500).json({ error: errorInPromiseChain.message || "Internal server error while fetching/scraping reviews." });
-        }
-    }
-}
 
 // --- Start Server ---
 fetchAndCacheSteamApps().then(() => {
