@@ -466,6 +466,114 @@ async function seedInitialData() {
             ]
         },
         {
+            title: "Warframe",
+            steam_app_id: "230410",
+            reviews: [
+                "https://steamcommunity.com/id/6266067080/recommended/230410/",
+                "https://steamcommunity.com/profiles/76561198086054565/recommended/230410/",
+                "https://steamcommunity.com/profiles/76561198159476207/recommended/230410/",
+                "https://steamcommunity.com/profiles/76561198799517283/recommended/230410/",
+                "https://steamcommunity.com/profiles/76561198044624153/recommended/230410/",
+                "https://steamcommunity.com/profiles/76561199041861842/recommended/230410/"
+            ]
+        },
+        {
+            title: "Rust",
+            steam_app_id: "252490",
+            reviews: [
+                "https://steamcommunity.com/id/MarsyLia/recommended/252490/",
+                "https://steamcommunity.com/profiles/76561198396086694/recommended/252490/",
+                "https://steamcommunity.com/id/Sollamel/recommended/252490/",
+                "https://steamcommunity.com/id/Realpofu/recommended/252490/",
+                "https://steamcommunity.com/id/slymecs/recommended/252490/",
+                "https://steamcommunity.com/id/rylanmb/recommended/252490/"
+            ]
+        },
+        {
+            title: "Baldur's Gate 3",
+            steam_app_id: "1086940",
+            reviews: [
+                "https://steamcommunity.com/id/Dragonkight2005/recommended/1086940/",
+                "https://steamcommunity.com/profiles/76561198968001571/recommended/1086940/",
+                "https://steamcommunity.com/profiles/76561198848069470/recommended/1086940/",
+                "https://steamcommunity.com/profiles/76561197964430628/recommended/1086940/",
+                "https://steamcommunity.com/id/TLLLLLLLLLLL/recommended/1086940/",
+                "https://steamcommunity.com/profiles/76561198002549206/recommended/1086940/"
+            ]
+        },
+        {
+            title: "HELLDIVERS™ 2",
+            steam_app_id: "553850",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198880429065/recommended/553850/",
+                "https://steamcommunity.com/profiles/76561198047483756/recommended/553850/",
+                "https://steamcommunity.com/id/DDuckyy/recommended/553850/",
+                "https://steamcommunity.com/id/unobtrusivenature/recommended/553850/",
+                "https://steamcommunity.com/profiles/76561198069748555/recommended/553850/",
+                "https://steamcommunity.com/profiles/76561198281596195/recommended/553850/"
+            ]
+        },
+        {
+            title: "Cyberpunk 2077",
+            steam_app_id: "1091500",
+            reviews: [
+                "https://steamcommunity.com/id/jokerdesu/recommended/1091500/",
+                "https://steamcommunity.com/profiles/76561198118956082/recommended/1091500/",
+                "https://steamcommunity.com/profiles/76561198842646248/recommended/1091500/",
+                "https://steamcommunity.com/profiles/76561197993010115/recommended/1091500/",
+                "https://steamcommunity.com/id/mysteriousswede/recommended/1091500/",
+                "https://steamcommunity.com/id/masoudbyhimself/recommended/1091500/"
+            ]
+        },
+        {
+            title: "The Sims™ 4",
+            steam_app_id: "1222670",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561199434648497/recommended/1222670/",
+                "https://steamcommunity.com/profiles/76561199178554581/recommended/1222670/",
+                "https://steamcommunity.com/id/AllGunny/recommended/1222670/",
+                "https://steamcommunity.com/id/chaoguangleisu/recommended/1222670/",
+                "https://steamcommunity.com/profiles/76561198171981621/recommended/1222670/",
+                "https://steamcommunity.com/profiles/76561199157665393/recommended/1222670/"
+            ]
+        },
+        {
+            title: "VRChat",
+            steam_app_id: "438100",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561199012169608/recommended/438100/",
+                "https://steamcommunity.com/id/JJNuttyButter/recommended/438100/",
+                "https://steamcommunity.com/profiles/76561198025004855/recommended/438100/",
+                "https://steamcommunity.com/id/Mokocchi/recommended/438100/",
+                "https://steamcommunity.com/id/MoonkingSteam/recommended/438100/",
+                "https://steamcommunity.com/id/kinggod374/recommended/438100/"
+            ]
+        },
+        {
+            title: "Yu-Gi-Oh! Master Duel",
+            steam_app_id: "1449850",
+            reviews: [
+                "https://steamcommunity.com/id/lelaigod/recommended/1449850/",
+                "https://steamcommunity.com/profiles/76561199222389614/recommended/1449850/",
+                "https://steamcommunity.com/profiles/76561199132016159/recommended/1449850/",
+                "https://steamcommunity.com/profiles/76561199199863275/recommended/1449850/",
+                "https://steamcommunity.com/profiles/76561199013688835/recommended/1449850/",
+                "https://steamcommunity.com/profiles/76561199215901403/recommended/1449850/"
+            ]
+        },
+        {
+            title: "Magic: The Gathering Arena",
+            steam_app_id: "2141910",
+            reviews: [
+                "https://steamcommunity.com/id/noahtheboah36/recommended/2141910/",
+                "https://steamcommunity.com/profiles/76561198120815266/recommended/2141910/",
+                "https://steamcommunity.com/profiles/76561198415450285/recommended/2141910/",
+                "https://steamcommunity.com/profiles/76561198372689483/recommended/2141910/",
+                "https://steamcommunity.com/id/RatShadows98/recommended/2141910/",
+                "https://steamcommunity.com/profiles/76561198004945792/recommended/2141910/"
+            ]
+        },
+        {
             title: "",
             steam_app_id: "",
             reviews: [
