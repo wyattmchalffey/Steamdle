@@ -170,7 +170,7 @@ async function seedInitialData() {
             steam_app_id: "3241660",
             reviews: [
                 "https://steamcommunity.com/id/sathiriya/recommended/3241660/",
-                "https://steamcommunity.com/id/Ellie__/recommended/3241660/",
+                "https://steamcommunity.com/id/-orpheus/recommended/3241660/",
                 "https://steamcommunity.com/id/ehuxley/recommended/3241660/",
                 "https://steamcommunity.com/id/bestboi_/recommended/3241660/",
                 "https://steamcommunity.com/id/FuzzyIsAlive/recommended/3241660/",
