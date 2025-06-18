@@ -574,6 +574,102 @@ async function seedInitialData() {
             ]
         },
         {
+            title: "Undertale",
+            steam_app_id: "391540",
+            reviews: [
+                "https://steamcommunity.com/id/FlibbleBibble/recommended/391540/",
+                "https://steamcommunity.com/profiles/76561198864188914/recommended/391540/",
+                "https://steamcommunity.com/profiles/76561199012852599/recommended/391540/",
+                "https://steamcommunity.com/profiles/76561198342867463/recommended/391540/",
+                "https://steamcommunity.com/profiles/76561199068653922/recommended/391540/",
+                "https://steamcommunity.com/id/Daeren/recommended/391540/"
+            ]
+        },
+        {
+            title: "DELTARUNE",
+            steam_app_id: "1671210",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561199561667522/recommended/1671210/",
+                "https://steamcommunity.com/profiles/76561198344848623/recommended/1671210/",
+                "https://steamcommunity.com/id/Darkiue/recommended/1671210/",
+                "https://steamcommunity.com/profiles/76561199694480721/recommended/1671210/",
+                "https://steamcommunity.com/id/Beatzy/recommended/1671210/",
+                "https://steamcommunity.com/profiles/76561199152871185/recommended/1671210/"
+            ]
+        },
+        {
+            title: "Victoria 3",
+            steam_app_id: "529340",
+            reviews: [
+                "https://steamcommunity.com/id/13S3NT1N3L77/recommended/529340/",
+                "https://steamcommunity.com/id/IlliterateSquid/recommended/529340/",
+                "https://steamcommunity.com/id/Nemesysbr/recommended/529340/",
+                "https://steamcommunity.com/profiles/76561198056265908/recommended/529340/",
+                "https://steamcommunity.com/profiles/76561198042641999/recommended/529340/",
+                "https://steamcommunity.com/profiles/76561198084636944/recommended/529340/"
+            ]
+        },
+        {
+            title: "Destiny 2",
+            steam_app_id: "1085660",
+            reviews: [
+                "https://steamcommunity.com/id/xXx_mtv_xXx/recommended/1085660/",
+                "https://steamcommunity.com/id/tipp3x/recommended/1085660/",
+                "https://steamcommunity.com/profiles/76561198014839244/recommended/1085660/",
+                "https://steamcommunity.com/profiles/76561198064623007/recommended/1085660/",
+                "https://steamcommunity.com/profiles/76561199232494297/recommended/1085660/",
+                "https://steamcommunity.com/id/xxxfantasy/recommended/1085660/"
+            ]
+        },
+        {
+            title: "Geometry Dash",
+            steam_app_id: "322170",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198241728872/recommended/322170/",
+                "https://steamcommunity.com/profiles/76561199864172445/recommended/322170/",
+                "https://steamcommunity.com/profiles/76561199231913144/recommended/322170/",
+                "https://steamcommunity.com/id/findingerik/recommended/322170/",
+                "https://steamcommunity.com/profiles/76561198798972691/recommended/322170/",
+                "https://steamcommunity.com/profiles/76561199141604144/recommended/322170/"
+            ]
+        },
+        {
+            title: "Don't Starve Together",
+            steam_app_id: "322330",
+            reviews: [
+                "https://steamcommunity.com/id/catgirI/recommended/322330/",
+                "https://steamcommunity.com/id/loluaregay/recommended/322330/",
+                "https://steamcommunity.com/profiles/76561198847352324/recommended/322330/",
+                "https://steamcommunity.com/id/V_M99/recommended/322330/",
+                "https://steamcommunity.com/id/Memozz-is-a-hero/recommended/322330/",
+                "https://steamcommunity.com/id/LegendLazy/recommended/322330/"
+            ]
+        },
+        {
+            title: "PAYDAY 2",
+            steam_app_id: "218620",
+            reviews: [
+                "https://steamcommunity.com/id/naughtykitty666/recommended/218620/",
+                "https://steamcommunity.com/id/juberax/recommended/218620/",
+                "https://steamcommunity.com/id/thatannoyingcat12/recommended/218620/",
+                "https://steamcommunity.com/id/Deerstroyer/recommended/218620/",
+                "https://steamcommunity.com/id/0sKu/recommended/218620/",
+                "https://steamcommunity.com/id/The_Badger/recommended/218620/"
+            ]
+        },
+        {
+            title: "Bloons TD 6",
+            steam_app_id: "960090",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561199625941327/recommended/960090/",
+                "https://steamcommunity.com/profiles/76561198269468656/recommended/960090/",
+                "https://steamcommunity.com/profiles/76561198021926401/recommended/960090/",
+                "https://steamcommunity.com/id/malletcrush/recommended/960090/",
+                "https://steamcommunity.com/id/fuze_x/recommended/960090/",
+                "https://steamcommunity.com/id/VeeliaX/recommended/960090/"
+            ]
+        },
+        {
             title: "",
             steam_app_id: "",
             reviews: [
