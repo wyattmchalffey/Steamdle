@@ -670,6 +670,162 @@ async function seedInitialData() {
             ]
         },
         {
+            title: "ELDEN RING NIGHTREIGN",
+            steam_app_id: "2622380",
+            reviews: [
+                "https://steamcommunity.com/id/Curtisldavies/recommended/2622380/",
+                "https://steamcommunity.com/id/navivan_/recommended/2622380/",
+                "https://steamcommunity.com/id/JinnXV/recommended/2622380/",
+                "https://steamcommunity.com/id/ravenrinkaa/recommended/2622380/",
+                "https://steamcommunity.com/id/benli118118/recommended/2622380/",
+                "https://steamcommunity.com/id/a3lzZGJtaWQ/recommended/2622380/"
+            ]
+        },
+        {
+            title: "WEBFISHING",
+            steam_app_id: "3146520",
+            reviews: [
+                "https://steamcommunity.com/id/GingernutMoose/recommended/3146520/",
+                "https://steamcommunity.com/id/Kogleru/recommended/3146520/",
+                "https://steamcommunity.com/id/thealiceofred/recommended/3146520/",
+                "https://steamcommunity.com/id/MotionlessPoetry/recommended/3146520/",
+                "https://steamcommunity.com/id/sorebones/recommended/3146520/",
+                "https://steamcommunity.com/id/pm52/recommended/3146520/"
+            ]
+        },
+        {
+            title: "Barony",
+            steam_app_id: "371970",
+            reviews: [
+                "https://steamcommunity.com/id/URG_Executor/recommended/371970/",
+                "https://steamcommunity.com/id/Koibu/recommended/371970/",
+                "https://steamcommunity.com/id/dawnshalo/recommended/371970/",
+                "https://steamcommunity.com/id/notverysubtle/recommended/371970/",
+                "https://steamcommunity.com/profiles/76561198996567685/recommended/371970/",
+                "https://steamcommunity.com/id/pantsowl/recommended/371970/"
+            ]
+        },
+        {
+            title: "Halo: The Master Chief Collection",
+            steam_app_id: "976730",
+            reviews: [
+                "https://steamcommunity.com/id/medina2465/recommended/976730/",
+                "https://steamcommunity.com/id/RiFFnTEAR/recommended/976730/",
+                "https://steamcommunity.com/id/rekt0ro/recommended/976730/",
+                "https://steamcommunity.com/id/OMFGoddess/recommended/976730/",
+                "https://steamcommunity.com/id/Spy_Hunter/recommended/976730/",
+                "https://steamcommunity.com/profiles/76561199698732163/recommended/976730/"
+            ]
+        },
+        {
+            title: "ARMORED CORE™ VI FIRES OF RUBICON™",
+            steam_app_id: "1888160",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198241257916/recommended/1888160/",
+                "https://steamcommunity.com/profiles/76561198003434473/recommended/1888160/",
+                "https://steamcommunity.com/id/flaptaincappers/recommended/1888160/",
+                "https://steamcommunity.com/id/Mulder_JTT047101111/recommended/1888160/",
+                "https://steamcommunity.com/profiles/76561198263298647/recommended/1888160/",
+                "https://steamcommunity.com/id/1nterstellar/recommended/1888160/"
+            ]
+        },
+        {
+            title: "SIGNALIS",
+            steam_app_id: "1262350",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198043699187/recommended/1262350/",
+                "https://steamcommunity.com/id/superawesomekickass/recommended/1262350/",
+                "https://steamcommunity.com/profiles/76561198390264836/recommended/1262350/",
+                "https://steamcommunity.com/id/iamconsent/recommended/1262350/",
+                "https://steamcommunity.com/id/SyntheticHellhound/recommended/1262350/",
+                "https://steamcommunity.com/id/yuromilk9/recommended/1262350/"
+            ]
+        },
+        {
+            title: "Solar Ash",
+            steam_app_id: "1867530",
+            reviews: [
+                "https://steamcommunity.com/id/vaati_006/recommended/1867530/",
+                "https://steamcommunity.com/profiles/76561198088173876/recommended/1867530/",
+                "https://steamcommunity.com/id/altairzio/recommended/1867530/",
+                "https://steamcommunity.com/id/aglevel/recommended/1867530/",
+                "https://steamcommunity.com/id/skilluplayz/recommended/1867530/",
+                "https://steamcommunity.com/id/Glazelf/recommended/1867530/"
+            ]
+        },
+        {
+            title: "Neon White",
+            steam_app_id: "1533420",
+            reviews: [
+                "https://steamcommunity.com/id/SonEfsane3/recommended/1533420/",
+                "https://steamcommunity.com/profiles/76561198008521229/recommended/1533420/",
+                "https://steamcommunity.com/id/Simonsyndaren/recommended/1533420/",
+                "https://steamcommunity.com/id/AlwaysSleepy0/recommended/1533420/",
+                "https://steamcommunity.com/id/sirlagsal0t/recommended/1533420/",
+                "https://steamcommunity.com/id/swansbb/recommended/1533420/"
+            ]
+        },
+        {
+            title: "Psychonauts 2",
+            steam_app_id: "607080",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198010209427/recommended/607080/",
+                "https://steamcommunity.com/profiles/76561198068726029/recommended/607080/",
+                "https://steamcommunity.com/profiles/76561198882082220/recommended/607080/",
+                "https://steamcommunity.com/id/soupmasters/recommended/607080/",
+                "https://steamcommunity.com/profiles/76561198034199250/recommended/607080/",
+                "https://steamcommunity.com/id/thickman420/recommended/607080/"
+            ]
+        },
+        {
+            title: "Psychonauts",
+            steam_app_id: "3830",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198032518991/recommended/3830/",
+                "https://steamcommunity.com/id/GajimaMoro/recommended/3830/",
+                "https://steamcommunity.com/profiles/76561198259582505/recommended/3830/",
+                "https://steamcommunity.com/profiles/76561198186242370/recommended/3830/",
+                "https://steamcommunity.com/id/loopuleasa/recommended/3830/",
+                "https://steamcommunity.com/id/Thekingofthepiratesbabyyyyy/recommended/3830/"
+            ]
+        },
+        {
+            title: "ACE COMBAT™ 7: SKIES UNKNOWN",
+            steam_app_id: "502500",
+            reviews: [
+                "https://steamcommunity.com/id/SubwayEatThresh/recommended/502500/",
+                "https://steamcommunity.com/profiles/76561199062988146/recommended/502500/",
+                "https://steamcommunity.com/profiles/76561198376802797/recommended/502500/",
+                "https://steamcommunity.com/profiles/76561198255621670/recommended/502500/",
+                "https://steamcommunity.com/profiles/76561198179893841/recommended/502500/",
+                "https://steamcommunity.com/id/runeow/recommended/502500/"
+            ]
+        },
+        {
+            title: "Rain World",
+            steam_app_id: "312520",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198092135223/recommended/312520/",
+                "https://steamcommunity.com/id/oquinnisi/recommended/312520/",
+                "https://steamcommunity.com/profiles/76561198926413446/recommended/312520/",
+                "https://steamcommunity.com/profiles/76561199526316321/recommended/312520/",
+                "https://steamcommunity.com/id/noonereedus/recommended/312520/",
+                "https://steamcommunity.com/id/86492/recommended/312520/"
+            ]
+        },
+        {
+            title: "Barotrauma",
+            steam_app_id: "602960",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198214118412/recommended/602960/",
+                "https://steamcommunity.com/id/gigabyte171/recommended/602960/",
+                "https://steamcommunity.com/id/questionabledark/recommended/602960/",
+                "https://steamcommunity.com/id/Apotarest/recommended/602960/",
+                "https://steamcommunity.com/id/TheGrandCanyon/recommended/602960/",
+                "https://steamcommunity.com/id/ozwilliam/recommended/602960/"
+            ]
+        },
+        {
             title: "",
             steam_app_id: "",
             reviews: [
