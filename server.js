@@ -1,9 +1,9 @@
 ﻿const express = require('express');
 const cors = require('cors');
-const db = require('./db.js'); // Database connection and seeding logic
-const axios = require('axios'); // For fetching HTML
-const cheerio = require('cheerio'); // For parsing HTML
-const { format } = require('date-fns'); // For easy date formatting
+const db = require('./db.js');
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { format } = require('date-fns');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 // --- Steam App List Cache (for autocomplete) ---
 let steamAppsCache = [];
 let lastSteamAppsFetchTime = 0;
-const STEAM_APPS_CACHE_DURATION = 24 * 60 * 60 * 1000; // Cache for 24 hours
+const STEAM_APPS_CACHE_DURATION = 24 * 60 * 60 * 1000;
 
 // --- Daily Game Cache ---
 let dailyGameCache = {
@@ -100,11 +100,10 @@ app.get('/api/search-steam-games', async (req, res) => {
 
     const normalizedSearchTerm = normalizeStringServer(searchTermRaw);
 
-    let suggestions = steamAppsCache // steamAppsCache is now array of {name, appid}
+    let suggestions = steamAppsCache
         .map(app => ({
             originalName: app.name,
-            normalizedName: normalizeStringServer(app.name) // Normalize here for searching
-            // appid: app.appid // Keep if needed for other things
+            normalizedName: normalizeStringServer(app.name)
         }))
         .filter(app => app.normalizedName.includes(normalizedSearchTerm))
         .sort((a, b) => {
@@ -180,9 +179,8 @@ app.get('/api/daily-game', async (req, res) => {
     console.log(`[CACHE_MISS] No valid cache for ${todayStr}. Proceeding to select and process game.`);
 
     try {
-        // --- This is your existing game selection logic (Blocks A, B, C, D from your file) ---
         console.log("[SERVER_INFO] Daily game: Checking for pre-selected game for", todayStr);
-        let game = await new Promise((resolve, reject) => { /* ...Block A: db.get for last_played_on = todayStr ... */
+        let game = await new Promise((resolve, reject) => {
             db.get("SELECT id, title, steam_app_id FROM games WHERE last_played_on = ? AND is_active = TRUE", [todayStr], (err, row) => {
                 if (err) { console.error("[DB_ERROR] Daily game A: Error checking for pre-selected game:", err.message); reject(err); }
                 else { console.log("[DB_INFO] Daily game A: Pre-selected game check result:", row); resolve(row); }
@@ -194,7 +192,7 @@ app.get('/api/daily-game', async (req, res) => {
         } else {
             console.log(`[SERVER_INFO] Daily game: No game pre-selected for ${todayStr}. Selecting a new one.`);
             console.log("[SERVER_INFO] Daily game: Checking for unplayed active game...");
-            game = await new Promise((resolve, reject) => { /* ...Block B: db.get for last_played_on IS NULL ... */
+            game = await new Promise((resolve, reject) => {
                 db.get("SELECT id, title, steam_app_id FROM games WHERE last_played_on IS NULL AND is_active = TRUE ORDER BY RANDOM() LIMIT 1", (err, row) => {
                     if (err) { console.error("[DB_ERROR] Daily game B: Error fetching unplayed game:", err.message); reject(err); }
                     else { console.log("[DB_INFO] Daily game B: Unplayed game check result:", row); resolve(row); }
@@ -203,7 +201,7 @@ app.get('/api/daily-game', async (req, res) => {
 
             if (!game) {
                 console.log("[SERVER_INFO] Daily game: All active games have been played. Selecting least recently played.");
-                game = await new Promise((resolve, reject) => { /* ...Block C: db.get ORDER BY last_played_on ASC ... */
+                game = await new Promise((resolve, reject) => {
                     db.get("SELECT id, title, steam_app_id FROM games WHERE is_active = TRUE ORDER BY last_played_on ASC, RANDOM() LIMIT 1", (err, row) => {
                         if (err) { console.error("[DB_ERROR] Daily game C: Error fetching least recently played game:", err.message); reject(err); }
                         else { console.log("[DB_INFO] Daily game C: Least recently played check result:", row); resolve(row); }
@@ -213,7 +211,7 @@ app.get('/api/daily-game', async (req, res) => {
 
             if (game) {
                 console.log(`[SERVER_INFO] Daily game: Attempting to mark game ID ${game.id} as played.`);
-                await new Promise((resolve, reject) => { /* ...Block D: db.run UPDATE last_played_on ... */
+                await new Promise((resolve, reject) => {
                     db.run("UPDATE games SET last_played_on = ? WHERE id = ?", [todayStr, game.id], function (err) {
                         if (err) { console.error(`[DB_ERROR] Daily game D: Failed to update last_played_on for game ID ${game.id}:`, err.message); reject(err); }
                         else { console.log(`[SERVER_INFO] Daily game D: Marked game ID ${game.id} ("${game.title}") as played on ${todayStr}. Changes: ${this.changes}`); resolve(); }
@@ -221,7 +219,7 @@ app.get('/api/daily-game', async (req, res) => {
                 });
             }
         }
-        // --- End of your existing game selection logic ---
+        
 
         if (!game) {
             console.error("[DB_ERROR] Daily game: Could not select any game from the database after all checks.");
@@ -231,10 +229,8 @@ app.get('/api/daily-game', async (req, res) => {
 
         console.log(`[SERVER_INFO] Daily game: Game selected ID ${game.id}: "${game.title}". Fetching and scraping reviews...`);
 
-        // Call the helper to get/scrape review data
         const fullGameDataWithReviews = await getAndScrapeReviewDataForGame(game);
 
-        // Update cache with the freshly fetched/scraped data (or its error state)
         dailyGameCache = { date: todayStr, gameData: fullGameDataWithReviews };
         console.log(`[CACHE_UPDATE] Daily game data for ${todayStr} (Game: "${fullGameDataWithReviews.title || game.title}") cached.`);
 
@@ -256,7 +252,7 @@ app.get('/api/daily-game', async (req, res) => {
 
 // Helper function to scrape a single Steam review page
 async function scrapeSteamReview(reviewUrl) {
-    // console.log(`[SCRAPER_INFO] Attempting to scrape review: ${reviewUrl}`); // Optional: keep for basic tracking
+    
     try {
         const { data: html } = await axios.get(reviewUrl, {
             headers: {
@@ -265,7 +261,7 @@ async function scrapeSteamReview(reviewUrl) {
             }
         });
         const $ = cheerio.load(html);
-        const reviewData = { // Initialize with defaults
+        const reviewData = {
             reviewerName: "A Steam User",
             reviewerAvatarUrl: null,
             recommendation: "Not specified",
@@ -274,7 +270,7 @@ async function scrapeSteamReview(reviewUrl) {
             reviewText: "Could not load review text."
         };
 
-        // Scraper Selectors (keep these refined versions)
+        
         let tempName = $('.profile_small_header_name a.persona_name_text_content').text().trim();
         if (tempName) reviewData.reviewerName = tempName;
         else {
@@ -312,9 +308,9 @@ async function scrapeSteamReview(reviewUrl) {
             reviewContentHTML = reviewContentHTML.replace(/<br\s*\/?>/gi, '\n');
             reviewData.reviewText = $('<div>').html(reviewContentHTML).text().trim();
         }
-        // End Scraper Selectors
+        
 
-        // console.log(`[SCRAPER_SUCCESS] Scraped: ${reviewData.reviewerName?.substring(0,10)} for ${reviewUrl.substring(0,50)}`); // Shorter success log
+        
         return reviewData;
 
     } catch (error) {

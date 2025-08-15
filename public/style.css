@@ -1,5 +1,5 @@
 body {
-    font-family: "Motiva Sans", Arial, Helvetica, sans-serif; /* Using Steam's font stack */
+    font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -12,7 +12,7 @@ body {
 }
 
 .container {
-    background-color: #2a3f5a; /* Darker container background */
+    background-color: #2a3f5a;
     padding: 25px 35px;
     border-radius: 8px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.4);
@@ -22,7 +22,7 @@ body {
 }
 
 h1 {
-    color: #66c0f4; /* Steam blue for heading */
+    color: #66c0f4;
     margin-top: 0;
     margin-bottom: 10px;
     font-size: 2.5em;
@@ -115,7 +115,7 @@ p {
 #guess-button {
     padding: 12px 20px;
     font-size: 16px;
-    background-color: #5c7e10; /* Steam green */
+    background-color: #5c7e10;
     color: white;
     border: none;
     border-radius: 4px;
@@ -178,13 +178,13 @@ p {
 }
 
 #game-over-message.win {
-    background-color: #2c5d38; /* Darker green */
+    background-color: #2c5d38;
     border: 1px solid #4a7c50;
     color: #d4edda;
 }
 
 #game-over-message.lose {
-    background-color: #5d2c2c; /* Darker red */
+    background-color: #5d2c2c;
     border: 1px solid #7c4a4a;
     color: #f8d7da;
 }
@@ -192,14 +192,14 @@ p {
 #game-over-message strong { color: #fff; font-weight: bold;}
 
 #game-image {
-    display: block; /* Ensures margin auto works for centering if needed */
-    width: 70%; /* Make the image take up a percentage of its container's width */
-    max-width: 400px; /* Set a maximum pixel width it shouldn't exceed on large screens */
-    height: auto; /* CRUCIAL: Maintains the aspect ratio of the image */
-    margin-top: 20px; /* Adjust spacing as needed */
-    margin-bottom: 15px; /* Add some space below */
-    margin-left: auto; /* Center the image within its container */
-    margin-right: auto; /* Center the image */
+    display: block;
+    width: 70%;
+    max-width: 400px;
+    height: auto;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
     border-radius: 4px;
     border: 1px solid #4a5c74; /* Slightly thinner border maybe */
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
@@ -220,14 +220,14 @@ p {
 }
 
 #steam-link {
-    background-color: #101d2f; /* Dark blue for Steam link */
+    background-color: #101d2f;
     color: #66c0f4;
     cursor: pointer;
     border: 1px solid #66c0f4;
 }
 
 #share-button {
-    background-color: #5c7e10; /* Steam green */
+    background-color: #5c7e10;
     color: white;
     border: none;
     cursor: pointer;
@@ -242,18 +242,16 @@ p {
 }
 
 #steam-logo-header {
-    height: 50px; /* Adjust height as needed. Width will scale automatically if SVG/PNG aspect is maintained */
-    /* width: 40px; */ /* You can set width instead, or both if not an SVG that scales well */
-    vertical-align: middle; /* Helps with inline alignment, though flexbox align-items is primary */
+    height: 50px;
+    vertical-align: middle;
 }
 
 /* Adjust existing h1 style if needed, or keep as is */
-.container h1 { /* Made selector more specific in case of other h1s */
+.container h1 {
     color: #66c0f4;
     margin-top: 0;
     margin-bottom: 0; /* Remove bottom margin since .title-container handles it */
-    font-size: 2.5em; /* Keep or adjust */
-    /* No need for text-align: center; here if .title-container handles centering */
+    font-size: 2.5em;
 }
 .review-item-wrapper.review-error-item .review-image-error { /* Style for when scraping fails for a clue */
     margin-top: 10px;
@@ -268,11 +266,11 @@ p {
 
 
 .steam-review-card {
-    background-color: #1e2d40; /* Slightly lighter dark blue-grey from screenshot */
-    color: #8f98a0; /* Default text color inside card - slightly dimmer */
+    background-color: #1e2d40;
+    color: #8f98a0;
     padding: 12px; /* Adjust padding */
     border-radius: 2px;
-    /* border: 1px solid #111923; */ /* Very dark border, almost black */
+    /* border: 1px solid #111923; */
     box-shadow: 0 0 3px rgba(0,0,0,0.4);
     text-align: left;
     font-size: 13px;
@@ -297,23 +295,23 @@ p {
 }
 
 .reviewer-name {
-    color: #c7d5e0; /* Brighter name color */
+    color: #c7d5e0;
     font-weight: normal;
     font-size: 18px;
 }
 
 .review-recommendation {
-    display: flex; /* Use flexbox to align thumb and text block */
-    align-items: center; /* Align items to the top */
-    background-color: rgba( 38, 54, 79, 0.5 ); /* Semi-transparent darker background */
+    display: flex;
+    align-items: center;
+    background-color: rgba( 38, 54, 79, 0.5 );
     padding: 0px;
     border-radius: 0px;
     margin-bottom: 0px;
 }
 
 .recommendation-icon {
-    width: 44px; /* Adjust size to match target screenshot */
-    height: 44px; /* Adjust size */
+    width: 44px;
+    height: 44px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
@@ -329,10 +327,8 @@ p {
 .review-recommendation.not-recommended .recommendation-icon {
     background-image: url('/images/thumb-down.png');
 }
-/* Add a placeholder if no recommendation? Optional */
 .review-recommendation:not(.recommended):not(.not-recommended) .recommendation-icon {
-    /* Maybe a grey dot or different icon */
-    /* background-color: #555; border-radius: 50%; */
+    
 }
 
 .recommendation-details {
@@ -351,7 +347,7 @@ p {
 }
 
 .review-playtime {
-    font-size: 12px; /* Match Steam's slightly larger metadata size here */
+    font-size: 12px;
     color: #D6D7D8;
     margin-top: 0;
     margin-bottom: 1px; /* Remove bottom margin if it's the last item here */

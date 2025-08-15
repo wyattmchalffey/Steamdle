@@ -97,12 +97,12 @@ async function seedInitialData() {
             title: "Portal 2",
             steam_app_id: "620",
             reviews: [
-                "https://steamcommunity.com/id/Etra_/recommended/620/", // MAKE SURE THIS FILE EXISTS
-                "https://steamcommunity.com/profiles/76561198883403386/recommended/400/", // MAKE SURE THIS FILE EXISTS
-                "https://steamcommunity.com/profiles/76561198401838613/recommended/620/", // MAKE SURE THIS FILE EXISTS
-                "https://steamcommunity.com/id/possysillyboy/recommended/620/", // MAKE SURE THIS FILE EXISTS
-                "https://steamcommunity.com/profiles/76561199076991591/recommended/620/", // MAKE SURE THIS FILE EXISTS
-                "https://steamcommunity.com/id/hangover66st/recommended/620/"  // MAKE SURE THIS FILE EXISTS
+                "https://steamcommunity.com/id/Etra_/recommended/620/",
+                "https://steamcommunity.com/profiles/76561198883403386/recommended/400/",
+                "https://steamcommunity.com/profiles/76561198401838613/recommended/620/",
+                "https://steamcommunity.com/id/possysillyboy/recommended/620/",
+                "https://steamcommunity.com/profiles/76561199076991591/recommended/620/",
+                "https://steamcommunity.com/id/hangover66st/recommended/620/"
             ]
         },
         {
@@ -502,7 +502,7 @@ async function seedInitialData() {
             ]
         },
         {
-            title: "HELLDIVERS™ 2",
+            title: "HELLDIVERSï¿½ 2",
             steam_app_id: "553850",
             reviews: [
                 "https://steamcommunity.com/profiles/76561198880429065/recommended/553850/",
@@ -526,7 +526,7 @@ async function seedInitialData() {
             ]
         },
         {
-            title: "The Sims™ 4",
+            title: "The Simsï¿½ 4",
             steam_app_id: "1222670",
             reviews: [
                 "https://steamcommunity.com/profiles/76561199434648497/recommended/1222670/",
@@ -718,7 +718,7 @@ async function seedInitialData() {
             ]
         },
         {
-            title: "ARMORED CORE™ VI FIRES OF RUBICON™",
+            title: "ARMORED COREï¿½ VI FIRES OF RUBICONï¿½",
             steam_app_id: "1888160",
             reviews: [
                 "https://steamcommunity.com/profiles/76561198241257916/recommended/1888160/",
@@ -790,7 +790,7 @@ async function seedInitialData() {
             ]
         },
         {
-            title: "ACE COMBAT™ 7: SKIES UNKNOWN",
+            title: "ACE COMBATï¿½ 7: SKIES UNKNOWN",
             steam_app_id: "502500",
             reviews: [
                 "https://steamcommunity.com/id/SubwayEatThresh/recommended/502500/",
@@ -826,6 +826,126 @@ async function seedInitialData() {
             ]
         },
         {
+            title: "Poco",
+            steam_app_id: "3454610",
+            reviews: [
+                "https://steamcommunity.com/id/T10SOLITAIRE/recommended/3454610/",
+                "https://steamcommunity.com/id/lullaby-of-time/recommended/3454610/",
+                "https://steamcommunity.com/profiles/76561198327799680/recommended/3454610/",
+                "https://steamcommunity.com/profiles/76561199796244019/recommended/3454610/",
+                "https://steamcommunity.com/profiles/76561198426482832/recommended/3454610/",
+                "https://steamcommunity.com/id/PrincessKara/recommended/3454610/"
+            ]
+        },
+        {
+            title: "Limbus Company",
+            steam_app_id: "1973530",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561199231176078/recommended/1973530/",
+                "https://steamcommunity.com/profiles/76561198198701690/recommended/1973530/",
+                "https://steamcommunity.com/id/Tsuttan/recommended/1973530/",
+                "https://steamcommunity.com/profiles/76561198834855056/recommended/1973530/",
+                "https://steamcommunity.com/profiles/76561198198701690/recommended/1973530/",
+                "https://steamcommunity.com/profiles/76561199083033455/recommended/1973530/"
+            ]
+        },
+        {
+            title: "Stray",
+            steam_app_id: "1332010",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198386518711/recommended/1332010/",
+                "https://steamcommunity.com/id/daizbid/recommended/1332010/",
+                "https://steamcommunity.com/id/roastytoasty/recommended/1332010/",
+                "https://steamcommunity.com/id/zeusbuilt/recommended/1332010/",
+                "https://steamcommunity.com/id/TheSindarianKing/recommended/1332010/",
+                "https://steamcommunity.com/id/IsonDaya/recommended/1332010/"
+            ]
+        },
+        {
+            title: "REMNANT II",
+            steam_app_id: "1282100",
+            reviews: [
+                "https://steamcommunity.com/id/ForceInept/recommended/1282100/",
+                "https://steamcommunity.com/profiles/76561198344876684/recommended/1282100/",
+                "https://steamcommunity.com/profiles/76561197998371036/recommended/1282100/",
+                "https://steamcommunity.com/id/raudrick/recommended/1282100/",
+                "https://steamcommunity.com/profiles/76561198132595581/recommended/1282100/",
+                "https://steamcommunity.com/id/gentleb/recommended/1282100/"
+            ]
+        },
+        {
+            title: "Phasmophobia",
+            steam_app_id: "739630",
+            reviews: [
+                "https://steamcommunity.com/id/TylerPark/recommended/739630/",
+                "https://steamcommunity.com/id/givemegamespls/recommended/739630/",
+                "https://steamcommunity.com/id/kwytz_/recommended/739630/",
+                "https://steamcommunity.com/id/Mogul162/recommended/739630/",
+                "https://steamcommunity.com/profiles/76561198155350524/recommended/739630/",
+                "https://steamcommunity.com/id/WitchPa1ace/recommended/739630/"
+            ]
+        },
+        {
+            title: "Content Warning",
+            steam_app_id: "2881650",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561198377109887/recommended/2881650/",
+                "https://steamcommunity.com/id/wlr757/recommended/2881650/",
+                "https://steamcommunity.com/profiles/76561199020970251/recommended/2881650/",
+                "https://steamcommunity.com/profiles/76561199072613057/recommended/2881650/",
+                "https://steamcommunity.com/id/Akuairopalette/recommended/2881650/",
+                "https://steamcommunity.com/profiles/76561198209194904/recommended/2881650/"
+            ]
+        },
+        {
+            title: "BELOW",
+            steam_app_id: "250680",
+            reviews: [
+                "https://steamcommunity.com/id/Dikie13ingo/recommended/250680/",
+                "https://steamcommunity.com/profiles/76561198799958481/recommended/250680/",
+                "https://steamcommunity.com/profiles/76561199131435587/recommended/250680/",
+                "https://steamcommunity.com/profiles/76561198036754085/recommended/250680/",
+                "https://steamcommunity.com/id/YourKingMob/recommended/250680/",
+                "https://steamcommunity.com/id/imjezze/recommended/250680/"
+            ]
+        },
+        {
+            title: "NieR Replicantâ„¢ ver.1.22474487139...",
+            steam_app_id: "1113560",
+            reviews: [
+                "https://steamcommunity.com/id/GregorRisenwald/recommended/1113560/",
+                "https://steamcommunity.com/id/bartas4550/recommended/1113560/",
+                "https://steamcommunity.com/profiles/76561198051959783/recommended/1113560/",
+                "https://steamcommunity.com/id/XxHidanxX/recommended/1113560/",
+                "https://steamcommunity.com/profiles/76561198806214254/recommended/1113560/",
+                "https://steamcommunity.com/profiles/76561198859283781/recommended/1113560/"
+            ]
+        },
+        {
+            title: "LOCKDOWN Protocol",
+            steam_app_id: "2780980",
+            reviews: [
+                "https://steamcommunity.com/id/setzera/recommended/2780980/",
+                "https://steamcommunity.com/id/123456789810/recommended/2780980/",
+                "https://steamcommunity.com/profiles/76561199470353699/recommended/2780980/",
+                "https://steamcommunity.com/profiles/76561199176792153/recommended/2780980/",
+                "https://steamcommunity.com/profiles/76561198953717132/recommended/2780980/",
+                "https://steamcommunity.com/id/spellynelly/recommended/2780980/"
+            ]
+        },
+        {
+            title: "Guild Wars 2",
+            steam_app_id: "1284210",
+            reviews: [
+                "https://steamcommunity.com/profiles/76561197994051630/recommended/1284210/",
+                "https://steamcommunity.com/profiles/76561198410433055/recommended/1284210/",
+                "https://steamcommunity.com/profiles/76561198049436351/recommended/1284210/",
+                "https://steamcommunity.com/id/egssucks/recommended/1284210/",
+                "https://steamcommunity.com/id/XiiDraco/recommended/1284210/",
+                "https://steamcommunity.com/id/koozebane/recommended/1284210/"
+            ]
+        },
+                {
             title: "",
             steam_app_id: "",
             reviews: [
@@ -855,9 +975,6 @@ async function seedInitialData() {
 
     if (!gamesToSeed || gamesToSeed.length === 0) {
         console.warn("[SEED_WARN] 'gamesToSeed' array is empty. No data will be seeded or cleaned up.");
-        // Optionally, you might want to delete all existing games if gamesToSeed is empty.
-        // await new Promise((resolve, reject) => db.run("DELETE FROM games", err => err ? reject(err) : resolve()));
-        // console.log("[SEED_INFO] All games deleted as gamesToSeed was empty.");
         return;
     }
 
@@ -873,7 +990,7 @@ async function seedInitialData() {
 
     // 1. Process games in gamesToSeed (Upsert: Update existing, Insert new)
     for (const gameData of gamesToSeed) {
-        // console.log(`[SEED_INFO] Processing (Upsert): "${gameData.title}" (App ID: ${gameData.steam_app_id})`);
+        
 
         // Basic validation
         if (!gameData.title || !gameData.steam_app_id || !Array.isArray(gameData.reviews) || gameData.reviews.length === 0) {
@@ -915,7 +1032,7 @@ async function seedInitialData() {
                             console.error(`[SEED_DB_ERROR] Error inserting new game "${gameData.title}":`, err.message);
                             reject(err);
                         } else {
-                            // console.log(`[SEED_SUCCESS] Inserted new game "${gameData.title}", Game ID: ${this.lastID}`);
+                            
                             resolve(this.lastID);
                         }
                     });
@@ -924,7 +1041,6 @@ async function seedInitialData() {
             }
 
             // Insert current reviews for this game
-            // console.log(`[SEED_INFO] Inserting ${gameData.reviews.length} review URLs for Game ID ${gameId} ("${gameData.title}")`);
             for (let i = 0; i < gameData.reviews.length; i++) {
                 const reviewPageUrl = gameData.reviews[i];
                 if (!reviewPageUrl || typeof reviewPageUrl !== 'string' || !(reviewPageUrl.toLowerCase().startsWith('http://') || reviewPageUrl.toLowerCase().startsWith('https://'))) {
@@ -932,8 +1048,6 @@ async function seedInitialData() {
                     continue;
                 }
                 await new Promise((resolve_rev, reject_rev) => {
-                    // Using INSERT OR IGNORE because review_page_url is UNIQUE.
-                    // This mainly helps if somehow an old review wasn't deleted and a URL is identical.
                     db.run("INSERT OR IGNORE INTO game_reviews (game_id, review_page_url, clue_order) VALUES (?, ?, ?)",
                         [gameId, reviewPageUrl, i + 1], function (err_rev) { // Use function for this.changes
                             if (err_rev) {
@@ -943,7 +1057,6 @@ async function seedInitialData() {
                                 if (this.changes > 0) {
                                     console.log(`[SEED_SUCCESS] Inserted review URL ${i + 1} for Game ID ${gameId}.`);
                                 } else {
-                                    // This might happen if the URL somehow still existed and was identical (due to UNIQUE constraint)
                                     console.log(`[SEED_INFO] Review URL ${i + 1} ("${reviewPageUrl}") for Game ID ${gameId} was not inserted (possibly already exists and matched UNIQUE constraint).`);
                                 }
                                 resolve_rev();

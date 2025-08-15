@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- DOM Elements ---
+    // DOM Elements
     const reviewsContainer = document.getElementById('reviews-container');
     const loadingMessage = document.getElementById('loading-message');
     const guessInput = document.getElementById('guess-input');
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const shareButton = document.getElementById('share-button');
     const gameTitlesDatalist = document.getElementById('game-titles-list');
 
-    // --- Game State ---
+    // Game State
     let currentGame; // Will be fetched from backend { title, appId, reviews: [urls] }
     let currentReviewIndex;
     let guessesLeft;
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let shareGrid = []; 
     let autocompleteDebounceTimer;
 
-    // --- Helper Functions ---
+    // Helper Functions
     function normalizeString(str) {
         if (typeof str !== 'string') return '';
 
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return normalized; 
     }
 
-    // --- Autocomplete Logic ---
+    // Autocomplete Logic
     async function fetchAutocompleteSuggestions(searchTerm) {
         if (searchTerm.length < 2) { // Don't search for very short terms
             gameTitlesDatalist.innerHTML = '';
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function populateAutocompleteDatalist(suggestionsArray) {
-        gameTitlesDatalist.innerHTML = ''; // Clear previous options
+        gameTitlesDatalist.innerHTML = '';
         suggestionsArray.forEach(gameName => {
             const option = document.createElement('option');
             option.value = gameName;
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('/api/daily-game');
             if (!response.ok) {
-                const errorData = await response.json().catch(() => ({ error: "Failed to fetch daily game data." })); // Catch if response isn't JSON
+                const errorData = await response.json().catch(() => ({ error: "Failed to fetch daily game data." }));
                 throw new Error(errorData.error || `Server error: ${response.status}`);
             }
             currentGame = await response.json();
@@ -89,11 +89,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function initGame() {
         console.log("Frontend: Initializing game...");
-        if(loadingMessage) loadingMessage.classList.remove('hidden'); // Show loading message
+        if(loadingMessage) loadingMessage.classList.remove('hidden');
 
         const gameLoaded = await fetchDailyGame();
         
-        if(loadingMessage) loadingMessage.classList.add('hidden'); // Hide loading message
+        if(loadingMessage) loadingMessage.classList.add('hidden');
 
         if (!gameLoaded) {
             // Error message already displayed by fetchDailyGame
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isGameOver = false;
         shareGrid = [];
 
-        reviewsContainer.innerHTML = ''; // Clear any previous loading/error messages
+        reviewsContainer.innerHTML = '';
         previousGuessesList.innerHTML = '';
         guessesRemainingSpan.textContent = guessesLeft;
         
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         guessInput.placeholder = "Enter game title...";
         guessButton.disabled = false;
         
-        gameTitlesDatalist.innerHTML = ''; // Clear datalist initially
+        gameTitlesDatalist.innerHTML = '';
         
         displayNextReview();
         console.log("Frontend: Game initialized.");
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const reviewData = currentGame.reviews[currentReviewIndex]; // This is now an object
+        const reviewData = currentGame.reviews[currentReviewIndex];
         console.log(`Frontend: Displaying review clue ${currentReviewIndex + 1} data:`, reviewData);
 
         if (reviewData.error) {
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // --- Create HTML structure for the review ---
+        // Create HTML structure for the review
         const reviewWrapper = document.createElement('div');
         reviewWrapper.classList.add('review-item-wrapper');
 
@@ -166,42 +166,37 @@ document.addEventListener('DOMContentLoaded', () => {
         const reviewCard = document.createElement('div');
         reviewCard.classList.add('steam-review-card');
 
-        // --- Review Header Section ---
+        // Review Header Section
         const reviewHeader = document.createElement('div');
         reviewHeader.classList.add('review-header');
-        let headerHasContent = false; // Flag to track if we add anything
+        let headerHasContent = false;
 
         // Add Avatar if available
         if (reviewData.reviewerAvatarUrl) {
-            // *** START RESTORED CODE ***
             const avatarImg = document.createElement('img');
             avatarImg.src = reviewData.reviewerAvatarUrl;
-            avatarImg.alt = "Reviewer avatar"; // Keep alt simple
+            avatarImg.alt = "Reviewer avatar";
             avatarImg.classList.add('reviewer-avatar');
             reviewHeader.appendChild(avatarImg);
             headerHasContent = true;
-            // *** END RESTORED CODE ***
         }
 
         // Add Name if available (or use fallback)
-        // We'll create the span regardless and use the scraped name or "A Steam User"
         const reviewerNameSpan = document.createElement('span');
         reviewerNameSpan.classList.add('reviewer-name');
-        // *** START RESTORED CODE (modified slightly) ***
-        reviewerNameSpan.textContent = reviewData.reviewerName || "A Steam User"; // Use scraped name or default
+        reviewerNameSpan.textContent = reviewData.reviewerName || "A Steam User";
         reviewHeader.appendChild(reviewerNameSpan);
-        headerHasContent = true; // We are always adding at least the name span
-        // *** END RESTORED CODE ***
+        headerHasContent = true;
 
 
         // Append header to card ONLY if it has content
         if (headerHasContent) {
             reviewCard.appendChild(reviewHeader);
         }
-        // --- End Review Header Section ---
+        // End Review Header Section
 
 
-        // --- Recommendation Block Structure (Keep as before) ---
+        // Recommendation Block
         const recommendationDiv = document.createElement('div');
         recommendationDiv.classList.add('review-recommendation');
         const isRecommended = reviewData.recommendation && reviewData.recommendation.toLowerCase() === 'recommended';
@@ -233,9 +228,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (detailsDiv.hasChildNodes()) { recommendationDiv.appendChild(detailsDiv); }
         if (recommendationDiv.hasChildNodes()) { reviewCard.appendChild(recommendationDiv); }
-        // --- End Recommendation Block ---
+        // End Recommendation Block
 
-        // Date Posted (Keep as before)
+        // Date Posted
         if (reviewData.datePosted && reviewData.datePosted !== "Date not found") {
             const dateP = document.createElement('p');
             dateP.classList.add('review-date');
@@ -243,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
             reviewCard.appendChild(dateP);
         }
 
-        // Review Text (Keep as before)
+        // Review Text
         if (reviewData.reviewText && reviewData.reviewText !== "Could not load review text.") {
             const reviewTextP = document.createElement('p');
             reviewTextP.classList.add('review-text-content');
@@ -252,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
             reviewCard.appendChild(reviewTextP);
         }
 
-        // --- End Review Card Content ---
+        // End Review Card Content
 
         reviewWrapper.appendChild(reviewCard);
         reviewsContainer.appendChild(reviewWrapper);
@@ -265,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             window.scrollTo(0, document.body.scrollHeight);
         }, 50);
-    } // End of displayNextReview function
+    }
 
     function handleGuess() {
         console.log("[handleGuess] Function called.");
@@ -305,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
             guessesRemainingSpan.textContent = guessesLeft;
             
             const li = document.createElement('li');
-            li.textContent = guessedTitle; // Display the user's actual typed guess
+            li.textContent = guessedTitle;
             previousGuessesList.appendChild(li);
             
             currentReviewIndex++;
@@ -316,14 +311,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("[handleGuess] Displaying next review clue.");
                 displayNextReview();
             } else {
-                // This case (out of reviews but still guesses left) shouldn't happen if reviews.length is always 6
                 console.warn("[handleGuess] Ran out of review clues but still have guesses. Ending game as loss.");
                 endGame(false); 
             }
         }
-        guessInput.value = ''; // Clear input after guess
-        // gameTitlesDatalist.innerHTML = ''; // Optionally clear autocomplete suggestions
-        guessInput.focus(); // Keep focus on input for next guess
+        guessInput.value = '';
+        guessInput.focus();
     }
 
     function endGame(didWin) {
@@ -349,15 +342,13 @@ document.addEventListener('DOMContentLoaded', () => {
             gameImage.classList.add('hidden');
         }
 
-        // --- LOGIC FOR REVEALING ALL CLUES ON WIN OR LOSS ---
-        reviewsContainer.innerHTML = ''; // Clear current clues for a fresh render of all clues
+        // Reveal all clues
+        reviewsContainer.innerHTML = '';
 
-        currentGame.reviews.forEach((reviewData, index) => { // reviewData is the object from backend
-            // Determine if it's the scraped data object or just a URL string (if scraping failed on backend)
-            // For this version, we assume reviewData is always the scraped object from the backend
+        currentGame.reviews.forEach((reviewData, index) => {
 
             const clueWrapper = document.createElement('div');
-            clueWrapper.classList.add('review-item-wrapper', 'loaded'); // Mark as loaded immediately
+            clueWrapper.classList.add('review-item-wrapper', 'loaded');
 
             const clueNumberSpan = document.createElement('span');
             clueNumberSpan.classList.add('clue-number');
@@ -390,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 reviewerNameSpan.classList.add('reviewer-name');
                 reviewerNameSpan.textContent = reviewData.reviewerName || "A Steam User";
                 reviewHeader.appendChild(reviewerNameSpan);
-                headerHasContent = true; // Always has at least the name
+                headerHasContent = true;
 
                 if (headerHasContent) {
                     reviewCard.appendChild(reviewHeader);
@@ -445,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
             clueWrapper.appendChild(reviewCard);
             reviewsContainer.appendChild(clueWrapper);
         });
-        // --- END LOGIC FOR REVEALING ALL CLUES ---
+        // End reveal logic
 
 
         if (didWin) {
@@ -454,8 +445,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             winLoseText.textContent = "Game Over! Better luck next time.";
             gameOverMessageDiv.classList.add('lose');
-            // Note: The "reveal all clues" logic above already handles the loss case.
-            // If you wanted different behavior for loss vs. win reveals, you'd separate it.
         }
         shareButton.classList.remove('hidden');
         function scrollToPageBottom() {
