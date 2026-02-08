@@ -54,10 +54,10 @@
         </div>
 
         <div id="input-area">
-            <input type="text" id="guess-input" placeholder="Enter game title..." list="game-titles-list" disabled>
-            <datalist id="game-titles-list">
-                
-            </datalist>
+            <div id="autocomplete-wrapper">
+                <input type="text" id="guess-input" placeholder="Enter game title..." autocomplete="off" disabled>
+                <div id="autocomplete-dropdown" class="hidden"></div>
+            </div>
             <button id="guess-button" disabled>Guess</button>
         </div>
 

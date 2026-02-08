@@ -1,4 +1,5 @@
-﻿const express = require('express');
+﻿require('dotenv').config();
+const express = require('express');
 const cors = require('cors');
 const db = require('./db.js');
 const axios = require('axios');
@@ -13,6 +14,10 @@ const PORT = process.env.PORT || 3000;
 let steamAppsCache = [];
 let lastSteamAppsFetchTime = 0;
 const STEAM_APPS_CACHE_DURATION = 24 * 60 * 60 * 1000;
+let lastSteamAppsFetchFailTime = 0;
+const STEAM_APPS_RETRY_COOLDOWN = 5 * 60 * 1000; // 5 min cooldown after failed fetch
+
+const STEAM_API_KEY = process.env.STEAM_API_KEY || '';
 
 // --- Daily Game Cache ---
 let dailyGameCache = {
@@ -39,44 +44,86 @@ const NON_GAME_KEYWORDS = [
     'skin', 'wallpaper', 'trailer', 'key', 'server', 'dedicated server',
     'sdk', 'tool', 'editor', 'trial', 'vr edition'
 ];
+// Fetch all apps using IStoreService/GetAppList (paginated, requires API key)
+async function fetchViaStoreService() {
+    console.log("[STEAM_API_INFO] Using IStoreService/GetAppList/v1 (with API key)...");
+    let allApps = [];
+    let lastAppId = 0;
+    while (true) {
+        const url = `https://api.steampowered.com/IStoreService/GetAppList/v1/?key=${STEAM_API_KEY}&max_results=50000${lastAppId ? '&last_appid=' + lastAppId : ''}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`IStoreService API failed with status: ${response.status}`);
+        }
+        const data = await response.json();
+        const apps = data.response && data.response.apps;
+        if (!apps || apps.length === 0) break;
+        allApps = allApps.concat(apps);
+        if (!data.response.have_more_results) break;
+        lastAppId = data.response.last_appid;
+    }
+    return allApps.map(a => ({ name: a.name, appid: a.appid }));
+}
+
+// Fetch all apps using old ISteamApps/GetAppList (no key needed, deprecated)
+async function fetchViaLegacyEndpoint() {
+    console.log("[STEAM_API_INFO] Using legacy ISteamApps/GetAppList/v2 (no key)...");
+    const response = await fetch('https://api.steampowered.com/ISteamApps/GetAppList/v2/');
+    if (!response.ok) {
+        throw new Error(`Legacy Steam API request failed with status: ${response.status}`);
+    }
+    const data = await response.json();
+    if (data.applist && data.applist.apps) {
+        return data.applist.apps.map(a => ({ name: a.name, appid: a.appid }));
+    }
+    throw new Error("Legacy API returned unexpected data structure.");
+}
+
 async function fetchAndCacheSteamApps() {
     console.log("[STEAM_API_INFO] Attempting to fetch Steam app list for autocomplete...");
     try {
-        const response = await fetch('https://api.steampowered.com/ISteamApps/GetAppList/v2/');
-        if (!response.ok) {
-            throw new Error(`Steam API request failed with status: ${response.status}`);
-        }
-        const data = await response.json();
-        if (data.applist && data.applist.apps) {
-            let rawApps = data.applist.apps;
-            console.log(`[STEAM_API_INFO] Fetched ${rawApps.length} raw entries from Steam.`);
-
-            let processedApps = rawApps
-                .filter(app => {
-                    if (!app.name || app.name.trim() === "") return false;
-                    const lowerCaseName = app.name.toLowerCase();
-                    for (const keyword of NON_GAME_KEYWORDS) {
-                        if (lowerCaseName.includes(keyword)) return false;
-                    }
-                    return true;
-                })
-                .map(app => ({ name: app.name, appid: app.appid }));
-
-            const uniqueAppsByName = new Map();
-            processedApps.forEach(app => {
-                if (!uniqueAppsByName.has(app.name)) {
-                    uniqueAppsByName.set(app.name, app);
-                }
-            });
-            steamAppsCache = Array.from(uniqueAppsByName.values());
-            steamAppsCache.sort((a, b) => a.name.localeCompare(b.name));
-            lastSteamAppsFetchTime = Date.now();
-            console.log(`[STEAM_API_SUCCESS] Successfully filtered and cached ${steamAppsCache.length} Steam apps (objects).`);
+        let rawApps;
+        if (STEAM_API_KEY) {
+            rawApps = await fetchViaStoreService();
         } else {
-            console.error("[STEAM_API_ERROR] Steam API returned an unexpected data structure for app list.");
+            console.warn("[STEAM_API_WARN] No STEAM_API_KEY set. Trying legacy endpoint (deprecated, may fail).");
+            rawApps = await fetchViaLegacyEndpoint();
         }
+        console.log(`[STEAM_API_INFO] Fetched ${rawApps.length} raw entries from Steam.`);
+
+        let processedApps = rawApps
+            .filter(app => {
+                if (!app.name || app.name.trim() === "") return false;
+                const lowerCaseName = app.name.toLowerCase();
+                for (const keyword of NON_GAME_KEYWORDS) {
+                    if (lowerCaseName.includes(keyword)) return false;
+                }
+                return true;
+            });
+
+        const uniqueAppsByName = new Map();
+        processedApps.forEach(app => {
+            if (!uniqueAppsByName.has(app.name)) {
+                uniqueAppsByName.set(app.name, app);
+            }
+        });
+        steamAppsCache = Array.from(uniqueAppsByName.values());
+        steamAppsCache.sort((a, b) => a.name.localeCompare(b.name));
+        // Pre-compute normalized/lower names once at startup
+        steamAppsCache.forEach(app => {
+            app.lowerName = app.name.toLowerCase();
+            app.normalizedName = normalizeStringServer(app.name);
+        });
+        lastSteamAppsFetchTime = Date.now();
+        lastSteamAppsFetchFailTime = 0;
+        console.log(`[STEAM_API_SUCCESS] Successfully filtered and cached ${steamAppsCache.length} Steam apps (objects).`);
     } catch (error) {
+        lastSteamAppsFetchFailTime = Date.now();
         console.error("[STEAM_API_ERROR] Failed to fetch or process Steam app list:", error.message);
+        if (!STEAM_API_KEY) {
+            console.error("[STEAM_API_ERROR] The legacy endpoint may be down. Set STEAM_API_KEY env var to use the new IStoreService endpoint.");
+            console.error("[STEAM_API_ERROR] Get a free key at: https://steamcommunity.com/dev/apikey");
+        }
     }
 }
 
@@ -86,7 +133,9 @@ async function fetchAndCacheSteamApps() {
 // Autocomplete for game titles (Normalize search, filter normalized, display original)
 app.get('/api/search-steam-games', async (req, res) => {
     const currentTime = Date.now();
-    if (steamAppsCache.length === 0 || (currentTime - lastSteamAppsFetchTime > STEAM_APPS_CACHE_DURATION)) {
+    const cacheStale = steamAppsCache.length === 0 || (lastSteamAppsFetchTime > 0 && currentTime - lastSteamAppsFetchTime > STEAM_APPS_CACHE_DURATION);
+    const retryCooledDown = currentTime - lastSteamAppsFetchFailTime > STEAM_APPS_RETRY_COOLDOWN;
+    if (cacheStale && retryCooledDown) {
         console.log("[SERVER_INFO] Autocomplete cache is empty or stale. Re-fetching Steam apps...");
         await fetchAndCacheSteamApps();
     }
@@ -94,29 +143,59 @@ app.get('/api/search-steam-games', async (req, res) => {
     const searchTermRaw = req.query.term ? req.query.term.trim() : "";
     const limit = parseInt(req.query.limit, 10) || 15;
 
-    if (!searchTermRaw || searchTermRaw.length < 2) {
+    if (!searchTermRaw || searchTermRaw.length < 1) {
         return res.json([]);
     }
 
     const normalizedSearchTerm = normalizeStringServer(searchTermRaw);
+    const lowerSearchTerm = searchTermRaw.toLowerCase();
 
-    let suggestions = steamAppsCache
-        .map(app => ({
-            originalName: app.name,
-            normalizedName: normalizeStringServer(app.name)
-        }))
-        .filter(app => app.normalizedName.includes(normalizedSearchTerm))
-        .sort((a, b) => {
-            const aStartsWith = a.normalizedName.startsWith(normalizedSearchTerm);
-            const bStartsWith = b.normalizedName.startsWith(normalizedSearchTerm);
+    // Tiered scoring pass
+    let scored = [];
+    for (const app of steamAppsCache) {
+        let score = 0;
 
-            if (aStartsWith && !bStartsWith) return -1;
-            if (!aStartsWith && bStartsWith) return 1;
-            return a.normalizedName.localeCompare(b.normalizedName); // Then by normalized name
-        })
-        .slice(0, limit)
-        .map(app => app.originalName); // Return only the ORIGINAL names for display
+        if (app.normalizedName === normalizedSearchTerm) {
+            score = 100; // exact match
+        } else if (app.normalizedName.startsWith(normalizedSearchTerm)) {
+            score = 80; // prefix match
+        } else {
+            // Word-boundary match: check if any word in the name starts with the search term
+            const words = app.lowerName.split(/[\s\-:.,!?()\/]+/);
+            const wordBoundary = words.some(w => normalizeStringServer(w).startsWith(normalizedSearchTerm));
+            if (wordBoundary) {
+                score = 60;
+            } else if (app.normalizedName.includes(normalizedSearchTerm)) {
+                score = 40; // substring match
+            }
+        }
 
+        if (score > 0) {
+            scored.push({ name: app.name, score, len: app.name.length });
+        }
+    }
+
+    // If fewer than 3 results, try fuzzy subsequence matching
+    if (scored.length < 3 && normalizedSearchTerm.length >= 2) {
+        const existing = new Set(scored.map(s => s.name));
+        for (const app of steamAppsCache) {
+            if (existing.has(app.name)) continue;
+            // Check if search term chars appear in order in the name
+            let si = 0;
+            for (let ci = 0; ci < app.normalizedName.length && si < normalizedSearchTerm.length; ci++) {
+                if (app.normalizedName[ci] === normalizedSearchTerm[si]) si++;
+            }
+            if (si === normalizedSearchTerm.length) {
+                scored.push({ name: app.name, score: 20, len: app.name.length });
+                if (scored.length >= limit * 2) break; // don't scan everything
+            }
+        }
+    }
+
+    // Sort: higher score first, then shorter name first
+    scored.sort((a, b) => b.score - a.score || a.len - b.len);
+
+    const suggestions = scored.slice(0, limit).map(s => s.name);
     res.json(suggestions);
 });
 
@@ -278,9 +357,27 @@ async function scrapeSteamReview(reviewUrl) {
             if (tempName) reviewData.reviewerName = tempName;
         }
 
-        let avatarSrc = $('.profile_small_header_avatar .playerAvatar > img:last-child').attr('src');
+        // Steam uses <picture> elements; the actual avatar is the direct child
+        // <picture> of .playerAvatar (not the one inside .profile_avatar_frame).
+        // The <img> may have srcset instead of src.
+        let avatarSrc = null;
+        const avatarContainer = $('.profile_small_header_avatar .playerAvatar');
+        // Get the last <img> that is NOT inside .profile_avatar_frame
+        const avatarImgs = avatarContainer.find('> picture > img, > a > img, > img');
+        if (avatarImgs.length > 0) {
+            const lastImg = avatarImgs.last();
+            avatarSrc = lastImg.attr('src') || lastImg.attr('srcset');
+        }
+        // Fallback: try any img in playerAvatar
         if (!avatarSrc) {
-            avatarSrc = $('.profile_small_header_avatar .playerAvatar img').eq(1).attr('src');
+            const allImgs = avatarContainer.find('img');
+            for (let i = allImgs.length - 1; i >= 0; i--) {
+                const img = $(allImgs[i]);
+                // Skip images inside avatar frames
+                if (img.closest('.profile_avatar_frame').length > 0) continue;
+                avatarSrc = img.attr('src') || img.attr('srcset');
+                if (avatarSrc) break;
+            }
         }
         if (avatarSrc) reviewData.reviewerAvatarUrl = avatarSrc;
 

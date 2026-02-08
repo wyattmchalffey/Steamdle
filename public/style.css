@@ -90,7 +90,13 @@ p {
     display: flex;
     justify-content: center;
     gap: 10px;
-    align-items: center;
+    align-items: flex-start;
+}
+
+#autocomplete-wrapper {
+    position: relative;
+    flex-grow: 1;
+    max-width: 350px;
 }
 
 #guess-input {
@@ -100,8 +106,8 @@ p {
     background-color: #17212e;
     color: #c7d5e0;
     border-radius: 4px;
-    flex-grow: 1;
-    max-width: 350px;
+    width: 100%;
+    box-sizing: border-box;
 }
 #guess-input:focus {
     outline: none;
@@ -368,4 +374,86 @@ p {
     font-size: 14px; /* Slightly larger review text */
     padding-left: 10px; /* Indent review text */
     margin-top: 0;
+}
+
+/* --- Autocomplete Dropdown --- */
+#autocomplete-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #1a2736;
+    border: 1px solid #4b607c;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    max-height: 260px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+#autocomplete-dropdown::-webkit-scrollbar {
+    width: 8px;
+}
+#autocomplete-dropdown::-webkit-scrollbar-track {
+    background: #1a2736;
+    border-radius: 0 0 4px 0;
+}
+#autocomplete-dropdown::-webkit-scrollbar-thumb {
+    background-color: #4b607c;
+    border-radius: 4px;
+}
+#autocomplete-dropdown::-webkit-scrollbar-thumb:hover {
+    background-color: #66c0f4;
+}
+
+.autocomplete-item {
+    padding: 10px 14px;
+    cursor: pointer;
+    color: #c7d5e0;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(75, 96, 124, 0.3);
+    transition: background-color 0.1s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.active {
+    background-color: #2a3f5a;
+}
+
+.autocomplete-item .match-highlight {
+    color: #66c0f4;
+    font-weight: bold;
+}
+
+/* --- Mobile Responsive --- */
+@media (max-width: 600px) {
+    #input-area {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #autocomplete-wrapper {
+        max-width: 100%;
+    }
+
+    #guess-button {
+        width: 100%;
+    }
+
+    .autocomplete-item {
+        padding: 14px;
+        font-size: 16px;
+    }
+
+    #guess-input {
+        font-size: 16px; /* Prevents iOS zoom on focus */
+    }
 }

@@ -12,15 +12,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameImage = document.getElementById('game-image');
     const steamLink = document.getElementById('steam-link');
     const shareButton = document.getElementById('share-button');
-    const gameTitlesDatalist = document.getElementById('game-titles-list');
+    const autocompleteDropdown = document.getElementById('autocomplete-dropdown');
 
     // Game State
     let currentGame; // Will be fetched from backend { title, appId, reviews: [urls] }
     let currentReviewIndex;
     let guessesLeft;
     let isGameOver;
-    let shareGrid = []; 
+    let shareGrid = [];
     let autocompleteDebounceTimer;
+
+    // Autocomplete state
+    let activeDropdownIndex = -1;
+    let currentSuggestions = [];
+
+    // LRU Cache for autocomplete (max 50 entries)
+    const CACHE_MAX = 50;
+    const autocompleteCache = new Map();
+
+    function cachePut(key, value) {
+        if (autocompleteCache.has(key)) {
+            autocompleteCache.delete(key); // remove to re-insert at end
+        } else if (autocompleteCache.size >= CACHE_MAX) {
+            // Delete oldest entry (first key)
+            const firstKey = autocompleteCache.keys().next().value;
+            autocompleteCache.delete(firstKey);
+        }
+        autocompleteCache.set(key, value);
+    }
+
+    function cacheGet(key) {
+        if (!autocompleteCache.has(key)) return undefined;
+        const value = autocompleteCache.get(key);
+        // Move to end (most recently used)
+        autocompleteCache.delete(key);
+        autocompleteCache.set(key, value);
+        return value;
+    }
 
     // Helper Functions
     function normalizeString(str) {
@@ -30,37 +58,112 @@ document.addEventListener('DOMContentLoaded', () => {
 
         normalized = normalized.replace(/[^a-z0-9]/gi, '');
 
-        return normalized; 
+        return normalized;
     }
 
     // Autocomplete Logic
-    async function fetchAutocompleteSuggestions(searchTerm) {
-        if (searchTerm.length < 2) { // Don't search for very short terms
-            gameTitlesDatalist.innerHTML = '';
+    function highlightMatch(text, query) {
+        if (!query) return document.createTextNode(text);
+
+        const lowerText = text.toLowerCase();
+        const lowerQuery = query.toLowerCase();
+        const idx = lowerText.indexOf(lowerQuery);
+
+        if (idx === -1) return document.createTextNode(text);
+
+        const frag = document.createDocumentFragment();
+        if (idx > 0) {
+            frag.appendChild(document.createTextNode(text.substring(0, idx)));
+        }
+        const mark = document.createElement('span');
+        mark.className = 'match-highlight';
+        mark.textContent = text.substring(idx, idx + query.length);
+        frag.appendChild(mark);
+        if (idx + query.length < text.length) {
+            frag.appendChild(document.createTextNode(text.substring(idx + query.length)));
+        }
+        return frag;
+    }
+
+    function renderDropdown(suggestions, query) {
+        currentSuggestions = suggestions;
+        activeDropdownIndex = -1;
+        autocompleteDropdown.innerHTML = '';
+
+        if (suggestions.length === 0) {
+            autocompleteDropdown.classList.add('hidden');
             return;
         }
-        try {
-            const response = await fetch(`/api/search-steam-games?term=${encodeURIComponent(searchTerm)}&limit=10`);
-            if (!response.ok) {
-                console.error(`Autocomplete API request failed: ${response.status}`);
-                gameTitlesDatalist.innerHTML = '<option value="Error loading suggestions"></option>';
-                return;
-            }
-            const suggestions = await response.json();
-            populateAutocompleteDatalist(suggestions);
-        } catch (error) {
-            console.error("Failed to fetch autocomplete suggestions from backend:", error);
-            gameTitlesDatalist.innerHTML = '<option value="Suggestions unavailable"></option>';
+
+        suggestions.forEach((name, i) => {
+            const item = document.createElement('div');
+            item.className = 'autocomplete-item';
+            item.appendChild(highlightMatch(name, query));
+            item.addEventListener('mousedown', (e) => {
+                e.preventDefault(); // Prevent blur from firing before selection
+                selectSuggestion(name);
+            });
+            autocompleteDropdown.appendChild(item);
+        });
+
+        autocompleteDropdown.classList.remove('hidden');
+    }
+
+    function selectSuggestion(name) {
+        guessInput.value = name;
+        closeDropdown();
+        guessInput.focus();
+    }
+
+    function closeDropdown() {
+        autocompleteDropdown.classList.add('hidden');
+        autocompleteDropdown.innerHTML = '';
+        currentSuggestions = [];
+        activeDropdownIndex = -1;
+    }
+
+    function updateActiveItem() {
+        const items = autocompleteDropdown.querySelectorAll('.autocomplete-item');
+        items.forEach((el, i) => {
+            el.classList.toggle('active', i === activeDropdownIndex);
+        });
+        // Scroll active item into view
+        if (activeDropdownIndex >= 0 && items[activeDropdownIndex]) {
+            items[activeDropdownIndex].scrollIntoView({ block: 'nearest' });
         }
     }
 
-    function populateAutocompleteDatalist(suggestionsArray) {
-        gameTitlesDatalist.innerHTML = '';
-        suggestionsArray.forEach(gameName => {
-            const option = document.createElement('option');
-            option.value = gameName;
-            gameTitlesDatalist.appendChild(option);
-        });
+    async function fetchAutocompleteSuggestions(searchTerm) {
+        const trimmed = searchTerm.trim();
+        if (trimmed.length < 1) {
+            closeDropdown();
+            return;
+        }
+
+        // Check cache first
+        const cached = cacheGet(trimmed.toLowerCase());
+        if (cached !== undefined) {
+            renderDropdown(cached, trimmed);
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/search-steam-games?term=${encodeURIComponent(trimmed)}&limit=10`);
+            if (!response.ok) {
+                console.error(`Autocomplete API request failed: ${response.status}`);
+                closeDropdown();
+                return;
+            }
+            const suggestions = await response.json();
+            cachePut(trimmed.toLowerCase(), suggestions);
+            // Only render if input still matches (user may have typed more)
+            if (guessInput.value.trim().toLowerCase() === trimmed.toLowerCase()) {
+                renderDropdown(suggestions, trimmed);
+            }
+        } catch (error) {
+            console.error("Failed to fetch autocomplete suggestions from backend:", error);
+            closeDropdown();
+        }
     }
 
     // --- Game Initialization & Flow ---
@@ -92,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(loadingMessage) loadingMessage.classList.remove('hidden');
 
         const gameLoaded = await fetchDailyGame();
-        
+
         if(loadingMessage) loadingMessage.classList.add('hidden');
 
         if (!gameLoaded) {
@@ -108,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
         reviewsContainer.innerHTML = '';
         previousGuessesList.innerHTML = '';
         guessesRemainingSpan.textContent = guessesLeft;
-        
+
         gameOverMessageDiv.classList.add('hidden');
         gameOverMessageDiv.classList.remove('win', 'lose');
         winLoseText.textContent = '';
@@ -118,14 +221,14 @@ document.addEventListener('DOMContentLoaded', () => {
         steamLink.classList.add('hidden');
         steamLink.href = '#';
         shareButton.classList.add('hidden');
-        
+
         guessInput.value = '';
         guessInput.disabled = false;
         guessInput.placeholder = "Enter game title...";
         guessButton.disabled = false;
-        
-        gameTitlesDatalist.innerHTML = '';
-        
+
+        closeDropdown();
+
         displayNextReview();
         console.log("Frontend: Game initialized.");
     }
@@ -291,18 +394,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (normalizedGuessedTitle === normalizedCorrectTitle) {
             console.log("[handleGuess] Correct guess!");
-            shareGrid.push('🟩');
+            shareGrid.push('\u{1f7e9}');
             endGame(true);
         } else {
             console.log("[handleGuess] Incorrect guess.");
-            shareGrid.push('🟥'); // Using red square for incorrect, like Wordle
+            shareGrid.push('\u{1f7e5}'); // Using red square for incorrect, like Wordle
             guessesLeft--;
             guessesRemainingSpan.textContent = guessesLeft;
-            
+
             const li = document.createElement('li');
             li.textContent = guessedTitle;
             previousGuessesList.appendChild(li);
-            
+
             currentReviewIndex++;
             if (guessesLeft <= 0) {
                 console.log("[handleGuess] Out of guesses. Ending game as loss.");
@@ -312,10 +415,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 displayNextReview();
             } else {
                 console.warn("[handleGuess] Ran out of review clues but still have guesses. Ending game as loss.");
-                endGame(false); 
+                endGame(false);
             }
         }
         guessInput.value = '';
+        closeDropdown();
         guessInput.focus();
     }
 
@@ -324,6 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isGameOver = true;
         guessInput.disabled = true;
         guessButton.disabled = true;
+        closeDropdown();
 
         gameOverMessageDiv.classList.remove('hidden');
         correctGameTitleSpan.textContent = currentGame.title;
@@ -455,25 +560,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function generateShareText() {
-        let puzzleIdentifier = "Daily"; 
+        let puzzleIdentifier = "Daily";
         // If you implement a puzzle ID system from backend, use it here:
         // puzzleIdentifier = currentGame.puzzleId || "Daily";
-        
+
         const title = `Steamdle #${puzzleIdentifier} ${shareGrid.length}/${currentGame.reviews.length}`;
         const gridVisual = shareGrid.join('');
         // You'll need to host this game somewhere for the URL to be useful
         const gameUrl = window.location.origin; // Gets base URL like http://localhost:3000
-        
+
         return `${title}\n${gridVisual}\nPlay Steamdle: ${gameUrl}`;
     }
 
     // --- Event Listeners ---
     guessButton.addEventListener('click', handleGuess);
 
-    guessInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            event.preventDefault(); // Prevent default form submission if it were in a form
-            handleGuess();
+    guessInput.addEventListener('keydown', (event) => {
+        const dropdownVisible = !autocompleteDropdown.classList.contains('hidden');
+
+        if (event.key === 'ArrowDown') {
+            if (dropdownVisible && currentSuggestions.length > 0) {
+                event.preventDefault();
+                activeDropdownIndex = Math.min(activeDropdownIndex + 1, currentSuggestions.length - 1);
+                updateActiveItem();
+            }
+        } else if (event.key === 'ArrowUp') {
+            if (dropdownVisible && currentSuggestions.length > 0) {
+                event.preventDefault();
+                activeDropdownIndex = Math.max(activeDropdownIndex - 1, -1);
+                updateActiveItem();
+            }
+        } else if (event.key === 'Enter') {
+            event.preventDefault();
+            if (dropdownVisible && activeDropdownIndex >= 0 && currentSuggestions[activeDropdownIndex]) {
+                selectSuggestion(currentSuggestions[activeDropdownIndex]);
+            } else {
+                handleGuess();
+            }
+        } else if (event.key === 'Escape') {
+            if (dropdownVisible) {
+                event.preventDefault();
+                closeDropdown();
+            }
+        } else if (event.key === 'Tab') {
+            if (dropdownVisible && currentSuggestions.length > 0) {
+                event.preventDefault();
+                // Tab fills in the first (or active) suggestion
+                const idx = activeDropdownIndex >= 0 ? activeDropdownIndex : 0;
+                selectSuggestion(currentSuggestions[idx]);
+            }
         }
     });
 
@@ -482,7 +617,32 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTimeout(autocompleteDebounceTimer);
         autocompleteDebounceTimer = setTimeout(() => {
             fetchAutocompleteSuggestions(searchTerm);
-        }, 300); // Debounce API calls by 300ms
+        }, 150);
+    });
+
+    guessInput.addEventListener('focus', () => {
+        // Reopen dropdown if there are cached results for the current input
+        const trimmed = guessInput.value.trim();
+        if (trimmed.length >= 1 && !isGameOver) {
+            const cached = cacheGet(trimmed.toLowerCase());
+            if (cached && cached.length > 0) {
+                renderDropdown(cached, trimmed);
+            }
+        }
+    });
+
+    guessInput.addEventListener('blur', () => {
+        // Small delay to allow mousedown on dropdown items to fire first
+        setTimeout(() => {
+            closeDropdown();
+        }, 150);
+    });
+
+    // Close dropdown on outside click
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#autocomplete-wrapper')) {
+            closeDropdown();
+        }
     });
 
     shareButton.addEventListener('click', () => {
