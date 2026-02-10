@@ -164,6 +164,8 @@ async function fetchReviewPool(appId) {
 }
 
 // --- Review filtering ---
+const MAX_REVIEW_LENGTH = 1600; // Exclude super long reviews so clues stay readable
+
 function filterReviews(reviews, gameTitle) {
     // Build filter words from game title: full normalized title + individual words 4+ chars
     const normalizedTitle = gameTitle.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
@@ -176,6 +178,9 @@ function filterReviews(reviews, gameTitle) {
         // Source-aware minimum length
         const minLength = review._source === 'funny' ? 30 : 50;
         if (text.length < minLength) return false;
+
+        // Exclude super long reviews (essays, paste walls)
+        if (text.length > MAX_REVIEW_LENGTH) return false;
 
         // Check for game title mention (spoiler)
         const lowerText = text.toLowerCase().replace(/[^a-z0-9\s]/g, '');
