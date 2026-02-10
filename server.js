@@ -1,4 +1,4 @@
-﻿require('dotenv').config();
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const db = require('./db.js');
@@ -309,6 +309,8 @@ app.get('/api/daily-game', async (req, res) => {
         console.log(`[SERVER_INFO] Daily game: Game selected ID ${game.id}: "${game.title}". Fetching and scraping reviews...`);
 
         const fullGameDataWithReviews = await getAndScrapeReviewDataForGame(game);
+        fullGameDataWithReviews.puzzleDate = todayStr;
+        fullGameDataWithReviews.puzzleDateFormatted = format(new Date(), 'MMM d, yyyy');
 
         dailyGameCache = { date: todayStr, gameData: fullGameDataWithReviews };
         console.log(`[CACHE_UPDATE] Daily game data for ${todayStr} (Game: "${fullGameDataWithReviews.title || game.title}") cached.`);

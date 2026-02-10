@@ -7,24 +7,27 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-    <meta name="description" content="Steamdle: A daily puzzle game where you guess the Steam game based on its reviews. Test your game knowledge!">
-    <meta name="keywords" content="steamdle, steam, game, puzzle, wordle, guess, reviews, daily game">
+    <meta name="description" content="Can you guess the Steam game from its reviews? One new puzzle every day. 6 clues, 6 guesses. Free to play!">
+    <meta name="keywords" content="steamdle, steam, game, puzzle, wordle, guess, reviews, daily game, viral">
     <meta name="author" content="Wyatt McHalffey">
+    <meta name="theme-color" content="#1b2838">
 
-    <meta property="og:title" content="Steamdle - Guess the Game from Reviews!">
-    <meta property="og:description" content="Think you know Steam games? Try Steamdle! A daily puzzle where you guess the game based on a series of review clues.">
+    <meta property="og:title" content="Steamdle — Guess the game from Steam reviews">
+    <meta property="og:description" content="One puzzle per day. Read the reviews, guess the game. Can you get it in fewer than 6 clues?">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://steamdle.com/">
     <meta property="og:image" content="https://steamdle.com/images/steamdle-og-image.png">
-    <meta property="og:image:alt" content="Steamdle Game Logo or Gameplay Preview">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Steamdle — Daily puzzle: guess the Steam game from review clues">
     <meta property="og:site_name" content="Steamdle">
+    <meta property="og:locale" content="en_US">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Steamdle - Guess the Game from Reviews!">
-    <meta name="twitter:description" content="Think you know Steam games? Try Steamdle! A daily puzzle where you guess the game based on a series of review clues.">
+    <meta name="twitter:title" content="Steamdle — Guess the game from Steam reviews">
+    <meta name="twitter:description" content="One puzzle per day. Read the reviews, guess the game. Can you get it in fewer than 6 clues?">
     <meta name="twitter:image" content="https://steamdle.com/images/steamdle-og-image.png">
-    <meta name="twitter:image:alt" content="Steamdle Game Logo">
-    <meta name="twitter:creator" content="@YourPersonalTwitterHandle">
+    <meta name="twitter:image:alt" content="Steamdle — Daily puzzle: guess the Steam game from review clues">
 
 
 </head>
@@ -34,41 +37,53 @@
             <img src="/images/Steam-logo.png" alt="Steam Logo" id="steam-logo-header">
             <h1>Steamdle</h1>
         </div>
-        <p>
-            Guess the game based on the Steam review! You have 6 tries.
-            <br />Refreshes daily!
+        <p class="subtitle">
+            Guess the Steam game from its reviews. You get 6 clues — one per wrong guess.
+            <br /><span class="subtitle-hint">New puzzle every day at midnight UTC.</span>
         </p>
-        
 
-        <div id="reviews-container">
-            <!-- Review images will be dynamically added here -->
-            <p id="loading-message">Loading today's game...</p>
+        <div id="loading-state" class="loading-state">
+            <div class="loading-spinner" aria-hidden="true"></div>
+            <p id="loading-message">Loading today's puzzle…</p>
         </div>
+        <div id="load-error-state" class="load-error-state hidden">
+            <p class="review-image-error" id="load-error-message">Something went wrong.</p>
+            <button type="button" id="retry-load-button">Try again</button>
+        </div>
+        <div id="reviews-container"></div>
 
         <div id="game-over-message" class="hidden">
             <h2 id="win-lose-text"></h2>
+            <p id="result-stats" class="result-stats"></p>
             <p>The game was: <strong id="correct-game-title"></strong></p>
             <img id="game-image" src="" alt="Game Cover Art" class="hidden" />
             <a id="steam-link" href="#" target="_blank" class="hidden">View on Steam</a>
-            <button id="share-button" class="hidden">Share Results</button>
+            <div id="share-section" class="share-section hidden">
+                <p class="share-prompt">Share your result:</p>
+                <div class="share-buttons">
+                    <button id="share-button" type="button">Copy results</button>
+                    <a id="twitter-share-link" href="#" target="_blank" rel="noopener noreferrer" class="share-link-twitter">Share on X</a>
+                </div>
+            </div>
         </div>
+        <div id="toast" class="toast hidden" aria-live="polite">Copied!</div>
 
         <div id="input-area">
             <div id="autocomplete-wrapper">
-                <input type="text" id="guess-input" placeholder="Enter game title..." autocomplete="off" disabled>
-                <div id="autocomplete-dropdown" class="hidden"></div>
+                <input type="text" id="guess-input" placeholder="Enter game title (e.g. Portal 2)…" autocomplete="off" disabled aria-label="Guess the game" aria-describedby="guesses-remaining-desc">
+                <div id="autocomplete-dropdown" class="hidden" role="listbox" aria-label="Game suggestions"></div>
             </div>
-            <button id="guess-button" disabled>Guess</button>
+            <button id="guess-button" type="button" disabled aria-label="Submit guess">Guess</button>
         </div>
 
-        <div id="previous-guesses-container">
-            <h3>Previous Guesses:</h3>
-            <ul id="previous-guesses-list">
-                
-            </ul>
+        <div id="previous-guesses-container" class="hidden" aria-live="polite">
+            <h3>Wrong guesses</h3>
+            <ul id="previous-guesses-list"></ul>
         </div>
 
-        <p>Guesses Remaining: <span id="guesses-remaining">6</span></p>
+        <p id="guesses-remaining-desc">Guesses left: <span id="guesses-remaining" aria-live="polite">6</span></p>
+
+        <p id="credit" class="credit hidden">Designed and created by <a href="https://wyattmchalffey.com" target="_blank" rel="noopener noreferrer">Wyatt McHalffey</a></p>
     </div>
 
     <script src="script.js"></script>

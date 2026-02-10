@@ -12,10 +12,10 @@ body {
 }
 
 .container {
-    background-color: #2a3f5a;
+    background-color: #2a475e;
     padding: 25px 35px;
-    border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.3);
     text-align: center;
     width: 95%;
     max-width: 800px;
@@ -34,20 +34,137 @@ p {
     color: #acb2b8;
 }
 
+.subtitle {
+    margin-bottom: 20px;
+}
+
+.subtitle-hint {
+    font-size: 0.9em;
+    color: #8999a8;
+}
+
+.credit {
+    margin-top: 28px;
+    margin-bottom: 0;
+    font-size: 0.8rem;
+    color: #6d7a88;
+}
+
+.credit a {
+    color: #8f98a0;
+    text-decoration: none;
+}
+
+.credit a:hover {
+    color: #66c0f4;
+}
+
 #reviews-container {
     margin-top: 20px;
     margin-bottom: 25px;
     border: none;
-    padding: 0; 
-    min-height: 120px;
+    padding: 0;
+    min-height: 80px;
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
+.loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 28px 20px;
+    color: #a0b1c0;
+}
+
+.loading-state.hidden {
+    display: none !important;
+}
+
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #2a475e;
+    border-top-color: #66c0f4;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.confetti-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 9998;
+}
+
+.confetti-particle {
+    position: absolute;
+    top: -20px;
+    animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(50vh) translateX(40px) rotate(360deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) translateX(-30px) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .confetti-particle {
+        animation: none;
+        opacity: 0;
+    }
+}
+
+.load-error-state {
+    text-align: center;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.load-error-state.hidden {
+    display: none !important;
+}
+
+.load-error-state .review-image-error {
+    margin-bottom: 14px;
+}
+
+.load-error-state button {
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    background-color: #5c7e10;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.load-error-state button:hover {
+    opacity: 0.9;
+}
+
 #loading-message {
     color: #a0b1c0;
     font-style: italic;
+    margin: 0;
 }
 
 .review-item-wrapper {
@@ -64,6 +181,19 @@ p {
 .review-item-wrapper.loaded {
     opacity: 1;
     transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .review-item-wrapper {
+        transition: opacity 0.15s ease-out;
+        transform: none;
+    }
+    .review-item-wrapper.loaded {
+        transform: none;
+    }
+    .toast {
+        animation: none;
+    }
 }
 
 .clue-number {
@@ -134,6 +264,13 @@ p {
     background-color: #769d22;
 }
 
+#guess-button:focus-visible,
+#share-button:focus-visible,
+.share-link-twitter:focus-visible {
+    outline: 2px solid #66c0f4;
+    outline-offset: 2px;
+}
+
 #guess-button:disabled,
 #guess-input:disabled {
     background-color: #4a5866;
@@ -149,6 +286,11 @@ p {
     margin-top: 20px;
     text-align: left;
 }
+
+#previous-guesses-container.hidden {
+    display: none !important;
+}
+
 #previous-guesses-container h3 {
     color: #a0b1c0;
     font-size: 1.1em;
@@ -197,6 +339,78 @@ p {
 #game-over-message p { margin-bottom: 10px;}
 #game-over-message strong { color: #fff; font-weight: bold;}
 
+.result-stats {
+    font-size: 1em;
+    margin-bottom: 6px;
+    opacity: 0.95;
+}
+
+.share-section {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+}
+
+.share-section.hidden {
+    display: none !important;
+}
+
+.share-prompt {
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+.share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.share-link-twitter {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-size: 1em;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    transition: opacity 0.2s, background-color 0.2s;
+}
+
+.share-link-twitter:hover {
+    opacity: 0.9;
+    background-color: #222;
+}
+
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    background-color: #2a475e;
+    color: #c7d5e0;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    font-weight: 500;
+    z-index: 9999;
+    animation: toast-in 0.2s ease-out;
+}
+
+.toast.hidden {
+    display: none !important;
+}
+
+@keyframes toast-in {
+    from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
 #game-image {
     display: block;
     width: 70%;
@@ -211,7 +425,7 @@ p {
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
-#steam-link, #share-button {
+#steam-link {
     display: inline-block;
     margin-top: 15px;
     padding: 10px 18px;
@@ -221,7 +435,7 @@ p {
     font-weight: bold;
     transition: opacity 0.2s;
 }
-#steam-link:hover, #share-button:hover {
+#steam-link:hover {
     opacity: 0.85;
 }
 
@@ -233,10 +447,20 @@ p {
 }
 
 #share-button {
+    display: inline-block;
+    margin-top: 0;
+    padding: 10px 18px;
     background-color: #5c7e10;
     color: white;
     border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    font-weight: bold;
     cursor: pointer;
+    transition: opacity 0.2s;
+}
+#share-button:hover {
+    opacity: 0.9;
 }
 
 .title-container {
@@ -271,61 +495,77 @@ p {
 }
 
 
+/* --- Steam-style review card (matches store.steampowered.com review widget) --- */
 .steam-review-card {
-    background-color: #1e2d40;
+    background-color: #16202d;
     color: #8f98a0;
-    padding: 12px; /* Adjust padding */
-    border-radius: 2px;
-    /* border: 1px solid #111923; */
-    box-shadow: 0 0 3px rgba(0,0,0,0.4);
+    padding: 0;
+    border-radius: 0;
+    border: 1px solid #1b2838;
+    border-left-width: 4px;
+    border-left-style: solid;
+    border-left-color: #4a5568;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
     text-align: left;
     font-size: 13px;
     width: 100%;
-    max-width: 634px; /* Steam seems to use around this width */
+    max-width: 612px;
     box-sizing: border-box;
-    margin-left: auto; /* Center card if .review-item-wrapper is wider */
-    margin-right: auto; /* Center card */
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+}
+
+.steam-review-card.recommended {
+    border-left-color: #417a2b;
+}
+
+.steam-review-card.not-recommended {
+    border-left-color: #8b2e2e;
 }
 
 .review-header {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    padding: 12px 14px 10px;
+    margin-bottom: 0;
+    background-color: rgba(0,0,0,0.15);
 }
 
 .reviewer-avatar {
-    width: 44px; /* Steam avatar size */
-    height: 44px;
-    border-radius: 2px;
+    width: 32px;
+    height: 32px;
+    border-radius: 1px;
     margin-right: 10px;
+    flex-shrink: 0;
 }
 
 .reviewer-name {
     color: #c7d5e0;
     font-weight: normal;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .review-recommendation {
     display: flex;
     align-items: center;
-    background-color: rgba( 38, 54, 79, 0.5 );
-    padding: 0px;
-    border-radius: 0px;
-    margin-bottom: 0px;
+    background-color: #26354b;
+    padding: 8px 14px 10px;
+    border-radius: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid #1b2838;
 }
 
 .recommendation-icon {
-    width: 44px;
-    height: 44px;
-    background-size: contain;
+    width: 32px;
+    height: 32px;
+    background-size: 24px 24px;
     background-repeat: no-repeat;
     background-position: center center;
-    margin-right: 10px; /* Space between icon and text */
+    margin-right: 10px;
     flex-shrink: 0;
 }
 
-/* Apply specific icon based on class added by JS */
 .review-recommendation.recommended .recommendation-icon {
     background-image: url('/images/thumb-up.png');
 }
@@ -333,47 +573,49 @@ p {
 .review-recommendation.not-recommended .recommendation-icon {
     background-image: url('/images/thumb-down.png');
 }
+
 .review-recommendation:not(.recommended):not(.not-recommended) .recommendation-icon {
-    
+    background-color: rgba(255,255,255,0.06);
+    border-radius: 2px;
 }
 
 .recommendation-details {
     display: flex;
-    flex-direction: column; /* Stack text elements vertically */
+    flex-direction: column;
+    gap: 1px;
 }
 
 .recommendation-text {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: normal;
-    padding-top: 4px;
-
-    color: #D6D7D8;
+    color: #d6d7d8;
     font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
-    
 }
 
 .review-playtime {
-    font-size: 12px;
-    color: #D6D7D8;
-    margin-top: 0;
-    margin-bottom: 1px; /* Remove bottom margin if it's the last item here */
+    font-size: 11px;
+    color: #8f98a0;
+    margin: 0;
 }
 
 .review-date {
     font-size: 11px;
-    color: #a0a08b;
-    margin-bottom: 12px; /* Space below date before review text */
-    padding-left: 10px; /* Indent slightly like screenshot? */
+    color: #6d7883;
+    margin: 0;
+    padding: 8px 14px 6px;
+    background-color: #16202d;
 }
 
 .review-text-content {
     color: #acb2b8;
-    line-height: 1.6;
+    line-height: 1.5;
     white-space: pre-line;
     word-wrap: break-word;
-    font-size: 14px; /* Slightly larger review text */
-    padding-left: 10px; /* Indent review text */
-    margin-top: 0;
+    font-size: 13px;
+    margin: 0;
+    padding: 10px 14px 14px;
+    background-color: #16202d;
+    border-top: 1px solid #1b2838;
 }
 
 /* --- Autocomplete Dropdown --- */
