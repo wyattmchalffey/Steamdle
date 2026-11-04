@@ -43,15 +43,6 @@ p {
     color: #8999a8;
 }
 
-.play-stats-note {
-    margin-top: 1.5rem;
-    color: #a4b5c6;
-    font-size: 0.8rem;
-    line-height: 1.5;
-}
-.play-stats-note summary { cursor: pointer; }
-.play-stats-note p { max-width: 52ch; margin: 0.5rem auto; }
-
 .credit {
     margin-top: 28px;
     margin-bottom: 0;
