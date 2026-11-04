@@ -2,6 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const fs = require('fs');
 const axios = require('axios');
+const { promisify } = require('util');
 
 // --- Configuration for Database Path ---
 const isProduction = process.env.NODE_ENV === 'production';
@@ -108,51 +109,43 @@ const MECHANIC_KEYWORDS_MULTI = [
     'first person', 'top down', 'co-op'
 ];
 
-// --- Review pool fetching (funny + all) ---
+// --- Review pool fetching (funny + recently updated) ---
 async function fetchReviewPool(appId) {
-    const baseUrl = `https://store.steampowered.com/appreviews/${appId}?json=1&language=english&purchase_type=all&review_type=all`;
-    const headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-    };
-
-    let funnyReviews = [];
-    let allReviews = [];
-
-    // Fetch funny reviews first
-    try {
-        const funnyUrl = `${baseUrl}&filter=funny&num_per_page=50`;
-        const { data } = await axios.get(funnyUrl, { headers });
-        if (data && data.success === 1 && data.reviews) {
-            funnyReviews = data.reviews.map(r => ({ ...r, _source: 'funny' }));
-            console.log(`[REVIEW_POOL] Fetched ${funnyReviews.length} funny reviews for AppID ${appId}`);
+    async function fetchPage(source, filter, pageSize) {
+        const input = {
+            appid: Number(appId),
+            languages: ['english'],
+            purchase_type: 1, // Include Steam and non-Steam purchases.
+            filter,
+            num_per_page: pageSize
+        };
+        try {
+            const { data } = await axios.get('https://api.steampowered.com/IUserReviewsService/GetAppReviews/v1/', {
+                params: { input_json: JSON.stringify(input) },
+                timeout: 15000
+            });
+            if (!Array.isArray(data?.response?.reviews)) {
+                throw new Error('Steam did not return a review list');
+            }
+            return data.response.reviews
+                .filter(review => review?.recommendationid && review.author?.steamid && typeof review.review === 'string')
+                .map(review => ({ ...review, _source: source }));
+        } catch (error) {
+            console.warn(`[REVIEW_POOL] Failed to fetch ${source} reviews for AppID ${appId}: ${error.message}`);
+            return [];
         }
-    } catch (error) {
-        console.warn(`[REVIEW_POOL] Failed to fetch funny reviews for AppID ${appId}: ${error.message}. Continuing with all-only.`);
     }
 
-    // 300ms delay between calls
+    const funnyReviews = await fetchPage('funny', 3, 50);
     await new Promise(resolve => setTimeout(resolve, 300));
-
-    // Fetch all (helpfulness-sorted) reviews
-    try {
-        const allUrl = `${baseUrl}&filter=updated&num_per_page=100`;
-        const { data } = await axios.get(allUrl, { headers });
-        if (data && data.success === 1 && data.reviews) {
-            allReviews = data.reviews.map(r => ({ ...r, _source: 'all' }));
-            console.log(`[REVIEW_POOL] Fetched ${allReviews.length} all-sorted reviews for AppID ${appId}`);
-        }
-    } catch (error) {
-        console.error(`[REVIEW_POOL] Failed to fetch all reviews for AppID ${appId}: ${error.message}`);
-        // If both failed, return empty
-        if (funnyReviews.length === 0) return [];
-    }
+    const updatedReviews = await fetchPage('updated', 2, 100);
 
     // Deduplicate by recommendationid, preferring funny-sourced
     const seen = new Map();
     for (const review of funnyReviews) {
         seen.set(review.recommendationid, review);
     }
-    for (const review of allReviews) {
+    for (const review of updatedReviews) {
         if (!seen.has(review.recommendationid)) {
             seen.set(review.recommendationid, review);
         }
@@ -330,6 +323,32 @@ async function fetchReviewsFromSteamAPI(appId, gameTitle) {
     } catch (error) {
         console.error(`[STEAM_REVIEW_API_ERROR] Failed to fetch reviews for "${gameTitle}" (AppID: ${appId}):`, error.message);
         return [];
+    }
+}
+
+async function saveGameReviews(game, reviewUrls) {
+    // A separate connection keeps requests from reading uncommitted clue replacements.
+    const writer = await new Promise((resolve, reject) => {
+        const connection = new sqlite3.Database(DBSOURCE, err => err ? reject(err) : resolve(connection));
+    });
+    const run = promisify(writer.run.bind(writer));
+    const get = promisify(writer.get.bind(writer));
+    try {
+        await run("BEGIN IMMEDIATE");
+        const { id } = await get(
+            `INSERT INTO games (title, steam_app_id) VALUES (?, ?)
+             ON CONFLICT(title) DO UPDATE SET steam_app_id = excluded.steam_app_id
+             RETURNING id`, [game.title, game.steam_app_id]
+        );
+        await run("DELETE FROM game_reviews WHERE game_id = ?", [id]);
+        for (const [index, url] of reviewUrls.entries()) {
+            await run("INSERT INTO game_reviews (game_id, review_page_url, clue_order) VALUES (?, ?, ?)",
+                [id, url, index + 1]);
+        }
+        await run("COMMIT");
+    } finally {
+        // SQLite rolls back an uncommitted transaction when its connection closes.
+        await promisify(writer.close.bind(writer))();
     }
 }
 
@@ -789,12 +808,18 @@ async function seedInitialData() {
 
     // Get all current games from the database with their review counts
     const dbGames = await new Promise((resolve, reject) => {
-        db.all("SELECT id, title, steam_app_id FROM games", (err, rows) => {
+        db.all(`SELECT g.id, g.title, g.steam_app_id, COUNT(r.id) AS review_count,
+                       g.last_played_on = DATE('now') AS played_today
+                FROM games g LEFT JOIN game_reviews r ON r.game_id = g.id GROUP BY g.id`, (err, rows) => {
             err ? reject(err) : resolve(rows || []);
         });
     });
 
     const titlesToSeed = gamesToSeed.map(g => g.title);
+    const existingByTitle = new Map(dbGames.map(game => [game.title, game]));
+    // Repair today's puzzle first on startup, before the rest of the catalog.
+    gamesToSeed.sort((a, b) => (existingByTitle.get(b.title)?.played_today || 0)
+        - (existingByTitle.get(a.title)?.played_today || 0));
 
     // 1. Process games in gamesToSeed
     let apiCallCount = 0;
@@ -806,60 +831,9 @@ async function seedInitialData() {
         }
 
         try {
-            const existingGame = dbGames.find(g => g.title === gameData.title);
-            let gameId;
-
-            if (existingGame) {
-                gameId = existingGame.id;
-
-                // Update steam_app_id if different
-                if (existingGame.steam_app_id !== gameData.steam_app_id) {
-                    await new Promise((resolve, reject) => {
-                        db.run("UPDATE games SET steam_app_id = ? WHERE id = ?", [gameData.steam_app_id, gameId], function (err) {
-                            if (err) return reject(err);
-                            if (this.changes > 0) console.log(`[SEED_SUCCESS] Updated AppID for "${gameData.title}" to ${gameData.steam_app_id}.`);
-                            resolve();
-                        });
-                    });
-                }
-
-                // Check how many reviews exist for this game
-                const reviewCount = await new Promise((resolve, reject) => {
-                    db.get("SELECT COUNT(*) as count FROM game_reviews WHERE game_id = ?", [gameId], (err, row) => {
-                        err ? reject(err) : resolve(row ? row.count : 0);
-                    });
-                });
-
-                // FORCE_RESEED bypasses the "already has reviews" skip
-                if (!forceReseed && reviewCount >= 6) {
-                    console.log(`[SEED_INFO] Game "${gameData.title}" already has ${reviewCount} reviews. Skipping.`);
-                    continue;
-                }
-
-                if (forceReseed && reviewCount >= 6) {
-                    console.log(`[SEED_INFO] FORCE_RESEED: Re-fetching reviews for "${gameData.title}" (had ${reviewCount}).`);
-                } else {
-                    console.log(`[SEED_INFO] Game "${gameData.title}" has ${reviewCount} reviews (need 6). Will fetch new reviews.`);
-                }
-
-                // Delete existing reviews to re-fetch fresh set
-                await new Promise((resolve, reject) => {
-                    db.run("DELETE FROM game_reviews WHERE game_id = ?", [gameId], (err) => {
-                        err ? reject(err) : resolve();
-                    });
-                });
-            } else {
-                console.log(`[SEED_INFO] Game "${gameData.title}" is new. Inserting.`);
-                gameId = await new Promise((resolve, reject) => {
-                    db.run("INSERT INTO games (title, steam_app_id) VALUES (?, ?)", [gameData.title, gameData.steam_app_id], function (err) {
-                        if (err) {
-                            console.error(`[SEED_DB_ERROR] Error inserting new game "${gameData.title}":`, err.message);
-                            reject(err);
-                        } else {
-                            resolve(this.lastID);
-                        }
-                    });
-                });
+            const existingGame = existingByTitle.get(gameData.title);
+            if (!forceReseed && existingGame?.steam_app_id === gameData.steam_app_id && existingGame.review_count >= 6) {
+                continue;
             }
 
             // Get review URLs: manual override or auto-fetch from API
@@ -872,39 +846,18 @@ async function seedInitialData() {
                 if (apiCallCount > 0) {
                     await new Promise(resolve => setTimeout(resolve, 1500));
                 }
-                reviewUrls = await fetchReviewsFromSteamAPI(gameData.steam_app_id, gameData.title);
                 apiCallCount++;
+                reviewUrls = await fetchReviewsFromSteamAPI(gameData.steam_app_id, gameData.title);
             }
 
-            if (!reviewUrls || reviewUrls.length === 0) {
-                console.warn(`[SEED_WARN] No review URLs available for "${gameData.title}". Game will have no clues.`);
+            const validUrls = [...new Set(reviewUrls.filter(url => typeof url === 'string' && /^https:\/\/\S+$/i.test(url)))];
+            if (validUrls.length < 6) {
+                console.warn(`[SEED_WARN] Only ${validUrls.length} distinct review URLs for "${gameData.title}". Keeping existing clues.`);
                 continue;
             }
 
-            if (reviewUrls.length < 6) {
-                console.warn(`[SEED_WARN] Only ${reviewUrls.length} review URLs for "${gameData.title}" (expected 6).`);
-            }
-
-            // Insert reviews
-            for (let i = 0; i < reviewUrls.length; i++) {
-                const reviewPageUrl = reviewUrls[i];
-                if (!reviewPageUrl || typeof reviewPageUrl !== 'string' || !reviewPageUrl.toLowerCase().startsWith('https://')) {
-                    console.error(`[SEED_ERROR] Invalid review URL for "${gameData.title}", URL ${i + 1}: "${reviewPageUrl}". Skipping.`);
-                    continue;
-                }
-                await new Promise((resolve_rev, reject_rev) => {
-                    db.run("INSERT OR IGNORE INTO game_reviews (game_id, review_page_url, clue_order) VALUES (?, ?, ?)",
-                        [gameId, reviewPageUrl, i + 1], function (err_rev) {
-                            if (err_rev) {
-                                console.error(`[SEED_DB_ERROR] Error inserting review URL for Game ID ${gameId}:`, err_rev.message);
-                                reject_rev(err_rev);
-                            } else {
-                                resolve_rev();
-                            }
-                        });
-                });
-            }
-            console.log(`[SEED_SUCCESS] Inserted ${reviewUrls.length} reviews for "${gameData.title}".`);
+            await saveGameReviews(gameData, validUrls.slice(0, 6));
+            console.log(`[SEED_SUCCESS] Saved six reviews for "${gameData.title}".`);
         } catch (err) {
             console.error(`[SEED_EXCEPTION] During upsert for "${gameData.title || 'UNTITLED'}":`, err.message, err.stack);
         }
