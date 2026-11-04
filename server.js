@@ -4,6 +4,8 @@ const { buildSearchIndex, searchGames } = require('./game-search');
 const cors = require('cors');
 const db = require('./db.js');
 const { createDailyPuzzles, utcDay } = require('./daily-puzzles');
+const { createAnalytics } = require('./analytics');
+const { createStatsRoutes } = require('./stats-routes');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
@@ -24,6 +26,7 @@ const dailyPuzzles = createDailyPuzzles(db, scrapeSteamReview);
 let preparedThrough = null;
 
 // --- Middleware ---
+app.use(createStatsRoutes(createAnalytics(db)));
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));

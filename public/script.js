@@ -1,6 +1,8 @@
 import { decodeAttempts, guessError, MAX_GUESS_LENGTH, normalizeTitle } from './round.mjs';
 
 document.addEventListener('DOMContentLoaded', () => {
+    // A content blocker or an unavailable analytics module must not prevent playing.
+    const analytics = import('./analytics.mjs').then(module => module.createRoundAnalytics(window)).catch(() => null);
     // DOM Elements
     const reviewsContainer = document.getElementById('reviews-container');
     const loadingState = document.getElementById('loading-state');
@@ -451,6 +453,8 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch {
                 // Storage may be disabled. The round still works in this tab.
             }
+            const turns = attempts.map(attempt => attempt === null ? 'skip' : isCorrect(attempt) ? 'solve' : 'wrong');
+            void analytics.then(record => record?.(game.puzzleDate, turns));
             guessInput.value = '';
             closeDropdown();
             renderRound(true);
@@ -535,7 +539,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (guess === null) return '\u2b1c';
             return isCorrect(guess) ? '\u{1f7e9}' : '\u{1f7e5}';
         }).join('');
-        const gameUrl = window.location.origin;
+        const gameUrl = new URL('/', window.location.origin);
+        gameUrl.searchParams.set('utm_source', 'player_share');
 
         return `Steamdle #${puzzleId} ${score}\n\n${gridVisual}\n\nCan you guess today's game? Play at ${gameUrl}`;
     }
