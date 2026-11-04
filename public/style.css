@@ -248,7 +248,8 @@ p {
     color: #7a8b99;
 }
 
-#guess-button {
+#guess-button,
+#skip-button {
     padding: 12px 20px;
     font-size: 16px;
     background-color: #5c7e10;
@@ -260,11 +261,22 @@ p {
     font-weight: bold;
 }
 
+#skip-button {
+    color: #dbe8f1;
+    background: #263b4d;
+    box-shadow: inset 0 0 0 1px #7893a9;
+}
+
+#skip-button:hover:not(:disabled) {
+    background-color: #344e63;
+}
+
 #guess-button:hover:not(:disabled) {
     background-color: #769d22;
 }
 
 #guess-button:focus-visible,
+#skip-button:focus-visible,
 #share-button:focus-visible,
 .share-link-twitter:focus-visible {
     outline: 2px solid #66c0f4;
@@ -272,6 +284,7 @@ p {
 }
 
 #guess-button:disabled,
+#skip-button:disabled,
 #guess-input:disabled {
     background-color: #4a5866;
     cursor: not-allowed;
@@ -305,13 +318,17 @@ p {
 #previous-guesses-list li {
     padding: 8px 10px;
     background-color: #3a4e68;
-    color: #c0392b; /* Red for incorrect */
+    color: #f0f2f4;
     border: 1px solid #4b607c;
     border-left: 3px solid #e74c3c;
     border-radius: 3px;
     margin-bottom: 6px;
     font-size: 0.95em;
-    word-break: break-all;
+    overflow-wrap: anywhere;
+}
+
+#previous-guesses-list li.skipped {
+    border-left-color: #a3bccd;
 }
 
 .hidden {
@@ -388,6 +405,7 @@ p {
 }
 
 .toast {
+    pointer-events: none;
     position: fixed;
     bottom: 24px;
     left: 50%;
@@ -688,6 +706,11 @@ p {
 
     #guess-button {
         width: 100%;
+    }
+
+    #autocomplete-dropdown {
+        position: static;
+        box-sizing: border-box;
     }
 
     .autocomplete-item {

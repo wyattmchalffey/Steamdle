@@ -1,8 +1,9 @@
+import { decodeAttempts, guessError, MAX_GUESS_LENGTH, normalizeTitle } from './round.mjs';
+
 document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
     const reviewsContainer = document.getElementById('reviews-container');
     const loadingState = document.getElementById('loading-state');
-    const loadingMessage = document.getElementById('loading-message');
     const loadErrorState = document.getElementById('load-error-state');
     const loadErrorMessage = document.getElementById('load-error-message');
     const retryLoadButton = document.getElementById('retry-load-button');
@@ -10,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputArea = document.getElementById('input-area');
     const guessInput = document.getElementById('guess-input');
     const guessButton = document.getElementById('guess-button');
+    const skipButton = document.getElementById('skip-button');
     const previousGuessesList = document.getElementById('previous-guesses-list');
     const guessesRemainingDesc = document.getElementById('guesses-remaining-desc');
     const guessesRemainingSpan = document.getElementById('guesses-remaining');
@@ -27,11 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const autocompleteDropdown = document.getElementById('autocomplete-dropdown');
 
     // Game State
-    let currentGame; // Will be fetched from backend { title, appId, reviews: [urls] }
-    let currentReviewIndex;
-    let guessesLeft;
-    let isGameOver;
-    let shareGrid = [];
+    let currentGame;
+    let attempts = []; // Each turn is a guessed title, or null for a skip.
+    let isGameOver = false;
+    let loadingRound = false;
+    let loadedOnDate;
+    let rolloverTimer;
     let autocompleteDebounceTimer;
 
     // Autocomplete state
@@ -60,17 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         autocompleteCache.delete(key);
         autocompleteCache.set(key, value);
         return value;
-    }
-
-    // Helper Functions
-    function normalizeString(str) {
-        if (typeof str !== 'string') return '';
-
-        let normalized = str.toLowerCase();
-
-        normalized = normalized.replace(/[^a-z0-9]/gi, '');
-
-        return normalized;
     }
 
     // Autocomplete Logic
@@ -179,21 +171,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Game Initialization & Flow ---
-    async function fetchDailyGame() {
+    async function fetchDailyGame(canRetryDate = true) {
+        const startedOn = new Date().toISOString().slice(0, 10);
         try {
-            const response = await fetch('/api/daily-game');
+            const response = await fetch('/api/daily-game', { cache: 'no-store' });
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({ error: "Failed to fetch daily game data." }));
                 throw new Error(errorData.error || `Server error: ${response.status}`);
             }
             currentGame = await response.json();
-            if (!currentGame || !currentGame.title || !currentGame.reviews || currentGame.reviews.length === 0) {
+            if (!currentGame || !currentGame.title || !currentGame.puzzleDate || !currentGame.appId || !Array.isArray(currentGame.reviews) || currentGame.reviews.length === 0) {
                 throw new Error("Incomplete game data received from server.");
             }
-            console.log("Frontend: Received daily game data:", currentGame);
+            const nowDate = new Date().toISOString().slice(0, 10);
+            const serverTime = Date.parse(response.headers.get('Date'));
+            const serverDate = Number.isFinite(serverTime) ? new Date(serverTime).toISOString().slice(0, 10) : nowDate;
+            if (currentGame.puzzleDate !== serverDate || (startedOn !== nowDate && currentGame.puzzleDate === startedOn)) {
+                if (canRetryDate) return fetchDailyGame(false);
+                throw new Error("The next daily puzzle is being prepared.");
+            }
             return true;
         } catch (error) {
             console.error("Frontend: Error fetching daily game:", error.message);
+            currentGame = null;
             if (loadingState) loadingState.classList.add('hidden');
             if (loadErrorState && loadErrorMessage) {
                 loadErrorMessage.textContent = `${error.message} Try again or refresh the page.`;
@@ -206,67 +206,107 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function initGame() {
-        console.log("Frontend: Initializing game...");
-        if (loadingState) loadingState.classList.remove('hidden');
-        if (loadErrorState) loadErrorState.classList.add('hidden');
-
-        const gameLoaded = await fetchDailyGame();
-
-        if (loadingState) loadingState.classList.add('hidden');
-
-        if (!gameLoaded) {
-            return;
-        }
-
-        currentReviewIndex = 0;
-        guessesLeft = 6;
-        isGameOver = false;
-        shareGrid = [];
-
-        reviewsContainer.innerHTML = '';
-        previousGuessesList.innerHTML = '';
-        previousGuessesContainer.classList.add('hidden');
-        if (inputArea) inputArea.classList.remove('hidden');
-        if (guessesRemainingDesc) guessesRemainingDesc.classList.remove('hidden');
-        if (creditEl) creditEl.classList.add('hidden');
-        guessesRemainingSpan.textContent = guessesLeft;
-
-        gameOverMessageDiv.classList.add('hidden');
-        gameOverMessageDiv.classList.remove('win', 'lose');
-        winLoseText.textContent = '';
-        correctGameTitleSpan.textContent = '';
-        gameImage.classList.add('hidden');
-        gameImage.src = '';
-        steamLink.classList.add('hidden');
-        steamLink.href = '#';
-        shareSection.classList.add('hidden');
-
-        guessInput.value = '';
-        guessInput.disabled = false;
-        guessInput.placeholder = "Enter game title...";
-        guessButton.disabled = false;
-
-        closeDropdown();
-
-        displayNextReview();
-        console.log("Frontend: Game initialized.");
+    function progressKey() {
+        return `steamdle.round.v1.${currentGame.puzzleDate}.${currentGame.appId}`;
     }
 
-    function displayNextReview() {
-        if (isGameOver || !currentGame || currentReviewIndex >= currentGame.reviews.length) {
-            return;
+    function isCorrect(guess) {
+        return guess !== null && normalizeTitle(guess) === normalizeTitle(currentGame.title);
+    }
+
+    function readAttempts() {
+        try {
+            const saved = JSON.parse(localStorage.getItem(progressKey()));
+            return decodeAttempts(saved, currentGame.title, currentGame.reviews.length);
+        } catch {
+            return [];
+        }
+    }
+
+    function syncProgress() {
+        if (!currentGame) return false;
+        const saved = readAttempts();
+        if (saved.length <= attempts.length) return false;
+        attempts = saved;
+        renderRound();
+        return true;
+    }
+
+    function checkForNewDay() {
+        if (!currentGame || loadedOnDate === new Date().toISOString().slice(0, 10)) return false;
+        initGame();
+        return true;
+    }
+
+    async function initGame() {
+        if (loadingRound) return;
+        loadingRound = true;
+        currentGame = null;
+        clearTimeout(rolloverTimer);
+        closeDropdown();
+        loadingState.classList.remove('hidden');
+        loadErrorState.classList.add('hidden');
+        inputArea.classList.add('hidden');
+        guessesRemainingDesc.classList.add('hidden');
+        previousGuessesContainer.classList.add('hidden');
+        gameOverMessageDiv.classList.add('hidden');
+        gameOverMessageDiv.classList.remove('win', 'lose');
+        creditEl.classList.add('hidden');
+        reviewsContainer.replaceChildren();
+
+        const gameLoaded = await fetchDailyGame();
+        loadingRound = false;
+        loadingState.classList.add('hidden');
+        if (!gameLoaded) return;
+
+        const now = new Date();
+        loadedOnDate = now.toISOString().slice(0, 10);
+        const midnight = new Date(now);
+        midnight.setUTCHours(24, 0, 0, 0);
+        rolloverTimer = setTimeout(initGame, midnight - now);
+        attempts = readAttempts();
+        guessInput.value = '';
+        guessInput.maxLength = MAX_GUESS_LENGTH;
+        guessInput.placeholder = "Enter game title...";
+        renderRound();
+    }
+
+    function renderRound(interactive = false) {
+        const total = currentGame.reviews.length;
+        const won = attempts.some(isCorrect);
+        const remaining = total - attempts.length;
+        isGameOver = won || remaining === 0;
+        const visibleClues = isGameOver ? total : attempts.length + 1;
+        for (let i = reviewsContainer.childElementCount; i < visibleClues; i++) {
+            appendReview(i, interactive && !isGameOver);
         }
 
-        const reviewData = currentGame.reviews[currentReviewIndex];
-        console.log(`Frontend: Displaying review clue ${currentReviewIndex + 1} data:`, reviewData);
+        previousGuessesList.replaceChildren();
+        for (const guess of attempts) {
+            if (isCorrect(guess)) continue;
+            const item = document.createElement('li');
+            item.textContent = guess === null ? 'Skipped' : guess;
+            if (guess === null) item.classList.add('skipped');
+            previousGuessesList.appendChild(item);
+        }
+        previousGuessesContainer.classList.toggle('hidden', !previousGuessesList.childElementCount);
+        guessesRemainingSpan.textContent = remaining;
+        guessInput.disabled = guessButton.disabled = skipButton.disabled = isGameOver;
+        inputArea.classList.toggle('hidden', isGameOver);
+        guessesRemainingDesc.classList.toggle('hidden', isGameOver);
+        skipButton.textContent = remaining === 1 ? 'Skip and reveal answer' : 'Skip for next clue';
 
+        if (isGameOver) endGame(won, interactive);
+    }
+
+    function appendReview(index, animate) {
+        const reviewData = currentGame.reviews[index];
         if (reviewData.error) {
             // Handle cases where scraping failed for this specific review
             const errorWrapper = document.createElement('div');
             errorWrapper.classList.add('review-item-wrapper', 'loaded', 'review-error-item');
             errorWrapper.innerHTML = `
-            <span class="clue-number">Clue ${currentReviewIndex + 1} of ${currentGame.reviews.length}:</span>
+            <span class="clue-number">Clue ${index + 1} of ${currentGame.reviews.length}:</span>
             <p class="review-image-error">Oops! Could not load this review clue. '${reviewData.message}'</p>
             <p class="review-source-url-error">(Source: ${reviewData.originalUrl || 'N/A'})</p>
         `;
@@ -282,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clue Number
         const clueNumberSpan = document.createElement('span');
         clueNumberSpan.classList.add('clue-number');
-        clueNumberSpan.textContent = `Clue ${currentReviewIndex + 1} of ${currentGame.reviews.length}:`;
+        clueNumberSpan.textContent = `Clue ${index + 1} of ${currentGame.reviews.length}:`;
         reviewWrapper.appendChild(clueNumberSpan);
 
         // Main review card div (add recommendation state to card for left border styling)
@@ -376,85 +416,58 @@ document.addEventListener('DOMContentLoaded', () => {
         reviewWrapper.appendChild(reviewCard);
         reviewsContainer.appendChild(reviewWrapper);
 
-        // Animation trigger
-        setTimeout(() => {
+        if (animate) {
+            requestAnimationFrame(() => reviewWrapper.classList.add('loaded'));
+            setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 50);
+        } else {
             reviewWrapper.classList.add('loaded');
-        }, 10);
-
-        setTimeout(() => {
-            window.scrollTo(0, document.body.scrollHeight);
-        }, 50);
+        }
     }
 
     function handleGuess() {
-        console.log("[handleGuess] Function called.");
-        if (isGameOver || guessInput.disabled) {
-            console.log("[handleGuess] Condition met to ignore guess (game over or input disabled).");
-            return;
-        }
-
-        const guessedTitle = guessInput.value.trim();
-        console.log(`[handleGuess] Guessed title (raw): "${guessInput.value}", Trimmed: "${guessedTitle}"`);
-
-        if (!guessedTitle) {
-            showToast("Enter a game title to guess");
-            console.log("[handleGuess] No title entered.");
-            return;
-        }
-
-        if (!currentGame || !currentGame.title) {
-            console.error("[handleGuess_ERROR] Critical error: currentGame or currentGame.title is not defined!");
-            showToast("Game data missing — please refresh");
-            return;
-        }
-        console.log(`[handleGuess] Current game title for comparison: "${currentGame.title}"`);
-
-        const normalizedGuessedTitle = normalizeString(guessedTitle);
-        const normalizedCorrectTitle = normalizeString(currentGame.title);
-        console.log(`[handleGuess] Normalized guess: "${normalizedGuessedTitle}", Normalized correct: "${normalizedCorrectTitle}"`);
-
-        if (normalizedGuessedTitle === normalizedCorrectTitle) {
-            console.log("[handleGuess] Correct guess!");
-            shareGrid.push('\u{1f7e9}');
-            endGame(true);
-        } else {
-            console.log("[handleGuess] Incorrect guess.");
-            shareGrid.push('\u{1f7e5}'); // Using red square for incorrect, like Wordle
-            guessesLeft--;
-            guessesRemainingSpan.textContent = guessesLeft;
-
-            previousGuessesContainer.classList.remove('hidden');
-            const li = document.createElement('li');
-            li.textContent = guessedTitle;
-            previousGuessesList.appendChild(li);
-
-            currentReviewIndex++;
-            if (guessesLeft <= 0) {
-                console.log("[handleGuess] Out of guesses. Ending game as loss.");
-                endGame(false);
-            } else if (currentReviewIndex < currentGame.reviews.length) {
-                console.log("[handleGuess] Displaying next review clue.");
-                displayNextReview();
-            } else {
-                console.warn("[handleGuess] Ran out of review clues but still have guesses. Ending game as loss.");
-                endGame(false);
-            }
-        }
-        guessInput.value = '';
-        closeDropdown();
-        guessInput.focus();
+        takeTurn(guessInput.value.trim());
     }
 
-    function endGame(didWin) {
-        console.log(`[endGame] Game ended. Player ${didWin ? 'WON' : 'LOST'}.`);
-        isGameOver = true;
-        guessInput.disabled = true;
-        guessButton.disabled = true;
-        closeDropdown();
-        if (inputArea) inputArea.classList.add('hidden');
-        if (guessesRemainingDesc) guessesRemainingDesc.classList.add('hidden');
-        if (creditEl) creditEl.classList.remove('hidden');
+    function takeTurn(guess) {
+        if (!currentGame || isGameOver || checkForNewDay()) return;
+        const game = currentGame;
+        const turnNumber = attempts.length;
+        const submit = () => {
+            if (game !== currentGame || isGameOver || checkForNewDay()) return;
+            if (syncProgress() || attempts.length !== turnNumber) {
+                showToast('Your round was updated in another tab.');
+                return;
+            }
+            const error = guessError(guess, attempts);
+            if (error) {
+                showToast(error);
+                guessInput.select();
+                return;
+            }
 
+            attempts.push(guess);
+            try {
+                localStorage.setItem(progressKey(), JSON.stringify(attempts));
+            } catch {
+                // Storage may be disabled. The round still works in this tab.
+            }
+            guessInput.value = '';
+            closeDropdown();
+            renderRound(true);
+            if (!isGameOver) guessInput.focus();
+        };
+
+        // Two tabs can submit before either receives the other's storage event.
+        if (!navigator.locks) return submit();
+        navigator.locks.request(progressKey(), submit).catch(error => {
+            if (error.name === 'SecurityError') submit();
+            else showToast('Try that turn again.');
+        });
+    }
+
+    function endGame(didWin, interactive) {
+        closeDropdown();
+        creditEl.classList.remove('hidden');
         gameOverMessageDiv.classList.remove('hidden');
         correctGameTitleSpan.textContent = currentGame.title;
 
@@ -472,125 +485,21 @@ document.addEventListener('DOMContentLoaded', () => {
             gameImage.classList.add('hidden');
         }
 
-        // Reveal all clues
-        reviewsContainer.innerHTML = '';
-
-        currentGame.reviews.forEach((reviewData, index) => {
-
-            const clueWrapper = document.createElement('div');
-            clueWrapper.classList.add('review-item-wrapper', 'loaded');
-
-            const clueNumberSpan = document.createElement('span');
-            clueNumberSpan.classList.add('clue-number');
-            clueNumberSpan.textContent = `Clue ${index + 1} of ${currentGame.reviews.length}:`;
-            clueWrapper.appendChild(clueNumberSpan);
-
-            const reviewCard = document.createElement('div');
-            reviewCard.classList.add('steam-review-card');
-            const isRec = !reviewData.error && reviewData.recommendation && reviewData.recommendation.toLowerCase() === 'recommended';
-            const isNotRec = !reviewData.error && reviewData.recommendation && reviewData.recommendation.toLowerCase() === 'not recommended';
-            if (isRec) reviewCard.classList.add('recommended');
-            else if (isNotRec) reviewCard.classList.add('not-recommended');
-
-            // Handle cases where reviewData might be an error object from the scraper
-            if (reviewData.error) {
-                reviewCard.innerHTML = `
-                <p class="review-image-error">Oops! Could not load this review clue. '${reviewData.message}'</p>
-                <p class="review-source-url-error">(Source: ${reviewData.originalUrl || 'N/A'})</p>
-            `;
-            } else {
-                // Header: Avatar and Reviewer Name
-                const reviewHeader = document.createElement('div');
-                reviewHeader.classList.add('review-header');
-                let headerHasContent = false;
-                if (reviewData.reviewerAvatarUrl) {
-                    const avatarImg = document.createElement('img');
-                    avatarImg.src = reviewData.reviewerAvatarUrl;
-                    avatarImg.alt = "Reviewer avatar";
-                    avatarImg.classList.add('reviewer-avatar');
-                    reviewHeader.appendChild(avatarImg);
-                    headerHasContent = true;
-                }
-                const reviewerNameSpan = document.createElement('span');
-                reviewerNameSpan.classList.add('reviewer-name');
-                reviewerNameSpan.textContent = reviewData.reviewerName || "A Steam User";
-                reviewHeader.appendChild(reviewerNameSpan);
-                headerHasContent = true;
-
-                if (headerHasContent) {
-                    reviewCard.appendChild(reviewHeader);
-                }
-
-                // Recommendation Block
-                const recommendationDiv = document.createElement('div');
-                recommendationDiv.classList.add('review-recommendation');
-                if (isRec) recommendationDiv.classList.add('recommended');
-                else if (isNotRec) recommendationDiv.classList.add('not-recommended');
-
-                const iconDiv = document.createElement('div');
-                iconDiv.classList.add('recommendation-icon');
-                recommendationDiv.appendChild(iconDiv);
-
-                const detailsDiv = document.createElement('div');
-                detailsDiv.classList.add('recommendation-details');
-                if (reviewData.recommendation) {
-                    const recTextSpan = document.createElement('span');
-                    recTextSpan.classList.add('recommendation-text');
-                    recTextSpan.textContent = reviewData.recommendation;
-                    detailsDiv.appendChild(recTextSpan);
-                }
-                if (reviewData.playtime && reviewData.playtime !== "Playtime not shown") {
-                    const playtimeP = document.createElement('p');
-                    playtimeP.classList.add('review-playtime');
-                    playtimeP.textContent = reviewData.playtime;
-                    detailsDiv.appendChild(playtimeP);
-                }
-                if (detailsDiv.hasChildNodes()) recommendationDiv.appendChild(detailsDiv);
-                if (recommendationDiv.hasChildNodes()) reviewCard.appendChild(recommendationDiv);
-
-                // Date Posted
-                if (reviewData.datePosted && reviewData.datePosted !== "Date not found") {
-                    const dateP = document.createElement('p');
-                    dateP.classList.add('review-date');
-                    dateP.textContent = `Posted: ${reviewData.datePosted}`;
-                    reviewCard.appendChild(dateP);
-                }
-
-                // Review Text
-                if (reviewData.reviewText && reviewData.reviewText !== "Could not load review text.") {
-                    const reviewTextP = document.createElement('p');
-                    reviewTextP.classList.add('review-text-content');
-                    reviewTextP.style.whiteSpace = 'pre-line';
-                    reviewTextP.textContent = reviewData.reviewText;
-                    reviewCard.appendChild(reviewTextP);
-                }
-            }
-            clueWrapper.appendChild(reviewCard);
-            reviewsContainer.appendChild(clueWrapper);
-        });
-        // End reveal logic
-
-
         if (didWin) {
             winLoseText.textContent = "Congratulations! You guessed it!";
             gameOverMessageDiv.classList.add('win');
-            const cluesUsed = shareGrid.length;
+            const cluesUsed = attempts.length;
             resultStats.textContent = `You got it in ${cluesUsed} ${cluesUsed === 1 ? 'clue' : 'clues'}!`;
-            triggerConfetti();
+            if (interactive) triggerConfetti();
         } else {
             winLoseText.textContent = "Game Over! Better luck next time.";
             gameOverMessageDiv.classList.add('lose');
-            resultStats.textContent = "You used all 6 clues.";
+            resultStats.textContent = `You used all ${currentGame.reviews.length} clues.`;
         }
         shareSection.classList.remove('hidden');
         const shareText = generateShareText();
         twitterShareLink.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
-        setTimeout(() => { shareButton.focus(); }, 150);
-        function scrollToPageBottom() {
-            window.scrollTo(0, document.body.scrollHeight);
-            console.log("[endGame] Scrolled page to bottom after answer reveal.");
-        }
-        setTimeout(scrollToPageBottom, 100);
+        if (interactive) shareButton.focus();
     }
 
     function triggerConfetti() {
@@ -621,8 +530,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function generateShareText() {
         const puzzleId = (currentGame.puzzleDateFormatted || currentGame.puzzleDate || 'Daily').replace(/\s+/g, '');
-        const score = `${shareGrid.length}/${currentGame.reviews.length}`;
-        const gridVisual = shareGrid.join('');
+        const score = `${attempts.some(isCorrect) ? attempts.length : 'X'}/${currentGame.reviews.length}`;
+        const gridVisual = attempts.map(guess => {
+            if (guess === null) return '\u2b1c';
+            return isCorrect(guess) ? '\u{1f7e9}' : '\u{1f7e5}';
+        }).join('');
         const gameUrl = window.location.origin;
 
         return `Steamdle #${puzzleId} ${score}\n\n${gridVisual}\n\nCan you guess today's game? Play at ${gameUrl}`;
@@ -640,6 +552,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Event Listeners ---
     guessButton.addEventListener('click', handleGuess);
+    skipButton.addEventListener('click', () => takeTurn(null));
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) checkForNewDay();
+    });
+    window.addEventListener('storage', event => {
+        if (currentGame && event.key === progressKey()) syncProgress();
+    });
 
     guessInput.addEventListener('keydown', (event) => {
         const dropdownVisible = !autocompleteDropdown.classList.contains('hidden');

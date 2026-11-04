@@ -38,7 +38,7 @@
             <h1>Steamdle</h1>
         </div>
         <p class="subtitle">
-            Guess the Steam game from its reviews. You get 6 clues — one per wrong guess.
+            Guess the Steam game from its reviews. You get six tries, and skipping a clue uses one.
             <br /><span class="subtitle-hint">New puzzle every day at midnight UTC.</span>
         </p>
 
@@ -50,8 +50,6 @@
             <p class="review-image-error" id="load-error-message">Something went wrong.</p>
             <button type="button" id="retry-load-button">Try again</button>
         </div>
-        <div id="reviews-container"></div>
-
         <div id="game-over-message" class="hidden">
             <h2 id="win-lose-text"></h2>
             <p id="result-stats" class="result-stats"></p>
@@ -66,6 +64,7 @@
                 </div>
             </div>
         </div>
+        <div id="reviews-container"></div>
         <div id="toast" class="toast hidden" aria-live="polite">Copied!</div>
 
         <div id="input-area">
@@ -74,10 +73,11 @@
                 <div id="autocomplete-dropdown" class="hidden" role="listbox" aria-label="Game suggestions"></div>
             </div>
             <button id="guess-button" type="button" disabled aria-label="Submit guess">Guess</button>
+            <button id="skip-button" type="button" disabled aria-describedby="guesses-remaining-desc">Skip for next clue</button>
         </div>
 
         <div id="previous-guesses-container" class="hidden" aria-live="polite">
-            <h3>Wrong guesses</h3>
+            <h3>Previous turns</h3>
             <ul id="previous-guesses-list"></ul>
         </div>
 
@@ -86,6 +86,6 @@
         <p id="credit" class="credit hidden">Designed and created by <a href="https://wyattmchalffey.com" target="_blank" rel="noopener noreferrer">Wyatt McHalffey</a></p>
     </div>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
