@@ -79,8 +79,12 @@
 
         <div id="input-area">
             <div id="autocomplete-wrapper">
-                <input type="text" id="guess-input" placeholder="Enter game title (e.g. Portal 2)…" autocomplete="off" disabled aria-label="Guess the game" aria-describedby="guesses-remaining-desc">
+                <input type="text" id="guess-input" placeholder="Enter game title (e.g. Portal 2)…" autocomplete="off" disabled
+                    role="combobox" aria-label="Guess the game" aria-autocomplete="list" aria-controls="autocomplete-dropdown"
+                    aria-expanded="false" aria-describedby="autocomplete-hint guesses-remaining-desc">
                 <div id="autocomplete-dropdown" class="hidden" role="listbox" aria-label="Game suggestions"></div>
+                <span id="autocomplete-hint" class="visually-hidden">Use the arrow keys to browse suggestions and Enter to fill in a title.</span>
+                <span id="autocomplete-status" class="visually-hidden" role="status" aria-atomic="true"></span>
             </div>
             <button id="guess-button" type="button" disabled aria-label="Submit guess">Guess</button>
             <button id="skip-button" type="button" disabled aria-describedby="guesses-remaining-desc">Skip for next clue</button>

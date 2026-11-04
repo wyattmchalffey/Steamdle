@@ -1,4 +1,4 @@
-import { decodeAttempts, guessError, MAX_GUESS_LENGTH, normalizeTitle } from './round.mjs';
+import { canonicalGuess, decodeAttempts, guessError, MAX_GUESS_LENGTH, normalizeTitle } from './round.mjs';
 
 document.addEventListener('DOMContentLoaded', () => {
     // A content blocker or an unavailable analytics module must not prevent playing.
@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toastEl = document.getElementById('toast');
     const creditEl = document.getElementById('credit');
     const autocompleteDropdown = document.getElementById('autocomplete-dropdown');
+    const autocompleteStatus = document.getElementById('autocomplete-status');
 
     // Game State
     let currentGame;
@@ -52,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let displayedSearch = -1;
     let pickedSearch = -1;
     let typedQuery = '';
+    let suggestionsDismissed = false;
 
     function reportEvent(day, event, clue) {
         return analytics.then(record => record?.event?.(day, event, clue));
@@ -116,27 +118,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderDropdown(suggestions, query) {
+        closeDropdown();
         currentSuggestions = suggestions;
-        activeDropdownIndex = -1;
-        autocompleteDropdown.innerHTML = '';
+        autocompleteStatus.textContent = suggestions.length
+            ? `${suggestions.length} game suggestion${suggestions.length === 1 ? '' : 's'} available.`
+            : 'No game suggestions.';
 
-        if (suggestions.length === 0) {
-            autocompleteDropdown.classList.add('hidden');
-            return;
-        }
+        if (!suggestions.length) return;
 
-        suggestions.forEach((name, i) => {
+        suggestions.forEach(name => {
             const item = document.createElement('div');
             item.className = 'autocomplete-item';
+            item.id = 'game-option-' + encodeURIComponent(name);
+            item.setAttribute('role', 'option');
+            item.setAttribute('aria-selected', 'false');
             item.appendChild(highlightMatch(name, query));
-            item.addEventListener('mousedown', (e) => {
-                e.preventDefault(); // Prevent blur from firing before selection
-                selectSuggestion(name);
-            });
+            // Keep keyboard focus on the input. A tap or assistive click selects on release.
+            item.addEventListener('mousedown', event => event.preventDefault());
+            item.addEventListener('click', () => selectSuggestion(name));
             autocompleteDropdown.appendChild(item);
         });
 
         autocompleteDropdown.classList.remove('hidden');
+        guessInput.setAttribute('aria-expanded', 'true');
     }
 
     function selectSuggestion(name) {
@@ -145,11 +149,15 @@ document.addEventListener('DOMContentLoaded', () => {
             void reportEvent(currentGame.puzzleDate, 'search_pick');
         }
         guessInput.value = name;
-        closeDropdown();
         guessInput.focus();
+        suggestionsDismissed = true;
+        closeDropdown();
     }
 
     function closeDropdown() {
+        guessInput.removeAttribute('aria-activedescendant');
+        guessInput.setAttribute('aria-expanded', 'false');
+        autocompleteStatus.textContent = '';
         autocompleteDropdown.classList.add('hidden');
         autocompleteDropdown.innerHTML = '';
         currentSuggestions = [];
@@ -159,16 +167,22 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateActiveItem() {
         const items = autocompleteDropdown.querySelectorAll('.autocomplete-item');
         items.forEach((el, i) => {
-            el.classList.toggle('active', i === activeDropdownIndex);
+            const active = i === activeDropdownIndex;
+            el.classList.toggle('active', active);
+            el.setAttribute('aria-selected', String(active));
         });
         // Scroll active item into view
         if (activeDropdownIndex >= 0 && items[activeDropdownIndex]) {
-            items[activeDropdownIndex].scrollIntoView({ block: 'nearest' });
+            const active = items[activeDropdownIndex];
+            guessInput.setAttribute('aria-activedescendant', active.id);
+            active.scrollIntoView({ block: 'nearest' });
+        } else {
+            guessInput.removeAttribute('aria-activedescendant');
         }
     }
 
     function displaySearch(suggestions, term, sequence) {
-        if (!currentGame || isGameOver || document.hidden || document.activeElement !== guessInput ||
+        if (!currentGame || isGameOver || suggestionsDismissed || document.hidden || document.activeElement !== guessInput ||
             sequence !== searchSequence || term.toLowerCase() !== typedQuery ||
             guessInput.value.trim().toLowerCase() !== typedQuery) return;
         renderDropdown(suggestions, term);
@@ -490,7 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showToast('Your round was updated in another tab.');
                 return;
             }
-            const error = guessError(guess, attempts);
+            const error = guessError(guess, attempts, { aliases: game.guessAliases, answer: game.title });
             if (error) {
                 showToast(error);
                 guessInput.select();
@@ -498,7 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             reportVisibleOpening();
-            attempts.push(guess);
+            attempts.push(canonicalGuess(guess, game.guessAliases));
             try {
                 localStorage.setItem(progressKey(), JSON.stringify(attempts));
             } catch {
@@ -672,54 +686,55 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     guessInput.addEventListener('keydown', (event) => {
-        const dropdownVisible = !autocompleteDropdown.classList.contains('hidden');
+        if (event.isComposing || event.keyCode === 229 || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
 
-        if (event.key === 'ArrowDown') {
-            if (dropdownVisible && currentSuggestions.length > 0) {
-                event.preventDefault();
-                activeDropdownIndex = Math.min(activeDropdownIndex + 1, currentSuggestions.length - 1);
-                updateActiveItem();
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            if (!currentSuggestions.length && suggestionsDismissed) {
+                suggestionsDismissed = false;
+                const cached = cacheGet(typedQuery);
+                if (cached?.length) displaySearch(cached, guessInput.value.trim(), searchSequence);
             }
-        } else if (event.key === 'ArrowUp') {
-            if (dropdownVisible && currentSuggestions.length > 0) {
-                event.preventDefault();
-                activeDropdownIndex = Math.max(activeDropdownIndex - 1, -1);
-                updateActiveItem();
-            }
+            if (!currentSuggestions.length) return;
+            event.preventDefault();
+            const last = currentSuggestions.length - 1;
+            if (event.key === 'ArrowDown') activeDropdownIndex = Math.min(activeDropdownIndex + 1, last);
+            else activeDropdownIndex = activeDropdownIndex < 0 ? last : Math.max(0, activeDropdownIndex - 1);
+            updateActiveItem();
+        } else if (activeDropdownIndex >= 0 && ['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
+            // Native editing keys place the caret back in the input.
+            activeDropdownIndex = -1;
+            updateActiveItem();
         } else if (event.key === 'Enter') {
             event.preventDefault();
-            if (dropdownVisible && activeDropdownIndex >= 0 && currentSuggestions[activeDropdownIndex]) {
+            if (activeDropdownIndex >= 0) {
                 selectSuggestion(currentSuggestions[activeDropdownIndex]);
             } else {
                 handleGuess();
             }
         } else if (event.key === 'Escape') {
-            if (dropdownVisible) {
-                event.preventDefault();
-                closeDropdown();
-            }
-        } else if (event.key === 'Tab') {
-            if (dropdownVisible && currentSuggestions.length > 0) {
-                event.preventDefault();
-                // Tab fills in the first (or active) suggestion
-                const idx = activeDropdownIndex >= 0 ? activeDropdownIndex : 0;
-                selectSuggestion(currentSuggestions[idx]);
-            }
+            if (currentSuggestions.length) event.preventDefault();
+            suggestionsDismissed = true;
+            closeDropdown();
         }
     });
 
-    guessInput.addEventListener('input', () => {
+    function scheduleSearch(event) {
         const searchTerm = guessInput.value;
         const sequence = ++searchSequence;
         typedQuery = searchTerm.trim().toLowerCase();
+        suggestionsDismissed = false;
         closeDropdown();
         clearTimeout(autocompleteDebounceTimer);
+        if (event.isComposing || !typedQuery) return;
         autocompleteDebounceTimer = setTimeout(() => {
             fetchAutocompleteSuggestions(searchTerm, sequence);
         }, 150);
-    });
+    }
+    guessInput.addEventListener('input', scheduleSearch);
+    guessInput.addEventListener('compositionend', scheduleSearch);
 
     guessInput.addEventListener('focus', () => {
+        suggestionsDismissed = false;
         // Reopen dropdown if there are cached results for the current input
         const trimmed = guessInput.value.trim();
         if (trimmed.length >= 1 && !isGameOver) {
@@ -730,12 +745,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    guessInput.addEventListener('blur', () => {
-        // Small delay to allow mousedown on dropdown items to fire first
-        setTimeout(() => {
-            closeDropdown();
-        }, 150);
-    });
+    guessInput.addEventListener('blur', closeDropdown);
 
     // Close dropdown on outside click
     document.addEventListener('click', (e) => {

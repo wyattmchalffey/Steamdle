@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const { buildSearchIndex, searchGames } = require('./game-search');
+const { buildSearchIndex, buildGuessAliases, searchGames } = require('./game-search');
 const cors = require('cors');
 const db = require('./db.js');
 const { createDailyPuzzles, utcDay } = require('./daily-puzzles');
@@ -13,8 +13,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 
-// The playable catalog is ready before the optional Steam-wide list loads.
-let steamAppsCache = buildSearchIndex();
+// Autocomplete and submitted guesses must use the same version of the catalog.
+function buildSearchCatalog(steamApps) {
+    const entries = buildSearchIndex(steamApps);
+    return { entries, guessAliases: buildGuessAliases(entries) };
+}
+let searchCatalog = buildSearchCatalog();
 let refreshInProgress = false;
 let lastSteamAppsFetchTime = 0;
 let lastSteamAppsAttempt = 0;
@@ -63,7 +67,7 @@ function refreshSteamAppsIfNeeded() {
     refreshInProgress = true;
     lastSteamAppsAttempt = now;
     fetchViaStoreService().then(apps => {
-        steamAppsCache = buildSearchIndex(apps);
+        searchCatalog = buildSearchCatalog(apps);
         lastSteamAppsFetchTime = Date.now();
     }).catch(error => {
         console.error('[STEAM_API_ERROR] Could not refresh Steam game search:', error.message);
@@ -76,7 +80,7 @@ app.get('/api/search-steam-games', (req, res) => {
     const term = typeof req.query.term === 'string' ? req.query.term : '';
     const limit = Math.max(1, Math.min(parseInt(req.query.limit, 10) || 15, 100));
     refreshSteamAppsIfNeeded();
-    res.json(searchGames(steamAppsCache, term, limit));
+    res.json(searchGames(searchCatalog.entries, term, limit));
 });
 
 function startPuzzlePreparation() {
@@ -101,7 +105,7 @@ app.get('/api/daily-game', async (req, res) => {
     try {
         const game = await dailyPuzzles.forDay(day);
         res.set('X-Next-Puzzle-Ready', preparedThrough && preparedThrough > day ? 'true' : 'false');
-        if (game) return res.json(game);
+        if (game) return res.json({ ...game, guessAliases: searchCatalog.guessAliases });
         res.status(503).json({ error: "A complete set of review clues isn't available yet." });
     } catch (err) {
         console.error('[DAILY_GAME] Could not load the daily puzzle:', err.message);
