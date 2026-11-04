@@ -386,6 +386,22 @@ p {
     font-size: 0.95em;
 }
 
+#native-share-button, #clue-feedback button {
+    border: 1px solid #abbabf;
+    border-radius: 4px;
+    background: #243b49;
+    color: #fff;
+    padding: 10px 16px;
+    cursor: pointer;
+}
+#clue-feedback { margin: 1.25rem 0 0; }
+#clue-feedback fieldset { margin: 0; padding: .6rem; border: 0; }
+#clue-feedback legend { width: 100%; font-weight: bold; }
+#clue-feedback p { font-size: .9rem; }
+#feedback-choices { display: flex; justify-content: center; flex-wrap: wrap; gap: .4rem; margin: .75rem 0; }
+#feedback-choices label { display: flex; align-items: center; gap: .2rem; padding: .4rem; cursor: pointer; }
+#feedback-status:empty { display: none; }
+
 .share-buttons {
     display: flex;
     flex-wrap: wrap;

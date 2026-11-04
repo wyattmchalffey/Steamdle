@@ -3,6 +3,8 @@ const ID = PREFIX + 'browser';
 const FIRST_VISIT = PREFIX + 'firstVisit';
 const ROUND = PREFIX + 'round.';
 const ACK = PREFIX + 'sent.';
+const EVENT = 'steamdle.analytics.v2.event.';
+const ACTIONS = new Set(['view', 'search_results', 'search_empty', 'search_pick', 'share_copy', 'share_native', 'share_x', 'feedback']);
 const SOURCES = new Set(['direct', 'discord', 'streamer', 'player_share', 'directory', 'search', 'social', 'other']);
 const CAMPAIGN = /^[a-z0-9][a-z0-9-]{0,39}$/;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -26,7 +28,13 @@ export function sourceForVisit(href, referrer) {
         else if (/(^|\.)(reddit\.com|x\.com|t\.co|youtube\.com|twitch\.tv|bsky\.app)$/.test(host)) source = 'social';
         else source = 'other';
     }
-    return CAMPAIGN.test(campaign || '') ? { source, campaign } : { source };
+    const visit = CAMPAIGN.test(campaign || '') ? { source, campaign } : { source };
+    const shared = url.searchParams.get('share_date');
+    if (source === 'player_share' && /^\d{4}-\d{2}-\d{2}$/.test(shared || '') &&
+        Number.isFinite(Date.parse(shared)) && utcDay(Date.parse(shared)) === shared && shared <= utcDay(Date.now())) {
+        visit.sharedPuzzle = shared;
+    }
+    return visit;
 }
 
 function validTurns(turns) {
@@ -55,6 +63,32 @@ export function createRoundAnalytics(browser) {
         try { return JSON.parse(storage.getItem(key)); } catch { return null; }
     }
 
+    function post(payload) {
+        return browser.fetch('/api/analytics', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload), keepalive: true, credentials: 'omit', referrerPolicy: 'no-referrer'
+        });
+    }
+
+    function withIdentity(work, unique = false) {
+        const run = () => {
+            try {
+                if (!UUID.test(storage.getItem(ID))) storage.setItem(ID, browser.crypto.randomUUID());
+                return work();
+            } catch { /* Storage and analytics are optional. */ }
+        };
+        if (nav.locks && (!UUID.test(storage.getItem(ID)) || unique)) {
+            return nav.locks.request(ID, run).catch(() => undefined);
+        }
+        return run();
+    }
+
+    function visitForDay(day) {
+        const view = read(EVENT + day + '.view');
+        if (view) return view;
+        return day === arrivalDay ? landing : { source: 'direct' };
+    }
+
     async function send(day) {
         if (inFlight.has(day)) return;
         let length = 0;
@@ -67,10 +101,8 @@ export function createRoundAnalytics(browser) {
             inFlight.add(day);
             const payload = { browserId, puzzleDate: day, source: round.source, turns: round.turns };
             if (CAMPAIGN.test(round.campaign || '')) payload.campaign = round.campaign;
-            const result = await browser.fetch('/api/analytics', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload), keepalive: true, credentials: 'omit', referrerPolicy: 'no-referrer'
-            });
+            if (round.sharedPuzzle) payload.sharedPuzzle = round.sharedPuzzle;
+            const result = await post(payload);
             if (result.ok) {
                 storage.setItem(ACK + day, String(Math.max(length, Number(storage.getItem(ACK + day)) || 0)));
             }
@@ -82,12 +114,52 @@ export function createRoundAnalytics(browser) {
         }
     }
 
+    async function sendEvent(key) {
+        if (inFlight.has(key)) return;
+        try {
+            const event = read(key);
+            if (!event || event.sent || !ACTIONS.has(event.event) || !SOURCES.has(event.source) ||
+                !UUID.test(event.browserId) || !UUID.test(event.eventId) ||
+                !/^\d{4}-\d{2}-\d{2}$/.test(event.puzzleDate)) return;
+            inFlight.add(key);
+            const { browserId, puzzleDate, source, eventId } = event;
+            const payload = { browserId, puzzleDate, source, event: event.event, eventId };
+            if (CAMPAIGN.test(event.campaign || '')) payload.campaign = event.campaign;
+            if (event.event === 'view' && source === 'player_share' && /^\d{4}-\d{2}-\d{2}$/.test(event.sharedPuzzle || '')) {
+                payload.sharedPuzzle = event.sharedPuzzle;
+            }
+            if (event.event === 'feedback' || event.event.startsWith('share_')) {
+                if (!validTurns(event.turns)) return;
+                payload.turns = event.turns;
+            }
+            if (event.event === 'feedback') {
+                if (!Number.isInteger(event.clue) || event.clue < 0 || event.clue > event.turns.length) return;
+                payload.clue = event.clue;
+            }
+            const result = await post(payload);
+            if (result.ok) {
+                if (event.event === 'view' || event.event === 'feedback') {
+                    storage.setItem(key, JSON.stringify({ ...event, sent: true }));
+                } else {
+                    storage.removeItem(key);
+                }
+            }
+        } catch { /* Retry the same immutable event ID after reconnection or on the next visit. */ }
+        finally { inFlight.delete(key); }
+    }
+
     function retry() {
         try {
             const today = utcDay(Date.now());
             const oldest = utcDay(Date.now() - 6 * DAY_MS);
             for (let i = storage.length - 1; i >= 0; i--) {
                 const key = storage.key(i);
+                if (key?.startsWith(EVENT)) {
+                    const day = key.slice(EVENT.length, EVENT.length + 10);
+                    if (day < oldest || day > today) storage.removeItem(key);
+                    else void sendEvent(key);
+                    continue;
+                }
                 if (!key?.startsWith(ROUND) && !key?.startsWith(ACK)) continue;
                 const day = key.slice(key.lastIndexOf('.') + 1);
                 if (day < oldest || day > today) storage.removeItem(key);
@@ -99,7 +171,7 @@ export function createRoundAnalytics(browser) {
     browser.addEventListener('online', retry);
     browser.document.addEventListener('visibilitychange', () => { if (!browser.document.hidden) retry(); });
 
-    return (day, turns) => {
+    const recordRound = (day, turns) => {
         try {
             if (!validTurns(turns)) return;
             const existing = read(ROUND + day);
@@ -107,16 +179,54 @@ export function createRoundAnalytics(browser) {
             // before analytics shipped must never be replayed as a new start.
             if (!existing && turns.length !== 1) return;
             if (existing && existing.turns.length >= turns.length) { void send(day); return; }
-            let attribution = existing || (day === arrivalDay ? landing : { source: 'direct' });
-            if (!UUID.test(storage.getItem(ID))) {
-                attribution = read(FIRST_VISIT) || attribution;
-                storage.setItem(ID, browser.crypto.randomUUID());
+            return withIdentity(() => {
+                const attribution = existing || read(FIRST_VISIT) || visitForDay(day);
+                const record = { source: attribution.source, turns };
+                if (attribution.campaign) record.campaign = attribution.campaign;
+                if (attribution.sharedPuzzle && attribution.source === 'player_share') record.sharedPuzzle = attribution.sharedPuzzle;
+                storage.setItem(ROUND + day, JSON.stringify(record));
                 storage.removeItem(FIRST_VISIT);
-            }
-            const record = { source: attribution.source, turns };
-            if (attribution.campaign) record.campaign = attribution.campaign;
-            storage.setItem(ROUND + day, JSON.stringify(record));
-            void send(day);
+                void send(day);
+            });
         } catch { /* Analytics must never interrupt gameplay. */ }
     };
+
+    function finished(day) {
+        const turns = read(ROUND + day)?.turns;
+        return validTurns(turns) && (turns.length === 6 || turns.at(-1) === 'solve') ? turns : null;
+    }
+
+    recordRound.feedback = day => {
+        if (!finished(day)) return null;
+        return { choice: read(EVENT + day + '.feedback')?.clue ?? null };
+    };
+
+    recordRound.event = (day, event, clue) => {
+        if (!ACTIONS.has(event)) return;
+        const unique = event === 'view' || event === 'feedback';
+        try {
+            return withIdentity(() => {
+                const id = browser.crypto.randomUUID();
+                const key = EVENT + day + '.' + (unique ? event : id);
+                if (unique && read(key)) { void sendEvent(key); return true; }
+                const visit = (event !== 'view' && read(ROUND + day)) || visitForDay(day);
+                const payload = { browserId: storage.getItem(ID), puzzleDate: day, event, eventId: id, source: visit.source };
+                if (visit.campaign) payload.campaign = visit.campaign;
+                if (event === 'view' && visit.sharedPuzzle) payload.sharedPuzzle = visit.sharedPuzzle;
+                if (event.startsWith('share_') || event === 'feedback') {
+                    const turns = finished(day);
+                    if (!turns) return false;
+                    payload.turns = turns;
+                    if (event === 'feedback') {
+                        if (!Number.isInteger(clue) || clue < 0 || clue > turns.length) return false;
+                        payload.clue = clue;
+                    }
+                }
+                storage.setItem(key, JSON.stringify(payload));
+                void sendEvent(key);
+                return true;
+            }, unique);
+        } catch { return false; }
+    };
+    return recordRound;
 }

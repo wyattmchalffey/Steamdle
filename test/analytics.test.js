@@ -12,7 +12,7 @@ async function setup(t, start = '2026-11-04') {
     const db = new sqlite3.Database(':memory:');
     t.after(() => promisify(db.close.bind(db))());
     const run = promisify(db.run.bind(db));
-    db.ready = run('CREATE TABLE daily_puzzles (puzzle_date TEXT PRIMARY KEY)');
+    db.ready = run(`CREATE TABLE daily_puzzles (puzzle_date TEXT PRIMARY KEY, puzzle_json TEXT DEFAULT '{}')`);
     let day = start;
     const service = createAnalytics(db, { now: () => new Date(day + 'T12:00:00Z'), campaigns: ['channel-one'] });
     await service.ready;
@@ -131,8 +131,8 @@ test('owner-approved campaigns persist, govern future attribution, and have one 
     const second = open();
     await second.service.ready;
     await promisify(first.db.exec.bind(first.db))(`
-        CREATE TABLE daily_puzzles(puzzle_date TEXT PRIMARY KEY);
-        INSERT INTO daily_puzzles VALUES ('2026-11-04');`);
+        CREATE TABLE daily_puzzles(puzzle_date TEXT PRIMARY KEY, puzzle_json TEXT DEFAULT '{}');
+        INSERT INTO daily_puzzles(puzzle_date) VALUES ('2026-11-04');`);
     const play = () => second.service.record({ browserId: randomUUID(), source: 'streamer',
         campaign: 'indie-night', puzzleDate: '2026-11-04', turns: ['wrong'] });
     assert.equal(await play(), true);

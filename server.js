@@ -122,6 +122,7 @@ async function scrapeSteamReview(reviewUrl) {
         });
         const $ = cheerio.load(html);
         const reviewData = {
+            originalUrl: reviewUrl,
             reviewerName: "A Steam User",
             reviewerAvatarUrl: null,
             recommendation: "Not specified",

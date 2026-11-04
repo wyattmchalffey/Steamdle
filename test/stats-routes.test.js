@@ -17,7 +17,13 @@ async function server(t, data, env) {
 test('owner data needs a real session, which is private, revocable and independent of the verifier', async t => {
     const calls = [];
     const key = 'test'.repeat(10);
-    const data = { async addCampaign(slug) { return slug === 'test-creator'; }, async summary(days) {
+    const past = '2026-11-03';
+    const puzzle = { date:past, title:'Fixture <puzzle>', started:1, solves:[1,0,0,0,0,0], losses:0, unfinished:0,
+        reviews:Array.from({length:6}, (_, i)=>({reviewText:'<unsafe> review ' + i})),
+        clues:Array.from({length:6}, (_, i)=>({clue:i+1,reached:1,wrong:0,skipped:0,solved:0,unanswered:0})),
+        feedback:{votes:[0,0,0,0,0,0],none:0}, engagementSince:past };
+    const data = { async puzzleReview(date) { return date === past ? puzzle : null; },
+        async addCampaign(slug) { return slug === 'test-creator'; }, async summary(days) {
         calls.push(days);
         return { today: '2026-11-04', startDate: '2026-11-04', endDate: '2026-11-04', trackingSince: '2026-11-04',
             days, daily: [], clues: [], sources: [], retention: {startDate:'2026-10-28', endDate:'2026-10-28', sources:[]} };
@@ -31,6 +37,9 @@ test('owner data needs a real session, which is private, revocable and independe
     const loggedOut = await get('/stats');
     assert.match(await loggedOut.text(), /Owner key/);
     assert.match(loggedOut.headers.get('cache-control'), /no-store/);
+    const privateDetail = await get('/stats/puzzles/' + past);
+    assert.equal(privateDetail.status, 401);
+    assert.doesNotMatch(await privateDetail.text(), /Fixture/);
     assert.equal((await post('/stats/campaign', '')).status, 401);
     assert.equal((await post('/stats/login', owner.keySha256)).status, 401);
     assert.equal((await post('/stats/login', key, {Origin:'https://external.example'})).status, 403);
@@ -42,6 +51,12 @@ test('owner data needs a real session, which is private, revocable and independe
     assert.ok(!setCookie.includes(key));
     const session = {Cookie:setCookie.split(';')[0]};
     assert.match(await (await get('/stats?days=30', session)).text(), /Clue outcomes/);
+    const detail = await get('/stats/puzzles/' + past + '?days=30', session);
+    assert.equal(detail.status, 200);
+    assert.match(detail.headers.get('cache-control'), /no-store/);
+    assert.match(await detail.text(), /&lt;unsafe&gt; review 5/);
+    assert.equal((await get('/stats/puzzles/2099-01-01', session)).status, 404);
+    assert.equal((await get('/stats/puzzles/not-a-date', session)).status, 404);
     const campaign = await fetch(url+'/stats/campaign', {method:'POST',redirect:'manual',headers:session,
         body:new URLSearchParams({campaign:'test-creator',days:'30'})});
     assert.equal(campaign.status,303);

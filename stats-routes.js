@@ -1,6 +1,6 @@
 const express = require('express');
 const { createHash, randomBytes, timingSafeEqual } = require('node:crypto');
-const { renderLogin, renderStats } = require('./admin-stats');
+const { renderLogin, renderStats, renderPuzzle } = require('./admin-stats');
 const owner = require('./stats-owner.json');
 
 const COOKIE = 'steamdle_stats_session';
@@ -79,10 +79,23 @@ function createStatsRoutes(analytics, env = process.env) {
         const days = reportDays(req.query.days);
         try {
             const report = await analytics.summary(days);
-            res.send(renderStats(report, req.query.campaign));
+            const order = req.query.order === 'asc' ? 'asc' : 'desc';
+            res.send(renderStats(report, req.query.campaign, '', order));
         } catch (err) {
             console.error('[ANALYTICS] Could not read report:', err.message);
             res.status(503).send('Player stats are temporarily unavailable. Please retry.');
+        }
+    });
+    router.get('/stats/puzzles/:date', async (req, res) => {
+        if (!ownerSignedIn(req)) return res.status(401).send(renderLogin());
+        const { date } = req.params;
+        try {
+            const detail = /^\d{4}-\d{2}-\d{2}$/.test(date) && await analytics.puzzleReview(date);
+            if (!detail) return res.status(404).type('text').send('No completed puzzle report is available for that date.');
+            res.send(renderPuzzle(detail, reportDays(req.query.days)));
+        } catch (err) {
+            console.error('[ANALYTICS] Could not read completed puzzle:', err.message);
+            res.status(503).send('This puzzle report is temporarily unavailable. Please retry.');
         }
     });
     router.post('/stats/login', sameSiteWrite, writeLimit(120),

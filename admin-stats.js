@@ -7,7 +7,7 @@ const style = `
     header > div { width: min(68rem, 100%); margin: auto; padding: .75rem clamp(1rem, 4vw, 3rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
     .brand { font-weight: 750; letter-spacing: .02em; }
     .brand span { font-weight: 450; margin-left: .7rem; color: #bdd0da; }
-    h1, h2, p { margin: 0; }
+    h1, h2, h3, p { margin: 0; }
     h1 { font-size: clamp(1.9rem, 4vw, 2.65rem); line-height: 1.15; letter-spacing: -.04em; }
     h2 { font-size: 1.25rem; line-height: 1.3; letter-spacing: -.02em; }
     p { color: #455e6c; }
@@ -48,6 +48,15 @@ const style = `
     #outreach details { margin-top: 1rem; }
     #outreach summary { color: #11586d; cursor: pointer; width: fit-content; }
     .error { color: #932d24; margin-top: .75rem; }
+    .jump { display: flex; flex-wrap: wrap; gap: .45rem 1rem; font-size: .9rem; }
+    .review-table th[scope="row"] a { display: block; white-space: pre-line; min-width: 9rem; max-width: 18rem; }
+    .measure { font-weight: 650; }
+    .review-list { padding-left: 1.6rem; }
+    .review-list li { padding: 1rem 0; border-bottom: 1px solid #dce7e9; }
+    .review-list blockquote { max-width: 75ch; margin: .45rem 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .review-list .attribution, .review-list .counts { font-size: .9rem; color: #455e6c; }
+    .review-list .counts { margin-top: .5rem; }
+    #review-title { overflow-wrap: anywhere; }
     @media (max-width: 40rem) {
         main { padding-top: 1.5rem; }
         .links { grid-template-columns: 1fr; }
@@ -92,11 +101,11 @@ function rate(part, total) {
     return total > 0 ? Math.round(part * 100 / total) + '%' : '—';
 }
 
-function table(label, columns, rows) {
+function table(label, columns, rows, rowLink) {
     return `<div class="grid" role="region" aria-label="${label}" tabindex="0"><table aria-label="${label}">
         <thead><tr>${columns.map(name => `<th scope="col">${escapeHtml(name)}</th>`).join('')}</tr></thead>
-        <tbody>${rows.map(row => '<tr>' + row.map((value, index) => index === 0
-            ? `<th scope="row">${escapeHtml(value)}</th>`
+        <tbody>${rows.map((row, rowIndex) => '<tr>' + row.map((value, index) => index === 0
+            ? `<th scope="row">${rowLink ? `<a href="${escapeHtml(rowLink(rowIndex))}">${escapeHtml(value)}</a>` : escapeHtml(value)}</th>`
             : `<td>${escapeHtml(value)}</td>`).join('') + '</tr>').join('')}</tbody></table></div>`;
 }
 
@@ -110,7 +119,93 @@ function sourceName(row) {
     return row.campaign ? name + ' / ' + row.campaign : name;
 }
 
-function renderStats(report, selectedCampaign = '', campaignError = '') {
+function countWithRate(value, total) {
+    return total ? `${count.format(value)} (${rate(value, total)})` : count.format(value);
+}
+
+function puzzleSection(report, campaign, order) {
+    const puzzles = (report.puzzles || []).filter(p => p.date < report.today && p.date >= report.trackingSince)
+        .sort((a, b) => order === 'asc' ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date));
+    const sortQuery = new URLSearchParams({days: report.days, order: order === 'asc' ? 'desc' : 'asc'});
+    if (campaign) sortQuery.set('campaign', campaign);
+    const rows = puzzles.map(p => [`${p.date}\n${p.title}`, count.format(p.started),
+        ...[...p.solves, p.losses, p.unfinished].map(value => countWithRate(value, p.started))]);
+    return `<section id="puzzles" class="review-table"><h2>Puzzles to review</h2>
+        <p>Open a completed UTC day to read its reviews alongside the results. Each percentage uses all rounds started that day.</p>
+        ${rows.length ? `<p class="note">Sorted ${order === 'asc' ? 'oldest' : 'newest'} first. <a href="/stats?${escapeHtml(sortQuery)}#puzzles">Show ${order === 'asc' ? 'newest' : 'oldest'} first</a></p>
+        ${table('Puzzles to review', ['Puzzle', 'Starts', 'Solved on 1', 'On 2', 'On 3', 'On 4', 'On 5', 'On 6', 'Six-try loss', 'Unfinished'], rows,
+            i => `/stats/puzzles/${encodeURIComponent(puzzles[i].date)}?days=${report.days}`)}`
+        : '<p class="note">No completed puzzle in this period has tracking history. Today’s puzzle becomes available after midnight UTC. Choose a longer period to see earlier days.</p>'}
+    </section>`;
+}
+
+function sharingSection(report) {
+    const shares = [...(report.shares || [])].filter(s => s.copies || s.native || s.x || s.starts)
+        .sort((a, b) => b.date.localeCompare(a.date));
+    const rows = shares.map(s => {
+        const actions = s.copies + s.native + s.x;
+        return [s.date, count.format(s.copies), count.format(s.native), count.format(s.x), count.format(s.starts),
+            actions ? (s.starts / actions).toFixed(2) : '—'];
+    });
+    return `<section id="sharing"><h2>Result sharing</h2>
+        <p>Compare successful result copies, completed device-share handoffs, and clicks on “Share on X” with first turns from tagged result links.</p>
+        ${rows.length ? table('Result sharing by originating puzzle', ['Originating puzzle', 'Copies', 'Device handoffs', 'X clicks', 'Referred starts', 'Starts per action'], rows)
+        : '<p class="note">No measured share actions or attributed starts for puzzles in this period yet.</p>'}
+        <p class="note">Starts are credited to the date in the shared link, even when a friend starts a later puzzle. One link can bring several starts. Copies and handoffs do not confirm that a result was posted.</p>
+    </section>`;
+}
+
+function searchSection(search = {}) {
+    const queries = search.queries || 0, empty = search.empty || 0, selected = search.selected || 0;
+    const nonempty = queries - empty;
+    return `<section id="search"><h2>Search friction</h2>
+        <p>Count completed searches whose results reached the player. Cached results count. Typed queries and game names are excluded.</p>
+        ${table('Search friction', ['Outcome', 'Count', 'Rate'], [
+            ['Searches shown', count.format(queries), '—'],
+            ['No suggestions', count.format(empty), rate(empty, queries)],
+            ['Had suggestions', count.format(nonempty), rate(nonempty, queries)],
+            ['Selected a suggestion', count.format(selected), rate(selected, nonempty)]
+        ])}<p class="note">Selection rate uses only searches that offered suggestions.</p></section>`;
+}
+
+function safeReviewUrl(value) {
+    try {
+        const url = new URL(value);
+        if (url.protocol === 'https:' && url.hostname === 'steamcommunity.com' && !url.username && !url.password &&
+            !url.port && /^\/(?:id|profiles)\/[^/]+\/recommended\/\d+\/?$/.test(url.pathname)) {
+            return url.origin + url.pathname;
+        }
+    } catch { /* An older snapshot may have no source URL. */ }
+    return null;
+}
+
+function renderPuzzle(detail, days = 7) {
+    const range = [1, 7, 30].includes(days) ? days : 7;
+    const {date, title, reviews, clues, started, solves, losses, unfinished, feedback, engagementSince} = detail;
+    const measured = date >= engagementSince;
+    const solved = solves.reduce((a, b) => a + b, 0);
+    const responses = feedback.votes.reduce((a, b) => a + b, feedback.none);
+    const cards = reviews.map((review, i) => {
+        const clue = clues[i];
+        const url = safeReviewUrl(review.originalUrl);
+        const author = escapeHtml(review.reviewerName || 'Steam reviewer');
+        return `<li><h3>Clue ${i + 1}</h3>
+            <blockquote>${escapeHtml(review.reviewText)}</blockquote>
+            <p class="attribution">${author}${url ? ` · <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">Original Steam review</a>` : ''}</p>
+            <p class="counts">Reached ${count.format(clue.reached)} · Solved ${countWithRate(solves[i], started)} · Wrong ${count.format(clue.wrong)} · Skipped ${count.format(clue.skipped)} · Unfinished here ${count.format(clue.unanswered)}${measured ? ` · Helpful votes ${count.format(feedback.votes[i])}` : ''}</p></li>`;
+    }).join('');
+    return page('Puzzle review', `<p><a href="/stats?days=${range}#puzzles">Back to player analytics</a></p>
+        <h1 id="review-title">${escapeHtml(title)}</h1><p>Published ${escapeHtml(date)} UTC</p>
+        <section><h2>Round outcomes</h2>
+        <p><strong>${count.format(started)} starts</strong> · Solved ${countWithRate(solved, started)} · Six-try losses ${countWithRate(losses, started)} · Unfinished ${countWithRate(unfinished, started)}</p>
+        <p class="note">Solve percentages use all starts, including unfinished rounds.</p></section>
+        <section><h2>The six reviews</h2>
+        <p>${measured ? `${count.format(responses)} ${responses === 1 ? 'player answered' : 'players answered'} the optional clue question after the reveal. ${count.format(feedback.none)} chose “None of them.”` :
+        `Feedback tracking began ${escapeHtml(engagementSince)} UTC, after this puzzle.`}</p>
+        <ol class="review-list">${cards}</ol></section>`, true);
+}
+
+function renderStats(report, selectedCampaign = '', campaignError = '', order = 'desc') {
     const { today, startDate, endDate, days, trackingSince, daily, clues, sources, retention, campaigns = [] } = report;
     const sum = field => daily.reduce((total, row) => total + row[field], 0);
     const started = sum('started'), finished = sum('finished'), solved = sum('solved');
@@ -123,9 +218,17 @@ function renderStats(report, selectedCampaign = '', campaignError = '') {
         row.date + (row.date === today ? ' · today' : ''), count.format(row.started), count.format(row.finished),
         count.format(row.solved), rate(row.finished, row.started)
     ]);
+    const feedback = report.feedback || {votes: Array(6).fill(0), none: 0};
+    const respondents = feedback.votes.reduce((sum, n) => sum + n, feedback.none);
     const clueRows = clues.map(row => [row.clue, row.reached, row.wrong, row.skipped, row.solved,
-        row.unanswered, rate(row.skipped, row.reached)]);
-    const sourceRows = sources.map(row => [sourceName(row), row.starters, row.rounds, row.newBrowsers]);
+        row.unanswered, feedback.votes[row.clue - 1], rate(row.skipped, row.reached)]);
+    const bySource = new Map(sources.map(row => [sourceName(row), row]));
+    const byView = new Map((report.views || []).map(row => [sourceName(row), row]));
+    const sourceRows = [...new Set([...bySource.keys(), ...byView.keys()])].map(name => {
+        const source = bySource.get(name), view = byView.get(name);
+        return [name, source?.starters ?? 0, source?.rounds ?? 0, source?.newBrowsers ?? 0,
+            view?.viewed ?? 0, view?.started ?? 0, rate(view?.started, view?.viewed)];
+    });
     const returnRows = retention.sources.map(row =>
         [sourceName(row), row.eligible, row.returned, rate(row.returned, row.eligible)]);
     const cohortDates = retention.startDate === retention.endDate
@@ -144,6 +247,10 @@ function renderStats(report, selectedCampaign = '', campaignError = '') {
     return page('Player analytics', `
         <h1>Player analytics</h1><p>${escapeHtml(dates)} UTC · Tracking since ${escapeHtml(trackingSince)}.</p>
         <nav class="period" aria-label="Reporting period">${navigation}</nav>
+        <nav class="jump" aria-label="Dashboard sections"><a href="#puzzles">Puzzles to review</a><a href="#clues">Clue feedback</a>
+            <a href="#sources">First-clue conversion</a><a href="#sharing">Sharing</a><a href="#search">Search</a>
+            <a href="#retention">Returns</a><a href="#outreach">Outreach links</a></nav>
+        ${report.engagementSince ? `<p class="note">First-clue views, sharing, feedback and search tracking began ${escapeHtml(report.engagementSince)} UTC. The first day may be partial.</p>` : ''}
         <dl class="cards">
             <div><dt>Started</dt><dd>${count.format(started)}</dd><small>Rounds with a first turn</small></div>
             <div><dt>Finished</dt><dd>${count.format(finished)}</dd><small>${started ? rate(finished, started) + ' of starts' : 'Solved or used all six tries'}</small></div>
@@ -152,15 +259,20 @@ function renderStats(report, selectedCampaign = '', campaignError = '') {
         <section><h2>Daily rounds</h2><p>Each browser can start one round per UTC puzzle day. A first guess or skip starts the round.</p>
             ${table('Daily rounds', ['Puzzle date','Started','Finished','Solved','Finish rate'], dailyRows)}
         </section>
-        <section><h2>Clue outcomes</h2><p>See what players did after reaching each clue in a started round.</p>
-            ${table('Clue outcomes', ['Clue','Reached','Wrong guess','Skipped','Solved','No turn yet','Skip rate'], clueRows)}
+        ${puzzleSection(report, campaign, order)}
+        <section id="clues"><h2>Clue outcomes and feedback</h2><p>See what players did after reaching each clue in a started round.</p>
+            ${table('Clue outcomes', ['Clue','Reached','Wrong guess','Skipped','Solved','No turn yet','Helpful votes','Skip rate'], clueRows)}
             <p class="note">Skip rate uses rounds that reached that clue. “No turn yet” includes players who may still finish today. Opening the page alone does not count as reaching clue one.</p>
+            <p class="note">After the reveal, a player can name one review that helped them recognize the game. Of ${count.format(respondents)} responses, ${count.format(feedback.none)} chose “None of them.”</p>
         </section>
-        <section><h2>Where players came from</h2><p>Browsers and rounds are grouped by the source of the round. New browsers are credited to their first start.</p>
-            ${sourceRows.length ? table('Outreach sources', ['Source / campaign','Browsers','Rounds','New browsers'], sourceRows)
-                : '<p class="note">Source totals appear after the first recorded turn.</p>'}
+        <section id="sources"><h2>Where players came from</h2><p>Browsers and rounds are grouped by the source of the round. New browsers are credited to their first start.</p>
+            ${sourceRows.length ? table('Outreach sources', ['Source / campaign','Browsers with a start','Rounds started','New browsers','Saw clue one','Started after view','View to start'], sourceRows)
+                : '<p class="note">Source totals appear after the first measured view or turn.</p>'}
+            <p class="note">First-clue conversion counts one measured view per browser and puzzle. The numerator counts those same browser rounds with a recorded first guess or skip.</p>
         </section>
-        <section><h2>Seven-day return</h2><p>Of browsers that first played <strong>${escapeHtml(cohortDates)} UTC</strong>, how many played again on one of the next seven UTC dates?</p>
+        ${sharingSection(report)}
+        ${searchSection(report.search)}
+        <section id="retention"><h2>Seven-day return</h2><p>Of browsers that first played <strong>${escapeHtml(cohortDates)} UTC</strong>, how many played again on one of the next seven UTC dates?</p>
             ${returnRows.length ? table('Seven-day return by first source', ['First source / campaign','Eligible browsers','Returned','Return rate'], returnRows)
                 : '<p class="note">No first-time browsers were recorded in this earlier period.</p>'}
             <p class="note">This period ends eight days ago so every browser has a full seven days to return. Clearing browser storage or switching devices can count the same person more than once.</p>
@@ -185,4 +297,4 @@ function renderStats(report, selectedCampaign = '', campaignError = '') {
         </section>`, true);
 }
 
-module.exports = { renderLogin, renderStats };
+module.exports = { renderLogin, renderStats, renderPuzzle };

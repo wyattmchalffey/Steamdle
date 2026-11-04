@@ -23,8 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameImage = document.getElementById('game-image');
     const steamLink = document.getElementById('steam-link');
     const shareButton = document.getElementById('share-button');
+    const nativeShareButton = document.getElementById('native-share-button');
     const shareSection = document.getElementById('share-section');
     const twitterShareLink = document.getElementById('twitter-share-link');
+    const feedbackForm = document.getElementById('clue-feedback');
+    const feedbackChoices = document.getElementById('feedback-choices');
+    const feedbackStatus = document.getElementById('feedback-status');
     const resultStats = document.getElementById('result-stats');
     const toastEl = document.getElementById('toast');
     const creditEl = document.getElementById('credit');
@@ -38,10 +42,30 @@ document.addEventListener('DOMContentLoaded', () => {
     let loadedOnDate;
     let rolloverTimer;
     let autocompleteDebounceTimer;
+    let openingObserver;
+    let openingReported = false;
 
     // Autocomplete state
     let activeDropdownIndex = -1;
     let currentSuggestions = [];
+    let searchSequence = 0;
+    let displayedSearch = -1;
+    let pickedSearch = -1;
+    let typedQuery = '';
+
+    function reportEvent(day, event, clue) {
+        return analytics.then(record => record?.event?.(day, event, clue));
+    }
+
+    function reportVisibleOpening() {
+        if (!currentGame || isGameOver || attempts.length || openingReported || document.hidden) return;
+        const rect = reviewsContainer.querySelector('.review-text-content')?.getBoundingClientRect();
+        if (!rect || rect.width <= 0 || rect.height <= 0 || rect.top >= innerHeight ||
+            rect.bottom <= 0 || rect.left >= innerWidth || rect.right <= 0) return;
+        openingReported = true;
+        openingObserver?.disconnect();
+        void reportEvent(currentGame.puzzleDate, 'view');
+    }
 
     // LRU Cache for autocomplete (max 50 entries)
     const CACHE_MAX = 50;
@@ -116,6 +140,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function selectSuggestion(name) {
+        if (currentGame && currentSuggestions.includes(name) && displayedSearch === searchSequence && pickedSearch !== searchSequence) {
+            pickedSearch = searchSequence;
+            void reportEvent(currentGame.puzzleDate, 'search_pick');
+        }
         guessInput.value = name;
         closeDropdown();
         guessInput.focus();
@@ -139,7 +167,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function fetchAutocompleteSuggestions(searchTerm) {
+    function displaySearch(suggestions, term, sequence) {
+        if (!currentGame || isGameOver || document.hidden || document.activeElement !== guessInput ||
+            sequence !== searchSequence || term.toLowerCase() !== typedQuery ||
+            guessInput.value.trim().toLowerCase() !== typedQuery) return;
+        renderDropdown(suggestions, term);
+        if (displayedSearch !== sequence) {
+            displayedSearch = sequence;
+            void reportEvent(currentGame.puzzleDate, suggestions.length ? 'search_results' : 'search_empty');
+        }
+    }
+
+    async function fetchAutocompleteSuggestions(searchTerm, sequence) {
         const trimmed = searchTerm.trim();
         if (trimmed.length < 1) {
             closeDropdown();
@@ -149,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Check cache first
         const cached = cacheGet(trimmed.toLowerCase());
         if (cached !== undefined) {
-            renderDropdown(cached, trimmed);
+            displaySearch(cached, trimmed, sequence);
             return;
         }
 
@@ -157,18 +196,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(`/api/search-steam-games?term=${encodeURIComponent(trimmed)}&limit=10`);
             if (!response.ok) {
                 console.error(`Autocomplete API request failed: ${response.status}`);
-                closeDropdown();
+                if (sequence === searchSequence) closeDropdown();
                 return;
             }
             const suggestions = await response.json();
             cachePut(trimmed.toLowerCase(), suggestions);
-            // Only render if input still matches (user may have typed more)
-            if (guessInput.value.trim().toLowerCase() === trimmed.toLowerCase()) {
-                renderDropdown(suggestions, trimmed);
-            }
+            displaySearch(suggestions, trimmed, sequence);
         } catch (error) {
             console.error("Failed to fetch autocomplete suggestions from backend:", error);
-            closeDropdown();
+            if (sequence === searchSequence) closeDropdown();
         }
     }
 
@@ -244,6 +280,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loadingRound) return;
         loadingRound = true;
         currentGame = null;
+        openingObserver?.disconnect();
+        openingReported = false;
+        searchSequence++;
+        typedQuery = '';
+        feedbackForm.classList.add('hidden');
+        feedbackStatus.textContent = '';
         clearTimeout(rolloverTimer);
         closeDropdown();
         loadingState.classList.remove('hidden');
@@ -271,6 +313,14 @@ document.addEventListener('DOMContentLoaded', () => {
         guessInput.maxLength = MAX_GUESS_LENGTH;
         guessInput.placeholder = "Enter game title...";
         renderRound();
+        const firstText = reviewsContainer.querySelector('.review-text-content');
+        if (!attempts.length && firstText) {
+            if ('IntersectionObserver' in window) {
+                openingObserver = new IntersectionObserver(reportVisibleOpening);
+                openingObserver.observe(firstText);
+            }
+            requestAnimationFrame(reportVisibleOpening);
+        }
     }
 
     function renderRound(interactive = false) {
@@ -447,6 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            reportVisibleOpening();
             attempts.push(guess);
             try {
                 localStorage.setItem(progressKey(), JSON.stringify(attempts));
@@ -454,8 +505,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Storage may be disabled. The round still works in this tab.
             }
             const turns = attempts.map(attempt => attempt === null ? 'skip' : isCorrect(attempt) ? 'solve' : 'wrong');
-            void analytics.then(record => record?.(game.puzzleDate, turns));
+            void analytics.then(async record => {
+                await record?.(game.puzzleDate, turns);
+                if (game === currentGame && isGameOver) renderFeedback(record);
+            });
             guessInput.value = '';
+            searchSequence++;
+            typedQuery = '';
             closeDropdown();
             renderRound(true);
             if (!isGameOver) guessInput.focus();
@@ -501,10 +557,52 @@ document.addEventListener('DOMContentLoaded', () => {
             resultStats.textContent = `You used all ${currentGame.reviews.length} clues.`;
         }
         shareSection.classList.remove('hidden');
+        nativeShareButton.classList.toggle('hidden', !navigator.share);
         const shareText = generateShareText();
         twitterShareLink.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+        void analytics.then(renderFeedback);
         if (interactive) shareButton.focus();
     }
+
+    function renderFeedback(record) {
+        if (!isGameOver || !currentGame) return;
+        const state = record?.feedback?.(currentGame.puzzleDate);
+        feedbackForm.classList.toggle('hidden', !state);
+        if (!state) return;
+        feedbackForm.querySelector('fieldset').hidden = state.choice !== null;
+        if (state.choice !== null) {
+            feedbackStatus.textContent = state.choice === 0 ? 'Your choice: None of them.' : `Your choice: Review ${state.choice}.`;
+            return;
+        }
+        if (feedbackForm.dataset.day === currentGame.puzzleDate) return;
+        feedbackForm.dataset.day = currentGame.puzzleDate;
+        feedbackChoices.replaceChildren();
+        const choices = Array.from({ length: attempts.length }, (_, i) => i + 1).concat(0);
+        for (const choice of choices) {
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.required = true;
+            radio.name = 'helpful-clue';
+            radio.value = String(choice);
+            radio.setAttribute('aria-label', choice === 0 ? 'None of them' : 'Review ' + choice);
+            label.append(radio, choice === 0 ? 'None of them' : String(choice));
+            feedbackChoices.appendChild(label);
+        }
+    }
+
+    feedbackForm.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (!currentGame || !isGameOver || checkForNewDay()) return;
+        const selected = feedbackForm.querySelector('input:checked');
+        if (!selected) return;
+        const game = currentGame;
+        const record = await analytics;
+        const saved = await record?.event?.(game.puzzleDate, 'feedback', Number(selected.value));
+        if (game !== currentGame) return;
+        if (saved) renderFeedback(record);
+        else feedbackStatus.textContent = 'Your choice could not be saved. Please try again.';
+    });
 
     function triggerConfetti() {
         if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -541,6 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).join('');
         const gameUrl = new URL('/', window.location.origin);
         gameUrl.searchParams.set('utm_source', 'player_share');
+        gameUrl.searchParams.set('share_date', currentGame.puzzleDate);
 
         return `Steamdle #${puzzleId} ${score}\n\n${gridVisual}\n\nCan you guess today's game? Play at ${gameUrl}`;
     }
@@ -559,10 +658,17 @@ document.addEventListener('DOMContentLoaded', () => {
     guessButton.addEventListener('click', handleGuess);
     skipButton.addEventListener('click', () => takeTurn(null));
     document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) checkForNewDay();
+        if (!document.hidden && !checkForNewDay()) reportVisibleOpening();
     });
+    if (!('IntersectionObserver' in window)) {
+        window.addEventListener('scroll', reportVisibleOpening, { passive: true });
+        window.addEventListener('resize', reportVisibleOpening);
+    }
     window.addEventListener('storage', event => {
         if (currentGame && event.key === progressKey()) syncProgress();
+        if (currentGame && isGameOver && event.key?.endsWith(currentGame.puzzleDate + '.feedback')) {
+            void analytics.then(renderFeedback);
+        }
     });
 
     guessInput.addEventListener('keydown', (event) => {
@@ -604,9 +710,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     guessInput.addEventListener('input', () => {
         const searchTerm = guessInput.value;
+        const sequence = ++searchSequence;
+        typedQuery = searchTerm.trim().toLowerCase();
+        closeDropdown();
         clearTimeout(autocompleteDebounceTimer);
         autocompleteDebounceTimer = setTimeout(() => {
-            fetchAutocompleteSuggestions(searchTerm);
+            fetchAutocompleteSuggestions(searchTerm, sequence);
         }, 150);
     });
 
@@ -616,7 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (trimmed.length >= 1 && !isGameOver) {
             const cached = cacheGet(trimmed.toLowerCase());
             if (cached && cached.length > 0) {
-                renderDropdown(cached, trimmed);
+                displaySearch(cached, trimmed, searchSequence);
             }
         }
     });
@@ -635,29 +744,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    shareButton.addEventListener('click', () => {
-        const textToShare = generateShareText();
-        if (navigator.share) {
-            navigator.share({
-                title: 'My Steamdle Result!',
-                text: textToShare,
-            }).catch(() => {
-                copyToClipboard(textToShare);
-            });
-        } else {
-            copyToClipboard(textToShare);
+    shareButton.addEventListener('click', async () => {
+        if (!currentGame || !isGameOver || checkForNewDay()) return;
+        const day = currentGame.puzzleDate;
+        const text = generateShareText();
+        let copied = false;
+        if (navigator.clipboard?.writeText) {
+            try { await navigator.clipboard.writeText(text); copied = true; } catch { /* Try the text selection fallback. */ }
+        }
+        if (!copied) copied = fallbackCopy(text);
+        if (copied) void reportEvent(day, 'share_copy');
+        showToast(copied ? 'Copied!' : 'Copy failed');
+    });
+
+    nativeShareButton.addEventListener('click', async () => {
+        if (!navigator.share || !currentGame || !isGameOver || checkForNewDay()) return;
+        const day = currentGame.puzzleDate;
+        try {
+            await navigator.share({ title: 'My Steamdle Result!', text: generateShareText() });
+            void reportEvent(day, 'share_native');
+        } catch (error) {
+            if (error.name !== 'AbortError') showToast('Sharing unavailable. Try Copy results.');
         }
     });
 
-    function copyToClipboard(text) {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('Copied!');
-            }).catch(() => fallbackCopy(text));
-        } else {
-            fallbackCopy(text);
-        }
-    }
+    twitterShareLink.addEventListener('click', () => {
+        if (currentGame && isGameOver) void reportEvent(currentGame.puzzleDate, 'share_x');
+    });
 
     function fallbackCopy(text) {
         const ta = document.createElement('textarea');
@@ -668,12 +781,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(ta);
         ta.select();
         try {
-            document.execCommand('copy');
-            showToast('Copied!');
-        } catch (err) {
-            showToast('Copy failed');
+            return document.execCommand('copy');
+        } catch {
+            return false;
+        } finally {
+            ta.remove();
         }
-        document.body.removeChild(ta);
     }
 
     if (retryLoadButton) {

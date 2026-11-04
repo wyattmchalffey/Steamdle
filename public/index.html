@@ -60,9 +60,19 @@
                 <p class="share-prompt">Share your result:</p>
                 <div class="share-buttons">
                     <button id="share-button" type="button">Copy results</button>
+                    <button id="native-share-button" class="hidden" type="button">Share…</button>
                     <a id="twitter-share-link" href="#" target="_blank" rel="noopener noreferrer" class="share-link-twitter">Share on X</a>
                 </div>
             </div>
+            <form id="clue-feedback" class="hidden">
+                <fieldset>
+                    <legend>Which review helped you recognize the game?</legend>
+                    <p>Optional. Pick one of the clues you saw before the reveal.</p>
+                    <div id="feedback-choices"></div>
+                    <button type="submit">Send feedback</button>
+                </fieldset>
+                <p id="feedback-status" role="status"></p>
+            </form>
         </div>
         <div id="reviews-container"></div>
         <div id="toast" class="toast hidden" aria-live="polite">Copied!</div>
@@ -86,8 +96,9 @@
         <p id="credit" class="credit hidden">Designed and created by <a href="https://wyattmchalffey.com" target="_blank" rel="noopener noreferrer">Wyatt McHalffey</a></p>
         <details class="play-stats-note">
             <summary>About play stats</summary>
-            <p>Steamdle uses a random ID saved in this browser to count rounds and return visits.
-                It records which clue you guessed, solved, or skipped and how you found the game.
+            <p>Steamdle uses a random ID saved in this browser to count first-clue views, rounds, and return visits.
+                It records clue outcomes, autocomplete result and selection counts, result-sharing actions, and referrals.
+                After a round you can optionally tell us which clue helped you.
                 Play stats exclude typed guesses and search text. Steamdle honors Do Not Track and Global Privacy Control for play stats.</p>
         </details>
     </div>
