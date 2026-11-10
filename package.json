@@ -23,6 +23,7 @@
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.4",
     "express": "^4.18.2",
+    "ip-location-api": "5.0.2",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {

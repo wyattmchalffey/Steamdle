@@ -1,6 +1,7 @@
 const express = require('express');
 const { createHash, randomBytes, timingSafeEqual } = require('node:crypto');
 const { renderLogin, renderStats, renderPuzzle } = require('./admin-stats');
+const { requestCountry, countryLookupStatus } = require('./analytics-country');
 const owner = require('./stats-owner.json');
 
 const COOKIE = 'steamdle_stats_session';
@@ -98,6 +99,12 @@ function createStatsRoutes(analytics, env = process.env) {
             res.status(503).send('This puzzle report is temporarily unavailable. Please retry.');
         }
     });
+    router.get('/stats/location-check', (req, res) => {
+        if (!ownerSignedIn(req)) return res.sendStatus(401);
+        // Owner-only, read-only deployment check. It never returns an address.
+        const country = requestCountry(req, env);
+        res.json({ status: countryLookupStatus(), country });
+    });
     router.post('/stats/login', sameSiteWrite, writeLimit(120),
         express.urlencoded({ extended: false, limit: '2kb', parameterLimit: 1 }), (req, res) => {
             if (!expected) return res.status(503).send(renderLogin('Owner access is not configured on this deployment.'));
@@ -140,7 +147,8 @@ function createStatsRoutes(analytics, env = process.env) {
         next();
     }, express.json({limit: '1kb'}), async (req, res) => {
         try {
-            res.sendStatus(await analytics.record(req.body) ? 204 : 400);
+            const context = req.body?.attributionVersion === 3 ? { country: requestCountry(req, env) } : {};
+            res.sendStatus(await analytics.record(req.body, context) ? 204 : 400);
         } catch (err) {
             console.error('[ANALYTICS] Could not save turn:', err.message);
             res.sendStatus(503);

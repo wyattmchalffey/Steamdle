@@ -40,6 +40,7 @@ test('owner data needs a real session, which is private, revocable and independe
     const privateDetail = await get('/stats/puzzles/' + past);
     assert.equal(privateDetail.status, 401);
     assert.doesNotMatch(await privateDetail.text(), /Fixture/);
+    assert.equal((await get('/stats/location-check')).status, 401);
     assert.equal((await post('/stats/campaign', '')).status, 401);
     assert.equal((await post('/stats/login', owner.keySha256)).status, 401);
     assert.equal((await post('/stats/login', key, {Origin:'https://external.example'})).status, 403);
@@ -50,6 +51,12 @@ test('owner data needs a real session, which is private, revocable and independe
     for (const flag of ['HttpOnly','Secure','SameSite=Strict','Path=/stats']) assert.ok(setCookie.includes(flag));
     assert.ok(!setCookie.includes(key));
     const session = {Cookie:setCookie.split(';')[0]};
+    const location = await get('/stats/location-check', {...session, 'CF-IPCountry':'FR', 'CF-Connecting-IP':'8.8.8.8'});
+    assert.equal(location.status, 200);
+    assert.match(location.headers.get('cache-control'), /no-store/);
+    const locationData = await location.json();
+    assert.deepEqual(Object.keys(locationData).sort(), ['country','status']);
+    assert.equal(locationData.country, '');
     assert.match(await (await get('/stats?days=30', session)).text(), /Clue outcomes/);
     const detail = await get('/stats/puzzles/' + past + '?days=30', session);
     assert.equal(detail.status, 200);
@@ -70,7 +77,8 @@ test('owner data needs a real session, which is private, revocable and independe
 
 test('analytics accepts same-site JSON, honors opt-out and rejects foreign or oversized writes', async t => {
     const saved = [];
-    const url = await server(t, { async record(payload) { saved.push(payload); return true; } }, {});
+    const contexts = [];
+    const url = await server(t, { async record(payload, context) { saved.push(payload); contexts.push(context); return true; } }, {});
     const post = (extra, body='{}') => fetch(url+'/api/analytics', {method:'POST',
         headers:{'Content-Type':'application/json',...extra},body});
     assert.equal((await post({Origin:'null'})).status, 403);
@@ -83,4 +91,7 @@ test('analytics accepts same-site JSON, honors opt-out and rejects foreign or ov
     assert.equal(saved.length,0);
     assert.equal((await post({Origin:url})).status,204);
     assert.deepEqual(saved,[{}]);
+    assert.deepEqual(contexts,[{}]);
+    assert.equal((await post({Origin:url, 'CF-IPCountry':'US'}, JSON.stringify({attributionVersion:3,country:'US'}))).status,204);
+    assert.deepEqual(contexts[1], {country:''});
 });

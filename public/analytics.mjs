@@ -11,6 +11,37 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{1
 const DAY_MS = 86400000;
 const utcDay = time => new Date(time).toISOString().slice(0, 10);
 
+// Keep only a public website hostname. Paths, queries, credentials and addresses
+// are never copied into storage or an analytics request.
+function normalizedDomain(value) {
+    if (typeof value !== 'string') return '';
+    const host = value.toLowerCase().replace(/\.$/, '').replace(/^www\./, '');
+    if (host.length > 253 || !host.includes('.') ||
+        !host.split('.').every(label => /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/.test(label)) ||
+        !/\.(?:[a-z]{2,63}|xn--[a-z0-9-]{2,59})$/.test(host) ||
+        /(^|\.)(localhost|local|internal|lan|home|test|invalid)$/.test(host) ||
+        /(^|\.)home\.arpa$/.test(host)) return '';
+    return host;
+}
+
+function referrerDomain(referrer, currentHost) {
+    try {
+        const url = new URL(referrer);
+        if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password) return '';
+        const host = normalizedDomain(url.hostname);
+        if (host === normalizedDomain(currentHost) || host === 'steamdle.com' || host === 'steamdle.onrender.com') return '';
+        return host;
+    } catch { return ''; }
+}
+
+function attributionFields(record) {
+    // A missing version means this record predates domain tracking. Never fill
+    // an older saved visit or retry with today's referring website.
+    if (record?.attributionVersion !== 3 || typeof record.referrerDomain !== 'string' ||
+        (record.referrerDomain && normalizedDomain(record.referrerDomain) !== record.referrerDomain)) return {};
+    return { attributionVersion: 3, referrerDomain: record.referrerDomain };
+}
+
 export function sourceForVisit(href, referrer) {
     const url = new URL(href);
     const tag = url.searchParams.get('utm_source')?.toLowerCase();
@@ -29,6 +60,8 @@ export function sourceForVisit(href, referrer) {
         else source = 'other';
     }
     const visit = CAMPAIGN.test(campaign || '') ? { source, campaign } : { source };
+    visit.attributionVersion = 3;
+    visit.referrerDomain = referrerDomain(referrer, url.hostname);
     const shared = url.searchParams.get('share_date');
     if (source === 'player_share' && /^\d{4}-\d{2}-\d{2}$/.test(shared || '') &&
         Number.isFinite(Date.parse(shared)) && utcDay(Date.parse(shared)) === shared && shared <= utcDay(Date.now())) {
@@ -86,7 +119,7 @@ export function createRoundAnalytics(browser) {
     function visitForDay(day) {
         const view = read(EVENT + day + '.view');
         if (view) return view;
-        return day === arrivalDay ? landing : { source: 'direct' };
+        return day === arrivalDay ? landing : { source: 'direct', attributionVersion: 3, referrerDomain: '' };
     }
 
     async function send(day) {
@@ -99,7 +132,7 @@ export function createRoundAnalytics(browser) {
             length = round.turns.length;
             if (Number(storage.getItem(ACK + day)) >= length) return;
             inFlight.add(day);
-            const payload = { browserId, puzzleDate: day, source: round.source, turns: round.turns };
+            const payload = { browserId, puzzleDate: day, source: round.source, turns: round.turns, ...attributionFields(round) };
             if (CAMPAIGN.test(round.campaign || '')) payload.campaign = round.campaign;
             if (round.sharedPuzzle) payload.sharedPuzzle = round.sharedPuzzle;
             const result = await post(payload);
@@ -123,7 +156,7 @@ export function createRoundAnalytics(browser) {
                 !/^\d{4}-\d{2}-\d{2}$/.test(event.puzzleDate)) return;
             inFlight.add(key);
             const { browserId, puzzleDate, source, eventId } = event;
-            const payload = { browserId, puzzleDate, source, event: event.event, eventId };
+            const payload = { browserId, puzzleDate, source, event: event.event, eventId, ...attributionFields(event) };
             if (CAMPAIGN.test(event.campaign || '')) payload.campaign = event.campaign;
             if (event.event === 'view' && source === 'player_share' && /^\d{4}-\d{2}-\d{2}$/.test(event.sharedPuzzle || '')) {
                 payload.sharedPuzzle = event.sharedPuzzle;
@@ -180,8 +213,12 @@ export function createRoundAnalytics(browser) {
             if (!existing && turns.length !== 1) return;
             if (existing && existing.turns.length >= turns.length) { void send(day); return; }
             return withIdentity(() => {
-                const attribution = existing || read(FIRST_VISIT) || visitForDay(day);
-                const record = { source: attribution.source, turns };
+                // Another tab may have enrolled this round while waiting for
+                // the identity lock. Preserve its earliest arrival metadata.
+                const latest = read(ROUND + day);
+                if (latest && latest.turns.length >= turns.length) { void send(day); return; }
+                const attribution = latest || read(FIRST_VISIT) || visitForDay(day);
+                const record = { source: attribution.source, turns, ...attributionFields(attribution) };
                 if (attribution.campaign) record.campaign = attribution.campaign;
                 if (attribution.sharedPuzzle && attribution.source === 'player_share') record.sharedPuzzle = attribution.sharedPuzzle;
                 storage.setItem(ROUND + day, JSON.stringify(record));
@@ -210,7 +247,8 @@ export function createRoundAnalytics(browser) {
                 const key = EVENT + day + '.' + (unique ? event : id);
                 if (unique && read(key)) { void sendEvent(key); return true; }
                 const visit = (event !== 'view' && read(ROUND + day)) || visitForDay(day);
-                const payload = { browserId: storage.getItem(ID), puzzleDate: day, event, eventId: id, source: visit.source };
+                const payload = { browserId: storage.getItem(ID), puzzleDate: day, event, eventId: id,
+                    source: visit.source, ...attributionFields(visit) };
                 if (visit.campaign) payload.campaign = visit.campaign;
                 if (event === 'view' && visit.sharedPuzzle) payload.sharedPuzzle = visit.sharedPuzzle;
                 if (event.startsWith('share_') || event === 'feedback') {

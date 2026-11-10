@@ -22,12 +22,13 @@ function browser(query = '', fetch = async () => ({ ok: true })) {
 
 test('assigns bounded sources and sends only safe campaign slugs', async () => {
     const { sourceForVisit } = await import('../public/analytics.mjs');
-    assert.deepEqual(sourceForVisit(origin, ''), { source: 'direct' });
-    assert.deepEqual(sourceForVisit(origin, origin + '/other?private=value'), { source: 'direct' });
-    assert.deepEqual(sourceForVisit(origin, 'https://www.alldle.net/game/private?q=foo'), { source: 'directory' });
-    assert.deepEqual(sourceForVisit(origin, 'https://discord.com.evil.example/'), { source: 'other' });
-    assert.deepEqual(sourceForVisit(origin + '/?utm_source=streamer&utm_campaign=Creator-1', ''), { source: 'streamer', campaign: 'creator-1' });
-    assert.deepEqual(sourceForVisit(origin + '/?utm_source=secret&utm_campaign=a%40example.com', ''), { source: 'other' });
+    const visit = (source, referrerDomain = '', extra = {}) => ({ source, ...extra, attributionVersion: 3, referrerDomain });
+    assert.deepEqual(sourceForVisit(origin, ''), visit('direct'));
+    assert.deepEqual(sourceForVisit(origin, origin + '/other?private=value'), visit('direct'));
+    assert.deepEqual(sourceForVisit(origin, 'https://www.alldle.net/game/private?q=foo'), visit('directory', 'alldle.net'));
+    assert.deepEqual(sourceForVisit(origin, 'https://discord.com.evil.example/'), visit('other', 'discord.com.evil.example'));
+    assert.deepEqual(sourceForVisit(origin + '/?utm_source=streamer&utm_campaign=Creator-1', ''), visit('streamer', '', { campaign: 'creator-1' }));
+    assert.deepEqual(sourceForVisit(origin + '/?utm_source=secret&utm_campaign=a%40example.com', ''), visit('other'));
 });
 
 test('tracks the first landing, subsequent round sources, and deduplicates acknowledged snapshots', async () => {
@@ -57,7 +58,8 @@ test('tracks the first landing, subsequent round sources, and deduplicates ackno
     assert.equal(new Set(requests.map(r => r.browserId)).size, 1);
     assert.match(requests[0].browserId, /^[\da-f-]{36}$/);
     assert.deepEqual(requests[1], {
-        browserId: requests[0].browserId, puzzleDate: yesterday, source: 'discord', turns: ['wrong', 'skip', 'solve']
+        browserId: requests[0].browserId, puzzleDate: yesterday, source: 'discord', turns: ['wrong', 'skip', 'solve'],
+        attributionVersion: 3, referrerDomain: ''
     });
     assert.equal(requests[2].source, 'player_share');
 });

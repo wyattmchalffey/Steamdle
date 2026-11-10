@@ -51,6 +51,7 @@ const style = `
     .jump { display: flex; flex-wrap: wrap; gap: .45rem 1rem; font-size: .9rem; }
     .review-table th[scope="row"] a { display: block; white-space: pre-line; min-width: 9rem; max-width: 18rem; }
     .measure { font-weight: 650; }
+    .attribution-return { margin-top: 1.5rem; }
     .review-list { padding-left: 1.6rem; }
     .review-list li { padding: 1rem 0; border-bottom: 1px solid #dce7e9; }
     .review-list blockquote { max-width: 75ch; margin: .45rem 0; white-space: pre-wrap; overflow-wrap: anywhere; }
@@ -168,6 +169,53 @@ function searchSection(search = {}) {
         ])}<p class="note">Selection rate uses only searches that offered suggestions.</p></section>`;
 }
 
+const countryNames = new Intl.DisplayNames(['en'], { type: 'region', fallback: 'none' });
+
+function countryName(code) {
+    if (!/^[A-Z]{2}$/.test(code || '') || code === 'ZZ') return 'Unknown';
+    return countryNames.of(code) || 'Unknown';
+}
+
+function attributionSections(report) {
+    const attribution = report.attribution;
+    if (!attribution) return '';
+    const countries = attribution.countries || [], referrers = attribution.referrers || [];
+    const measured = attribution.measuredRounds ?? countries.reduce((sum, row) => sum + row.rounds, 0);
+    const started = report.daily.reduce((sum, row) => sum + row.started, 0);
+    const retention = attribution.retention || { countries: [], referrers: [] };
+    const cohortDates = retention.startDate === retention.endDate ? retention.endDate
+        : retention.startDate + ' – ' + retention.endDate;
+    const matureFrom = new Date(Date.parse(attribution.since + 'T00:00:00Z') + 8 * 86400000).toISOString().slice(0, 10);
+    const activityRows = (rows, label) => rows.map(row => [label(row.name), count.format(row.browsers),
+        count.format(row.rounds), countWithRate(row.finished, row.rounds), countWithRate(row.solved, row.rounds)]);
+    const returns = (rows, label, kind) => {
+        if (!rows?.length) return `<p class="note">${report.today < matureFrom
+            ? `The first fully observed seven-day return cohort can appear on ${escapeHtml(matureFrom)} UTC.`
+            : 'No first-time browsers with this attribution were recorded in the eligible period.'}</p>`;
+        return `<h3 class="attribution-return">Seven-day return</h3>
+            <p class="note">Browsers that first played ${escapeHtml(cohortDates)} UTC, grouped by their first ${kind === 'country' ? 'country' : 'referring website'}. Each had seven complete UTC days to return.</p>
+            ${table('Seven-day return by first ' + kind, [kind === 'country' ? 'First country' : 'First referring website', 'Eligible browsers', 'Returned', 'Return rate'],
+                rows.map(row => [label(row.name), count.format(row.eligible), count.format(row.returned), rate(row.returned, row.eligible)]))}`;
+    };
+    const referrerName = name => name || 'No referrer available';
+    return `<section id="countries"><h2>Player countries</h2>
+        <p>Countries and referring websites have been measured since ${escapeHtml(attribution.since)} UTC. Earlier rounds cannot be filled in.</p>
+        <p class="note">New attribution covers ${count.format(measured)} of ${count.format(started)} started rounds in this period (${rate(measured, started)}). The first day may be partial.</p>
+        ${countries.length ? table('Player countries', ['Country', 'Browsers with a start', 'Rounds started', 'Finished', 'Solved'], activityRows(countries, countryName))
+            : '<p class="note">Country totals appear after a round starts with the new tracking.</p>'}
+        <p class="note">Country is estimated from the network connection. VPNs and proxies can affect it. Unknown means a country could not be determined. Finish and solve percentages use rounds started.</p>
+        <p class="note">A browser is counted once within each country or referring website during this period. It may appear in multiple groups across different days, so browser counts do not add up to unique people.</p>
+        ${returns(retention.countries, countryName, 'country')}
+    </section>
+    <section id="referrers"><h2>Referring websites</h2>
+        <p>For a browser’s first round, this is its first recorded referring website. Later rounds use that day’s arrival. Only the domain is retained.</p>
+        ${referrers.length ? table('Referring websites', ['Referring website', 'Browsers with a start', 'Rounds started', 'Finished', 'Solved'], activityRows(referrers, referrerName))
+            : '<p class="note">Referring website totals appear after a round starts with the new tracking.</p>'}
+        <p class="note">No referrer available includes bookmarks, typed addresses, and apps or browsers that omit the referring website. A campaign label can still identify the channel in the source table above.</p>
+        ${returns(retention.referrers, referrerName, 'referring website')}
+    </section>`;
+}
+
 function safeReviewUrl(value) {
     try {
         const url = new URL(value);
@@ -249,6 +297,7 @@ function renderStats(report, selectedCampaign = '', campaignError = '', order = 
         <nav class="period" aria-label="Reporting period">${navigation}</nav>
         <nav class="jump" aria-label="Dashboard sections"><a href="#puzzles">Puzzles to review</a><a href="#clues">Clue feedback</a>
             <a href="#sources">First-clue conversion</a><a href="#sharing">Sharing</a><a href="#search">Search</a>
+            ${report.attribution ? '<a href="#countries">Countries</a><a href="#referrers">Referring websites</a>' : ''}
             <a href="#retention">Returns</a><a href="#outreach">Outreach links</a></nav>
         ${report.engagementSince ? `<p class="note">First-clue views, sharing, feedback and search tracking began ${escapeHtml(report.engagementSince)} UTC. The first day may be partial.</p>` : ''}
         <dl class="cards">
@@ -270,6 +319,7 @@ function renderStats(report, selectedCampaign = '', campaignError = '', order = 
                 : '<p class="note">Source totals appear after the first measured view or turn.</p>'}
             <p class="note">First-clue conversion counts one measured view per browser and puzzle. The numerator counts those same browser rounds with a recorded first guess or skip.</p>
         </section>
+        ${attributionSections(report)}
         ${sharingSection(report)}
         ${searchSection(report.search)}
         <section id="retention"><h2>Seven-day return</h2><p>Of browsers that first played <strong>${escapeHtml(cohortDates)} UTC</strong>, how many played again on one of the next seven UTC dates?</p>

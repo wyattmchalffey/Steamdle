@@ -65,7 +65,9 @@ test('first acquisition and later actual exposure remain independently measurabl
     assert.equal(requests[1].sharedPuzzle,prior);
     assert.equal(requests[2].source,'discord');
     for (const date of ['2040-01-01','2024-02-31','private-query','2024-05']) {
-        assert.deepEqual(sourceForVisit(root+'/?utm_source=player_share&share_date='+date,''),{source:'player_share'});
+        assert.deepEqual(sourceForVisit(root+'/?utm_source=player_share&share_date='+date,''),{
+            source:'player_share', attributionVersion:3, referrerDomain:''
+        });
     }
 });
 

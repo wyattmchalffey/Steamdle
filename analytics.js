@@ -1,5 +1,6 @@
 const { createHash } = require('node:crypto');
 const { promisify } = require('node:util');
+const { normalizeCountry } = require('./analytics-country');
 
 const DAY_MS = 86400000;
 const SOURCES = new Set(['direct', 'discord', 'streamer', 'player_share', 'directory', 'search', 'social', 'other']);
@@ -10,7 +11,54 @@ const OUTCOMES = new Map([['wrong', 'W'], ['skip', 'K'], ['solve', 'S']]);
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const ACTIONS = new Set(['search_results', 'search_empty', 'search_pick', 'share_copy', 'share_native', 'share_x', 'feedback']);
 const SHARE_METRICS = new Map([['share_copy', 'copies'], ['share_native', 'native'], ['share_x', 'x']]);
-const EVENT_FIELDS = new Set(['browserId', 'puzzleDate', 'source', 'campaign', 'event', 'eventId', 'sharedPuzzle', 'clue', 'turns']);
+const EVENT_FIELDS = new Set(['browserId', 'puzzleDate', 'source', 'campaign', 'event', 'eventId', 'sharedPuzzle', 'clue', 'turns', 'attributionVersion', 'referrerDomain']);
+
+function validReferrerDomain(value) {
+    if (value === '') return true;
+    return typeof value === 'string' && value.length <= 253 && value === value.toLowerCase() &&
+        value.split('.').every(label => /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/.test(label)) &&
+        /\.(?:[a-z]{2,63}|xn--[a-z0-9-]{2,59})$/.test(value) && !value.startsWith('www.') &&
+        !/(^|\.)(localhost|local|internal|lan|home|test|invalid)$/.test(value) &&
+        !/(^|\.)home\.arpa$/.test(value) && !['steamdle.com', 'steamdle.onrender.com'].includes(value);
+}
+
+function attributionReport(rounds, since, startDate, today, retention) {
+    const activity = { countries: new Map(), referrers: new Map() };
+    const cohorts = { countries: new Map(), referrers: new Map() };
+    let measuredRounds = 0;
+    for (const round of rounds) {
+        if (!round.attribution_json) continue;
+        const detail = JSON.parse(round.attribution_json);
+        const inPeriod = round.puzzle_date >= startDate && round.puzzle_date <= today;
+        if (inPeriod) measuredRounds++;
+        for (const [dimension, name] of [['countries', detail.country], ['referrers', detail.referrerDomain]]) {
+            if (inPeriod) {
+                if (!activity[dimension].has(name)) activity[dimension].set(name,
+                    { name, browsers: new Set(), rounds: 0, finished: 0, solved: 0 });
+                const group = activity[dimension].get(name);
+                group.browsers.add(round.browser_key);
+                group.rounds++;
+                const solved = round.turns.endsWith('S');
+                group.solved += Number(solved);
+                group.finished += Number(solved || round.turns.length === 6);
+            }
+            if (round.first_start && round.puzzle_date >= retention.startDate && round.puzzle_date <= retention.endDate) {
+                if (!cohorts[dimension].has(name)) cohorts[dimension].set(name, { name, eligible: 0, returned: 0 });
+                const group = cohorts[dimension].get(name);
+                group.eligible++;
+                group.returned += Number(Boolean(round.came_back));
+            }
+        }
+    }
+    const totals = dimension => [...activity[dimension].values()]
+        .map(row => ({ ...row, browsers: row.browsers.size }))
+        .sort((a, b) => b.rounds - a.rounds || a.name.localeCompare(b.name));
+    const returns = dimension => [...cohorts[dimension].values()]
+        .sort((a, b) => b.eligible - a.eligible || a.name.localeCompare(b.name));
+    return { since, measuredRounds, countries: totals('countries'), referrers: totals('referrers'),
+        retention: { startDate: retention.startDate, endDate: retention.endDate,
+            countries: returns('countries'), referrers: returns('referrers') } };
+}
 
 function emptyClues() {
     return Array.from({ length: 6 }, (_, i) => ({
@@ -78,7 +126,7 @@ function createAnalytics(db, options = {}) {
         return Boolean(row);
     }
 
-    let engagementSince;
+    let engagementSince, attributionSince;
     const ready = Promise.resolve(db.ready).then(async () => {
         await exec(`
             CREATE TABLE IF NOT EXISTS analytics_rounds (
@@ -118,9 +166,19 @@ function createAnalytics(db, options = {}) {
             CREATE TABLE IF NOT EXISTS analytics_coverage (version INTEGER PRIMARY KEY, since TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS analytics_campaigns (slug TEXT PRIMARY KEY) WITHOUT ROWID;
         `);
+        const columns = await all('PRAGMA table_info(analytics_rounds)');
+        if (!columns.some(column => column.name === 'attribution_json')) {
+            try { await exec('ALTER TABLE analytics_rounds ADD COLUMN attribution_json TEXT'); }
+            catch (error) {
+                // Another application instance may have completed the same migration.
+                if (!(await all('PRAGMA table_info(analytics_rounds)')).some(column => column.name === 'attribution_json')) throw error;
+            }
+        }
         await run('INSERT OR IGNORE INTO analytics_metadata (id, tracking_since) VALUES (1, ?)', dayOffset(now()));
         await run('INSERT OR IGNORE INTO analytics_coverage(version, since) VALUES (2, ?)', dayOffset(now()));
+        await run('INSERT OR IGNORE INTO analytics_coverage(version, since) VALUES (3, ?)', dayOffset(now()));
         engagementSince = (await get('SELECT since FROM analytics_coverage WHERE version = 2')).since;
+        attributionSince = (await get('SELECT since FROM analytics_coverage WHERE version = 3')).since;
         for (const slug of configuredCampaigns) await insertCampaign(slug);
         return (await get('SELECT tracking_since FROM analytics_metadata WHERE id = 1')).tracking_since;
     });
@@ -133,12 +191,16 @@ function createAnalytics(db, options = {}) {
         return insertCampaign(slug);
     }
 
-    async function record(payload) {
+    async function record(payload, context = {}) {
         if (!payload || typeof payload !== 'object') return false;
         const { browserId, puzzleDate, source, campaign, turns, event, eventId, sharedPuzzle, clue } = payload;
         if (typeof browserId !== 'string' || !UUID_V4.test(browserId) ||
             typeof puzzleDate !== 'string' || !DATE.test(puzzleDate) || !SOURCES.has(source) ||
             (campaign !== undefined && typeof campaign !== 'string')) return false;
+        const measured = payload.attributionVersion === 3;
+        if ((payload.attributionVersion !== undefined && !measured) ||
+            (measured && !validReferrerDomain(payload.referrerDomain)) ||
+            (!measured && payload.referrerDomain !== undefined)) return false;
         const isAction = event !== undefined;
         const needsFinish = event === 'feedback' || SHARE_METRICS.has(event);
         if (isAction && ((event !== 'view' && !ACTIONS.has(event)) ||
@@ -163,17 +225,24 @@ function createAnalytics(db, options = {}) {
         let round;
         if (turns) {
             const encoded = turns.map(turn => OUTCOMES.get(turn)).join('');
+            // Only a newly measured round gets attribution. Later turns and retries
+            // must not invent metadata for old rounds or replace the original arrival.
+            // A late first delivery cannot reliably locate a previous day's visit.
+            const attribution = measured && puzzleDate >= attributionSince ? JSON.stringify({
+                country: puzzleDate === dayOffset(received) ? normalizeCountry(context.country) : '',
+                referrerDomain: payload.referrerDomain
+            }) : null;
             // Retry snapshots may only extend a previously accepted prefix.
             round = await get(`
-                INSERT INTO analytics_rounds (browser_key, puzzle_date, source, campaign, turns)
-                SELECT ?, puzzle_date, ?, COALESCE((SELECT slug FROM analytics_campaigns WHERE slug = ?), ''), ?
+                INSERT INTO analytics_rounds (browser_key, puzzle_date, source, campaign, turns, attribution_json)
+                SELECT ?, puzzle_date, ?, COALESCE((SELECT slug FROM analytics_campaigns WHERE slug = ?), ''), ?, ?
                 FROM daily_puzzles WHERE puzzle_date = ?
                 ON CONFLICT(browser_key, puzzle_date) DO UPDATE SET turns =
                     CASE WHEN length(excluded.turns) > length(analytics_rounds.turns)
                         AND substr(excluded.turns, 1, length(analytics_rounds.turns)) = analytics_rounds.turns
                     THEN excluded.turns ELSE analytics_rounds.turns END
                 RETURNING source
-            `, [key, source, campaign || '', encoded, puzzleDate]);
+            `, [key, source, campaign || '', encoded, attribution, puzzleDate]);
             if (!round) return false;
         }
         // A share-tagged turn can arrive before the first-clue event. Credit a referred start
@@ -232,7 +301,7 @@ function createAnalytics(db, options = {}) {
         // One SQLite read snapshot keeps the report consistent while new turns arrive.
         // The indexed history lookups reach outside the selected range for first-touch and retention.
         const rounds = await all(`
-            SELECT r.puzzle_date, r.source, r.campaign, r.turns,
+            SELECT r.browser_key, r.puzzle_date, r.source, r.campaign, r.turns, r.attribution_json,
                    ROW_NUMBER() OVER (PARTITION BY (r.puzzle_date >= $start), r.source, r.campaign, r.browser_key
                        ORDER BY r.puzzle_date) AS source_visit,
                    NOT EXISTS (SELECT 1 FROM analytics_rounds prior
@@ -300,8 +369,9 @@ function createAnalytics(db, options = {}) {
             if (row.event === 'search_pick') search.selected += row.total;
         }
         const feedback = feedbackCounts(actions.filter(row => row.event === 'feedback'));
+        const attribution = attributionReport(rounds, attributionSince, startDate, today, retention);
         return { today, startDate, endDate: today, days, trackingSince, campaigns, daily, clues, sources, retention,
-            engagementSince, puzzles, views, shares, search, feedback };
+            engagementSince, puzzles, views, shares, search, feedback, attribution };
     }
 
     async function puzzleReview(date) {
