@@ -141,18 +141,35 @@ function puzzleSection(report, campaign, order) {
 }
 
 function sharingSection(report) {
-    const shares = [...(report.shares || [])].filter(s => s.copies || s.native || s.x || s.starts)
+    const shares = [...(report.shares || [])].filter(s => s.copies || s.native || s.x || s.images || s.downloads || s.starts)
         .sort((a, b) => b.date.localeCompare(a.date));
     const rows = shares.map(s => {
-        const actions = s.copies + s.native + s.x;
-        return [s.date, count.format(s.copies), count.format(s.native), count.format(s.x), count.format(s.starts),
+        const actions = s.copies + s.native + s.x + (s.images || 0);
+        const imageMeasured = report.sharingSince && s.date >= report.sharingSince;
+        return [s.date, count.format(s.copies), count.format(s.native), count.format(s.x),
+            imageMeasured ? count.format(s.images || 0) : '—', imageMeasured ? count.format(s.downloads || 0) : '—', count.format(s.starts),
             actions ? (s.starts / actions).toFixed(2) : '—'];
     });
+    const activity = [...(report.shareActivity || [])].filter(row => row.finished || row.sharers)
+        .sort((a, b) => b.date.localeCompare(a.date));
+    const referrals = report.referralOutcomes || [];
     return `<section id="sharing"><h2>Result sharing</h2>
-        <p>Compare successful result copies, completed device-share handoffs, and clicks on “Share on X” with first turns from tagged result links.</p>
-        ${rows.length ? table('Result sharing by originating puzzle', ['Originating puzzle', 'Copies', 'Device handoffs', 'X clicks', 'Referred starts', 'Starts per action'], rows)
+        <p>Compare result copies, completed device-share handoffs, and clicks on “Share on X” with first turns from tagged result links.</p>
+        ${rows.length ? table('Result sharing by originating puzzle', ['Originating puzzle', 'Copies', 'Text handoffs', 'X clicks', 'Image handoffs', 'Image downloads', 'Referred starts', 'Starts per action'], rows)
         : '<p class="note">No measured share actions or attributed starts for puzzles in this period yet.</p>'}
-        <p class="note">Starts are credited to the date in the shared link, even when a friend starts a later puzzle. One link can bring several starts. Copies and handoffs do not confirm that a result was posted.</p>
+        <p class="note">Starts are credited to the date in the shared link, even when a friend starts a later puzzle. One link can bring several starts. Copies, handoffs and X clicks do not confirm that a result was posted. Image downloads count initiated downloads and are excluded from starts per action and sharer counts.</p>
+        ${report.sharingSince ? `<p class="note">Image sharing and download tracking began ${escapeHtml(report.sharingSince)} UTC. Earlier dates are unmeasured.</p>` : ''}
+        <h3 class="attribution-return">Sharing participation</h3>
+        ${activity.length ? table('Daily sharing participation', ['Puzzle date', 'Finished rounds', 'Unique browser sharers', 'Share rate'], activity.map(row => [
+            row.date, count.format(row.finished), count.format(row.sharers), rate(row.sharers, row.finished)
+        ])) : '<p class="note">Sharing participation appears after tracked rounds finish.</p>'}
+        <p class="note">A browser counts once per puzzle after copying, using device sharing, or clicking Share on X. The share rate uses finished rounds. These counts can be calculated from existing sharing history.</p>
+        <h3 class="attribution-return">Players arriving from shared links</h3>
+        ${referrals.length ? table('Shared-link round outcomes', ['Played date', 'Referred starts', 'Finished', 'Eligible for next-day return', 'Returned next day'], referrals.map(row => [
+            row.date, count.format(row.started), countWithRate(row.finished, row.started), count.format(row.eligible),
+            row.eligible ? countWithRate(row.returned, row.eligible) : '—'
+        ])) : '<p class="note">Referral outcomes appear when a browser starts after a tagged player-share link.</p>'}
+        <p class="note">These rows use the date actually played. Each browser counts once per date and can appear on several dates. A next-day return means another first turn on the following UTC date, from any source. That entire following day must have ended before a round is eligible; today and yesterday are still pending.</p>
     </section>`;
 }
 

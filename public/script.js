@@ -1,4 +1,6 @@
 import { canonicalGuess, decodeAttempts, guessError, MAX_GUESS_LENGTH, normalizeTitle } from './round.mjs';
+import { buildShareResult, createShareCard } from './share.mjs';
+import { saveResult, readStats, nextPuzzleTime } from './personal-stats.mjs';
 
 document.addEventListener('DOMContentLoaded', () => {
     // A content blocker or an unavailable analytics module must not prevent playing.
@@ -23,7 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameImage = document.getElementById('game-image');
     const steamLink = document.getElementById('steam-link');
     const shareButton = document.getElementById('share-button');
-    const nativeShareButton = document.getElementById('native-share-button');
+    const copyResultsButton = document.getElementById('copy-results-button');
+    const saveImageButton = document.getElementById('save-image-button');
+    const shareImageButton = document.getElementById('share-image-button');
+    const imagePreview = document.getElementById('share-image-preview');
+    const cardImage = document.getElementById('share-card-image');
+    const manualShare = document.getElementById('manual-share');
+    const manualShareText = document.getElementById('manual-share-text');
     const shareSection = document.getElementById('share-section');
     const twitterShareLink = document.getElementById('twitter-share-link');
     const feedbackForm = document.getElementById('clue-feedback');
@@ -45,6 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let autocompleteDebounceTimer;
     let openingObserver;
     let openingReported = false;
+    let shareResult;
+    let shareFile;
+    let shareImageUrl;
+    let shareBusy = false;
+    let shareFocus;
+    let countdownTimer;
 
     // Autocomplete state
     let activeDropdownIndex = -1;
@@ -294,6 +308,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loadingRound) return;
         loadingRound = true;
         currentGame = null;
+        clearInterval(countdownTimer);
+        shareResult = null;
+        shareFile = null;
+        if (shareImageUrl) URL.revokeObjectURL(shareImageUrl);
+        shareImageUrl = null;
+        cardImage.removeAttribute('src');
+        saveImageButton.classList.add('hidden');
+        shareImageButton.classList.add('hidden');
+        imagePreview.classList.add('hidden');
+        imagePreview.open = false;
+        manualShare.classList.add('hidden');
+        renderPersonalRecord();
         openingObserver?.disconnect();
         openingReported = false;
         searchSequence++;
@@ -560,22 +586,119 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (didWin) {
-            winLoseText.textContent = "Congratulations! You guessed it!";
+            winLoseText.textContent = "You got it!";
             gameOverMessageDiv.classList.add('win');
             const cluesUsed = attempts.length;
             resultStats.textContent = `You got it in ${cluesUsed} ${cluesUsed === 1 ? 'clue' : 'clues'}!`;
             if (interactive) triggerConfetti();
         } else {
-            winLoseText.textContent = "Game Over! Better luck next time.";
+            winLoseText.textContent = "That was a tough one.";
             gameOverMessageDiv.classList.add('lose');
             resultStats.textContent = `You used all ${currentGame.reviews.length} clues.`;
         }
         shareSection.classList.remove('hidden');
-        nativeShareButton.classList.toggle('hidden', !navigator.share);
-        const shareText = generateShareText();
-        twitterShareLink.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+        prepareSharing();
+        try {
+            saveResult(localStorage, { date: currentGame.puzzleDate, appId: currentGame.appId,
+                won: didWin, turns: attempts.length });
+        } catch { /* A result can still be shared when browser storage is unavailable. */ }
+        renderPersonalRecord();
+        updateCountdown();
+        if (!currentGame || !isGameOver) return;
+        clearInterval(countdownTimer);
+        countdownTimer = setInterval(() => { if (!document.hidden) updateCountdown(); }, 1000);
         void analytics.then(renderFeedback);
         if (interactive) shareButton.focus();
+    }
+
+    function renderPersonalRecord() {
+        let stats;
+        try { stats = readStats(localStorage); } catch { stats = { available: false }; }
+        const panel = document.getElementById('personal-record');
+        panel.classList.toggle('hidden', !stats.available || !stats.played);
+        if (!stats.available || !stats.played) return;
+        document.getElementById('personal-record-summary').textContent = stats.currentStreak
+            ? `Your record · ${stats.currentStreak}-day streak` : 'Your record';
+        document.getElementById('personal-played').textContent = stats.played;
+        document.getElementById('personal-win-rate').textContent = `${stats.winRate}%`;
+        document.getElementById('personal-streak').textContent = stats.currentStreak;
+        document.getElementById('personal-best').textContent = stats.bestStreak;
+        const history = document.getElementById('personal-history');
+        history.replaceChildren();
+        for (const result of stats.history.slice(0, 7)) {
+            const item = document.createElement('li');
+            const date = document.createElement('time');
+            date.dateTime = result.date;
+            date.textContent = new Intl.DateTimeFormat(undefined, {month:'short',day:'numeric',timeZone:'UTC'})
+                .format(new Date(result.date + 'T12:00:00Z'));
+            const score = document.createElement('span');
+            score.textContent = result.won ? `Solved · ${result.turns}/6` : 'Finished · X/6';
+            item.append(date, score);
+            history.appendChild(item);
+        }
+    }
+
+    function updateCountdown() {
+        if (!currentGame || !isGameOver || checkForNewDay()) return;
+        const next = nextPuzzleTime(new Date());
+        document.getElementById('next-puzzle-countdown').textContent = next.countdown;
+        const local = document.getElementById('next-puzzle-local');
+        local.dateTime = new Date(next.at).toISOString();
+        local.textContent = next.localLabel;
+    }
+
+    function prepareSharing() {
+        const result = buildShareResult({puzzleDate:currentGame.puzzleDate, attempts, answer:currentGame.title,
+            maxClues:currentGame.reviews.length, origin:window.location.origin});
+        if (shareResult?.text === result.text) return;
+        shareResult = result;
+        shareFile = null;
+        if (shareImageUrl) URL.revokeObjectURL(shareImageUrl);
+        shareImageUrl = null;
+        const native = canShareText(result);
+        copyResultsButton.classList.toggle('hidden', !native);
+        document.getElementById('share-help').textContent = native
+            ? 'Send a spoiler-free result and a link to today’s puzzle.'
+            : 'Copies a spoiler-free result and a link to today’s puzzle.';
+        document.getElementById('share-date').textContent = `Steamdle · ${result.dateLabel}`;
+        document.getElementById('share-score').textContent = result.score;
+        document.getElementById('share-prompt').textContent = result.won
+            ? (attempts.length === 1 ? 'One clue. Can your friends match that?' : 'Can your friends beat your score?')
+            : 'Challenge a friend to crack this one.';
+        const grid = document.getElementById('share-grid');
+        grid.replaceChildren();
+        grid.setAttribute('role', 'img');
+        grid.setAttribute('aria-label', result.outcomes.map((outcome, i) =>
+            `Turn ${i + 1}: ${outcome === 'solve' ? 'correct' : outcome === 'skip' ? 'skipped' : 'wrong'}`).join('. '));
+        for (let i = 0; i < currentGame.reviews.length; i++) {
+            const outcome = result.outcomes[i] || 'unused';
+            const tile = document.createElement('span');
+            tile.className = 'share-tile ' + outcome;
+            tile.setAttribute('aria-hidden', 'true');
+            tile.textContent = {solve:'✓',wrong:'×',skip:'−',unused:'·'}[outcome];
+            grid.appendChild(tile);
+        }
+        twitterShareLink.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(result.text)}`;
+        // Prepare the file before the click, so native sharing keeps user activation.
+        createShareCard(result).then(blob => {
+            if (shareResult !== result) return;
+            shareImageUrl = URL.createObjectURL(blob);
+            cardImage.src = shareImageUrl;
+            cardImage.alt = `Steamdle result for ${result.dateLabel}: ${result.score}. ${result.grid}. No answer shown.`;
+            imagePreview.classList.remove('hidden');
+            saveImageButton.classList.remove('hidden');
+            if (typeof File === 'function') shareFile = new File([blob], `steamdle-${result.date}.png`, {type:'image/png'});
+            let supported = false;
+            try { supported = Boolean(navigator.share && shareFile && navigator.canShare?.({files:[shareFile],
+                title:result.title, text:result.message, url:result.url})); } catch { /* Use download. */ }
+            shareImageButton.classList.toggle('hidden', !supported);
+        }).catch(() => { /* Text sharing stays available if image creation is unsupported. */ });
+    }
+
+    function canShareText(result) {
+        if (typeof navigator.share !== 'function') return false;
+        try { return !navigator.canShare || navigator.canShare({title:result.title,text:result.message,url:result.url}); }
+        catch { return false; }
     }
 
     function renderFeedback(record) {
@@ -644,20 +767,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 4000);
     }
 
-    function generateShareText() {
-        const puzzleId = (currentGame.puzzleDateFormatted || currentGame.puzzleDate || 'Daily').replace(/\s+/g, '');
-        const score = `${attempts.some(isCorrect) ? attempts.length : 'X'}/${currentGame.reviews.length}`;
-        const gridVisual = attempts.map(guess => {
-            if (guess === null) return '\u2b1c';
-            return isCorrect(guess) ? '\u{1f7e9}' : '\u{1f7e5}';
-        }).join('');
-        const gameUrl = new URL('/', window.location.origin);
-        gameUrl.searchParams.set('utm_source', 'player_share');
-        gameUrl.searchParams.set('share_date', currentGame.puzzleDate);
-
-        return `Steamdle #${puzzleId} ${score}\n\n${gridVisual}\n\nCan you guess today's game? Play at ${gameUrl}`;
-    }
-
     function showToast(message) {
         if (!toastEl) return;
         toastEl.textContent = message;
@@ -672,7 +781,11 @@ document.addEventListener('DOMContentLoaded', () => {
     guessButton.addEventListener('click', handleGuess);
     skipButton.addEventListener('click', () => takeTurn(null));
     document.addEventListener('visibilitychange', () => {
-        if (!document.hidden && !checkForNewDay()) reportVisibleOpening();
+        if (!document.hidden && !checkForNewDay()) {
+            reportVisibleOpening();
+            updateCountdown();
+            renderPersonalRecord();
+        }
     });
     if (!('IntersectionObserver' in window)) {
         window.addEventListener('scroll', reportVisibleOpening, { passive: true });
@@ -683,6 +796,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentGame && isGameOver && event.key?.endsWith(currentGame.puzzleDate + '.feedback')) {
             void analytics.then(renderFeedback);
         }
+        renderPersonalRecord();
     });
 
     guessInput.addEventListener('keydown', (event) => {
@@ -754,32 +868,91 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    shareButton.addEventListener('click', async () => {
-        if (!currentGame || !isGameOver || checkForNewDay()) return;
-        const day = currentGame.puzzleDate;
-        const text = generateShareText();
+    function readyToShare() {
+        return currentGame && isGameOver && !checkForNewDay() && shareResult && !shareBusy;
+    }
+
+    function setShareBusy(busy) {
+        if (busy) shareFocus = document.activeElement;
+        shareBusy = busy;
+        for (const button of [shareButton, copyResultsButton, shareImageButton, saveImageButton]) button.disabled = busy;
+        if (!busy && document.activeElement === document.body && shareFocus?.isConnected &&
+            !shareFocus.closest('.hidden')) shareFocus.focus({preventScroll:true});
+        if (!busy) shareFocus = null;
+    }
+
+    async function copyResult(result) {
         let copied = false;
         if (navigator.clipboard?.writeText) {
-            try { await navigator.clipboard.writeText(text); copied = true; } catch { /* Try the text selection fallback. */ }
+            try { await navigator.clipboard.writeText(result.text); copied = true; } catch { /* Try the text selection fallback. */ }
         }
-        if (!copied) copied = fallbackCopy(text);
-        if (copied) void reportEvent(day, 'share_copy');
-        showToast(copied ? 'Copied!' : 'Copy failed');
-    });
+        if (!copied) copied = fallbackCopy(result.text);
+        if (copied) void reportEvent(result.date, 'share_copy');
+        if (shareResult !== result) return;
+        if (copied) {
+            manualShare.classList.add('hidden');
+            showToast('Result copied. Send it to a friend!');
+        } else {
+            manualShareText.value = result.text;
+            manualShare.classList.remove('hidden');
+            manualShareText.focus();
+            manualShareText.select();
+            showToast('Select and copy your result below.');
+        }
+    }
 
-    nativeShareButton.addEventListener('click', async () => {
-        if (!navigator.share || !currentGame || !isGameOver || checkForNewDay()) return;
-        const day = currentGame.puzzleDate;
+    shareButton.addEventListener('click', async () => {
+        if (!readyToShare()) return;
+        const result = shareResult;
+        setShareBusy(true);
         try {
-            await navigator.share({ title: 'My Steamdle Result!', text: generateShareText() });
-            void reportEvent(day, 'share_native');
-        } catch (error) {
-            if (error.name !== 'AbortError') showToast('Sharing unavailable. Try Copy results.');
-        }
+            if (canShareText(result)) {
+                try {
+                    await navigator.share({title:result.title, text:result.message, url:result.url});
+                    void reportEvent(result.date, 'share_native');
+                } catch (error) {
+                    if (error.name !== 'AbortError') await copyResult(result);
+                }
+            } else await copyResult(result);
+        } finally { setShareBusy(false); }
     });
 
-    twitterShareLink.addEventListener('click', () => {
-        if (currentGame && isGameOver) void reportEvent(currentGame.puzzleDate, 'share_x');
+    copyResultsButton.addEventListener('click', async () => {
+        if (!readyToShare()) return;
+        const result = shareResult;
+        setShareBusy(true);
+        try { await copyResult(result); } finally { setShareBusy(false); }
+    });
+
+    shareImageButton.addEventListener('click', async () => {
+        if (!readyToShare() || !shareFile || !navigator.share) return;
+        const result = shareResult;
+        const file = shareFile;
+        setShareBusy(true);
+        try {
+            await navigator.share({files:[file], title:result.title, text:result.message, url:result.url});
+            void reportEvent(result.date, 'share_image');
+        } catch (error) {
+            if (error.name !== 'AbortError' && shareResult === result) showToast('Image sharing unavailable. Try Save image.');
+        } finally { setShareBusy(false); }
+    });
+
+    saveImageButton.addEventListener('click', () => {
+        if (!readyToShare() || !shareImageUrl) return;
+        const result = shareResult;
+        const link = document.createElement('a');
+        link.href = shareImageUrl;
+        link.download = `steamdle-${result.date}.png`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        void reportEvent(result.date, 'share_download');
+        showToast('Image download started.');
+    });
+
+    twitterShareLink.addEventListener('click', event => {
+        if (!currentGame || !isGameOver || checkForNewDay()) { event.preventDefault(); return; }
+        void reportEvent(currentGame.puzzleDate, 'share_x');
     });
 
     function fallbackCopy(text) {

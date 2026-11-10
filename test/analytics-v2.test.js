@@ -49,7 +49,7 @@ test('activation intersects unique shown browser-days with starts and share link
     await service.record({...friend,turns:['wrong']});
     let report = await service.summary(2);
     assert.deepEqual(report.views, [{source:'streamer',campaign:'launch',viewed:2,started:1}]);
-    assert.deepEqual(report.shares[0], {date:start,copies:2,native:1,x:1,starts:1});
+    assert.deepEqual(report.shares[0], {date:start,copies:2,native:1,x:1,images:0,downloads:0,starts:1});
     const impression = event(friend,'view');
     await Promise.all([service.record(impression), service.record(impression), service.record(event(friend,'view'))]);
     await service.record(event({...friend,source:'social'},'view'));

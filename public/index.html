@@ -42,6 +42,19 @@
             <br /><span class="subtitle-hint">New puzzle every day at midnight UTC.</span>
         </p>
 
+        <details id="personal-record" class="personal-record hidden">
+            <summary id="personal-record-summary">Your record</summary>
+            <dl class="personal-numbers">
+                <div><dt>Finished</dt><dd id="personal-played">0</dd></div>
+                <div><dt>Solved</dt><dd id="personal-win-rate">0%</dd></div>
+                <div><dt>Day streak</dt><dd id="personal-streak">0</dd></div>
+                <div><dt>Best streak</dt><dd id="personal-best">0</dd></div>
+            </dl>
+            <p class="record-note">Finish a puzzle to keep your streak, whether you solve it or use all six clues. Saved in this browser.</p>
+            <h3>Recent puzzles</h3>
+            <ol id="personal-history" class="personal-history"></ol>
+        </details>
+
         <div id="loading-state" class="loading-state">
             <div class="loading-spinner" aria-hidden="true"></div>
             <p id="loading-message">Loading today's puzzle…</p>
@@ -53,16 +66,40 @@
         <div id="game-over-message" class="hidden">
             <h2 id="win-lose-text"></h2>
             <p id="result-stats" class="result-stats"></p>
-            <p>The game was: <strong id="correct-game-title"></strong></p>
-            <img id="game-image" src="" alt="Game Cover Art" class="hidden" />
-            <a id="steam-link" href="#" target="_blank" class="hidden">View on Steam</a>
             <div id="share-section" class="share-section hidden">
-                <p class="share-prompt">Share your result:</p>
+                <div class="share-preview" aria-label="Your spoiler-free result">
+                    <div class="share-preview-header"><span id="share-date"></span><strong id="share-score"></strong></div>
+                    <div id="share-grid" class="share-grid"></div>
+                </div>
+                <p id="share-prompt" class="share-prompt">Can your friends beat your score?</p>
                 <div class="share-buttons">
-                    <button id="share-button" type="button">Copy results</button>
-                    <button id="native-share-button" class="hidden" type="button">Share…</button>
+                    <button id="share-button" type="button" aria-describedby="share-help">Challenge a friend</button>
+                    <button id="copy-results-button" class="share-secondary hidden" type="button">Copy results</button>
+                </div>
+                <p id="share-help" class="share-help"></p>
+                <div class="share-extras">
+                    <button id="save-image-button" class="share-secondary hidden" type="button">Save image</button>
+                    <button id="share-image-button" class="share-secondary hidden" type="button">Share image</button>
                     <a id="twitter-share-link" href="#" target="_blank" rel="noopener noreferrer" class="share-link-twitter">Share on X</a>
                 </div>
+                <details id="share-image-preview" class="share-image-preview hidden">
+                    <summary>Preview share image</summary>
+                    <img id="share-card-image" alt="" width="1200" height="630">
+                </details>
+                <div id="manual-share" class="manual-share hidden">
+                    <label for="manual-share-text">Select and copy your result</label>
+                    <textarea id="manual-share-text" rows="5" readonly></textarea>
+                </div>
+            </div>
+            <div class="next-puzzle">
+                <span>Next puzzle in</span>
+                <strong id="next-puzzle-countdown" aria-live="off"></strong>
+                <time id="next-puzzle-local"></time>
+            </div>
+            <div class="answer-reveal">
+                <p>The game was <strong id="correct-game-title"></strong></p>
+                <img id="game-image" src="" alt="Game Cover Art" class="hidden" />
+                <a id="steam-link" href="#" target="_blank" rel="noopener noreferrer" class="hidden">View on Steam</a>
             </div>
             <form id="clue-feedback" class="hidden">
                 <fieldset>

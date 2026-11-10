@@ -9,8 +9,9 @@ const CAMPAIGN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const OUTCOMES = new Map([['wrong', 'W'], ['skip', 'K'], ['solve', 'S']]);
 
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
-const ACTIONS = new Set(['search_results', 'search_empty', 'search_pick', 'share_copy', 'share_native', 'share_x', 'feedback']);
-const SHARE_METRICS = new Map([['share_copy', 'copies'], ['share_native', 'native'], ['share_x', 'x']]);
+const ACTIONS = new Set(['search_results', 'search_empty', 'search_pick', 'share_copy', 'share_native', 'share_x', 'share_image', 'share_download', 'feedback']);
+const SHARE_METRICS = new Map([['share_copy', 'copies'], ['share_native', 'native'], ['share_x', 'x'],
+    ['share_image', 'images'], ['share_download', 'downloads']]);
 const EVENT_FIELDS = new Set(['browserId', 'puzzleDate', 'source', 'campaign', 'event', 'eventId', 'sharedPuzzle', 'clue', 'turns', 'attributionVersion', 'referrerDomain']);
 
 function validReferrerDomain(value) {
@@ -126,7 +127,7 @@ function createAnalytics(db, options = {}) {
         return Boolean(row);
     }
 
-    let engagementSince, attributionSince;
+    let engagementSince, attributionSince, sharingSince;
     const ready = Promise.resolve(db.ready).then(async () => {
         await exec(`
             CREATE TABLE IF NOT EXISTS analytics_rounds (
@@ -177,8 +178,10 @@ function createAnalytics(db, options = {}) {
         await run('INSERT OR IGNORE INTO analytics_metadata (id, tracking_since) VALUES (1, ?)', dayOffset(now()));
         await run('INSERT OR IGNORE INTO analytics_coverage(version, since) VALUES (2, ?)', dayOffset(now()));
         await run('INSERT OR IGNORE INTO analytics_coverage(version, since) VALUES (3, ?)', dayOffset(now()));
+        await run('INSERT OR IGNORE INTO analytics_coverage(version, since) VALUES (4, ?)', dayOffset(now()));
         engagementSince = (await get('SELECT since FROM analytics_coverage WHERE version = 2')).since;
         attributionSince = (await get('SELECT since FROM analytics_coverage WHERE version = 3')).since;
+        sharingSince = (await get('SELECT since FROM analytics_coverage WHERE version = 4')).since;
         for (const slug of configuredCampaigns) await insertCampaign(slug);
         return (await get('SELECT tracking_since FROM analytics_metadata WHERE id = 1')).tracking_since;
     });
@@ -218,6 +221,7 @@ function createAnalytics(db, options = {}) {
         const received = now();
         if (puzzleDate < (isAction ? engagementSince : since) ||
             puzzleDate < dayOffset(received, -6) || puzzleDate > dayOffset(received)) return false;
+        if ((event === 'share_image' || event === 'share_download') && puzzleDate < sharingSince) return false;
         const key = createHash('sha256').update(browserId.toLowerCase()).digest('hex');
         // A share tag is only attribution. A bad or unpublished origin cannot suppress a real play.
         const origin = source === 'player_share' && typeof sharedPuzzle === 'string' && DATE.test(sharedPuzzle) &&
@@ -357,7 +361,7 @@ function createAnalytics(db, options = {}) {
             FROM analytics_exposures e JOIN analytics_rounds r USING (puzzle_date, browser_key)
             WHERE e.shared_puzzle BETWEEN ? AND ? GROUP BY e.shared_puzzle`, [startDate, today]);
         const shares = daily.filter(row => row.date >= engagementSince).map(({ date }) => ({
-            date, copies: 0, native: 0, x: 0, starts: 0
+            date, copies: 0, native: 0, x: 0, images: 0, downloads: 0, starts: 0
         }));
         const sharesByDate = new Map(shares.map(row => [row.date, row]));
         for (const row of referrals) sharesByDate.get(row.date).starts = row.starts;
@@ -369,9 +373,35 @@ function createAnalytics(db, options = {}) {
             if (row.event === 'search_pick') search.selected += row.total;
         }
         const feedback = feedbackCounts(actions.filter(row => row.event === 'feedback'));
+        // A person can copy several times or use several share options. Count each
+        // browser once per finished puzzle, while keeping action counts separate.
+        const sharers = await all(`SELECT r.puzzle_date AS date, COUNT(*) AS finished,
+            SUM(EXISTS (SELECT 1 FROM analytics_actions a
+                WHERE a.puzzle_date = r.puzzle_date AND a.browser_key = r.browser_key
+                  AND a.event IN ('share_copy','share_native','share_x','share_image'))) AS sharers
+            FROM analytics_rounds r WHERE r.puzzle_date BETWEEN ? AND ?
+              AND (length(r.turns) = 6 OR substr(r.turns, -1) = 'S')
+            GROUP BY r.puzzle_date`, [startDate, today]);
+        const sharersByDate = new Map(sharers.map(row => [row.date, row]));
+        const shareActivity = daily.filter(row => row.date >= engagementSince)
+            .map(({date}) => sharersByDate.get(date) || {date, finished:0, sharers:0});
+        // Use actual played dates for referral quality. The original link's date
+        // is only used in the separate sharing-action table above. A recorded view
+        // takes precedence over first-acquisition source when both are available.
+        const referralOutcomes = await all(`SELECT r.puzzle_date AS date, COUNT(*) AS started,
+            SUM(length(r.turns) = 6 OR substr(r.turns, -1) = 'S') AS finished,
+            SUM(r.puzzle_date <= $mature) AS eligible,
+            SUM(r.puzzle_date <= $mature AND EXISTS (
+                SELECT 1 FROM analytics_rounds later WHERE later.browser_key = r.browser_key
+                  AND later.puzzle_date = date(r.puzzle_date, '+1 day')
+            )) AS returned
+            FROM analytics_rounds r LEFT JOIN analytics_exposures e USING (puzzle_date, browser_key)
+            WHERE r.puzzle_date BETWEEN $start AND $today AND COALESCE(e.source, r.source) = 'player_share'
+            GROUP BY r.puzzle_date ORDER BY r.puzzle_date DESC`,
+            { $start: startDate > engagementSince ? startDate : engagementSince, $today: today, $mature: dayOffset(asOf, -2) });
         const attribution = attributionReport(rounds, attributionSince, startDate, today, retention);
         return { today, startDate, endDate: today, days, trackingSince, campaigns, daily, clues, sources, retention,
-            engagementSince, puzzles, views, shares, search, feedback, attribution };
+            engagementSince, puzzles, views, shares, search, feedback, attribution, sharingSince, shareActivity, referralOutcomes };
     }
 
     async function puzzleReview(date) {

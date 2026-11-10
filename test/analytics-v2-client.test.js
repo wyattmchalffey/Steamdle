@@ -98,9 +98,10 @@ test('search signals contain no text; feedback is a single choice from encounter
     assert.deepEqual(requests.at(-1).turns,['wrong','solve']);
     assert.equal(requests.at(-1).clue,0);
     play.event(now,'share_copy'); play.event(now,'share_copy'); play.event(now,'share_native'); play.event(now,'share_x');
+    play.event(now,'share_image'); play.event(now,'share_download');
     const shares = requests.filter(p=>p.event?.startsWith('share_'));
-    assert.deepEqual(shares.map(p=>p.event),['share_copy','share_copy','share_native','share_x']);
-    assert.equal(new Set(shares.map(p=>p.eventId)).size,4);
+    assert.deepEqual(shares.map(p=>p.event),['share_copy','share_copy','share_native','share_x','share_image','share_download']);
+    assert.equal(new Set(shares.map(p=>p.eventId)).size,6);
 });
 
 test('opting out prevents all new tracking and transmission of queued actions', async () => {
