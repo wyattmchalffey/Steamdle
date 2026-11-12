@@ -4,6 +4,10 @@ const path = require('path');
 const fs = require('fs');
 const { fetchGameClues } = require('./clues');
 const { promisify } = require('util');
+const { prepareCuratedTrial, registerCatalogAndCuratedReviews } = require('./curated-trial');
+const activeCuration = require('./active-curation');
+const { installCuratedSchedule } = require('./curated-schedule');
+const curatedGames = prepareCuratedTrial(activeCuration);
 
 // --- Configuration for Database Path ---
 const isProduction = process.env.NODE_ENV === 'production';
@@ -76,8 +80,23 @@ db.ready = opened.then(async () => {
         await exec('ROLLBACK');
         throw error;
     }
+    if (process.env.DISABLE_DB_SEED !== 'true') {
+        const trial = await registerCatalogAndCuratedReviews(db, catalog, curatedGames);
+        console.log(`[SEED_INFO] Registered ${catalog.length} catalog games; imported ${trial.imported.length} curated clue sets.`);
+        if (activeCuration.schedule) {
+            try {
+                const schedule = await installCuratedSchedule(db, activeCuration);
+                console.log(`[SCHEDULE] ${schedule.status}: ${activeCuration.version}`);
+            } catch (error) {
+                // An unexpected usage conflict must not take the current puzzle offline.
+                // The installation itself rolls back in full; the owner can inspect it.
+                db.scheduleInstallationError = error.message;
+                console.error('[SCHEDULE] Month not installed:', error.message);
+            }
+        }
+    }
 });
-db.ready.then(checkAndSeedDatabase).catch(error => {
+db.seeded = db.ready.then(checkAndSeedDatabase).catch(error => {
     console.error('[DB_ERROR] Could not initialize Steamdle data:', error.message);
 });
 
@@ -143,7 +162,6 @@ async function seedInitialData() {
         });
     });
 
-    const titlesToSeed = gamesToSeed.map(g => g.title);
     const existingByTitle = new Map(dbGames.map(game => [game.title, game]));
     // Repair today's puzzle first on startup, before the rest of the catalog.
     gamesToSeed.sort((a, b) => (existingByTitle.get(b.title)?.played_today || 0)
@@ -160,6 +178,9 @@ async function seedInitialData() {
 
         try {
             const existingGame = existingByTitle.get(gameData.title);
+            // The versioned curated pack is applied before db.ready resolves.
+            // Automatic refreshes, including FORCE_RESEED, must not replace it.
+            if (curatedGames.has(String(gameData.steam_app_id))) continue;
             // Keep today's published game and its clue order intact across the migration.
             const manualReviews = Array.isArray(gameData.reviews) && gameData.reviews.length >= 6;
             if (existingGame?.steam_app_id === gameData.steam_app_id && existingGame.review_count >= 6 &&
@@ -191,29 +212,6 @@ async function seedInitialData() {
             console.log(`[SEED_SUCCESS] Saved six reviews for "${gameData.title}".`);
         } catch (err) {
             console.error(`[SEED_EXCEPTION] During upsert for "${gameData.title || 'UNTITLED'}":`, err.message, err.stack);
-        }
-    }
-
-    // 2. Clean up: Remove games from DB that are no longer in gamesToSeed
-    for (const dbGame of dbGames) {
-        if (!titlesToSeed.includes(dbGame.title)) {
-            console.log(`[SEED_INFO] Game "${dbGame.title}" (ID: ${dbGame.id}) is in DB but not in seed list. Deleting.`);
-            try {
-                await new Promise((resolve, reject) => {
-                    // FOREIGN KEY ON DELETE CASCADE will also remove its reviews
-                    db.run("DELETE FROM games WHERE id = ?", [dbGame.id], (err) => {
-                        if (err) {
-                            console.error(`[SEED_DB_ERROR] Error deleting obsolete game "${dbGame.title}":`, err.message);
-                            reject(err);
-                        } else {
-                            console.log(`[SEED_SUCCESS] Deleted obsolete game "${dbGame.title}".`);
-                            resolve();
-                        }
-                    });
-                });
-            } catch (err) {
-                console.error(`[SEED_EXCEPTION] During cleanup of "${dbGame.title}":`, err.message);
-            }
         }
     }
 

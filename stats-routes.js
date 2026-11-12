@@ -34,7 +34,7 @@ function writeLimit(max) {
     };
 }
 
-function createStatsRoutes(analytics, env = process.env) {
+function createStatsRoutes(analytics, env = process.env, { scheduleStatus } = {}) {
     const router = express.Router();
     const sessions = new Map();
     // The repository holds only a verifier for the owner's random 256-bit key.
@@ -104,6 +104,29 @@ function createStatsRoutes(analytics, env = process.env) {
         // Owner-only, read-only deployment check. It never returns an address.
         const country = requestCountry(req, env);
         res.json({ status: countryLookupStatus(), country });
+    });
+    router.get('/stats/schedule', async (req, res) => {
+        if (!ownerSignedIn(req)) return res.status(401).send(renderLogin());
+        if (!scheduleStatus) return res.sendStatus(404);
+        try {
+            const report = await scheduleStatus();
+            if (req.query.format === 'json') return res.json(report);
+            const escape = value => String(value ?? '').replace(/[&<>"']/g,
+                char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+            res.type('html').send(`<!doctype html><html lang="en"><meta charset="utf-8">
+                <meta name="viewport" content="width=device-width,initial-scale=1"><title>Steamdle puzzle schedule</title>
+                <style>body{font:16px/1.5 system-ui;background:#10161d;color:#eef5fa;max-width:900px;margin:auto;padding:24px}a{color:#a7dafa}table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:10px;border-bottom:1px solid #344454}caption{text-align:left;margin:18px 0}small{color:#b5c3d0}</style>
+                <a href="/stats">Back to player stats</a><h1>Puzzle schedule</h1>
+                <p>${report.complete ? 'All 30 curated puzzles are installed.' : 'The curated schedule needs attention.'}</p>
+                ${report.error ? `<p>${escape(report.error)}</p>` : ''}
+                <p><small>Puzzle dates use UTC. This owner view includes future answers.</small></p>
+                <table><caption>${escape(report.version)}</caption><thead><tr><th>Date</th><th>Game</th><th>Clues</th><th>Status</th></tr></thead><tbody>
+                ${report.days.map(day => `<tr><td>${escape(day.date)}</td><td>${escape(day.title)}</td><td>${day.clueCount}</td><td>${day.matches ? 'Curated' : 'Check'}</td></tr>`).join('')}
+                </tbody></table></html>`);
+        } catch (error) {
+            console.error('[SCHEDULE] Could not read owner schedule:', error.message);
+            res.status(503).send('The puzzle schedule is temporarily unavailable.');
+        }
     });
     router.post('/stats/login', sameSiteWrite, writeLimit(120),
         express.urlencoded({ extended: false, limit: '2kb', parameterLimit: 1 }), (req, res) => {

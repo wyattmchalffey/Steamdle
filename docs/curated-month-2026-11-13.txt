@@ -1,0 +1,68 @@
+STEAMDLE — CURATED MONTH
+Puzzle dates: November 13 through December 12, 2026 (UTC), 30 consecutive days.
+Version: curated-month-2026-11-13-v1
+
+CONTENT
+30 different games; 180 manually selected Steam-review clues.
+30 complete short reviews and 150 exact contiguous excerpts, clearly labeled.
+The additional 24 games were selected from pools totaling 6,447 distinct reviews.
+Every selected clue has an individual review URL, recommendation ID, author ID,
+source timestamp, exact source offsets and a SHA-256 hash of the full review.
+Each game uses six different authors. No quotations exceed 25 words per source.
+The original six pilot sets are imported from their existing file rather than
+duplicating quotations. The active month file adds the other 24 sets.
+
+EDITORIAL CHECKS
+Each clue adds a genre, mechanic, setting, character or other identifying detail.
+Sequels include distinguishing evidence, not just shared franchise features.
+Every complete source review was checked for context. No accepted answer-title
+aliases appear in selected text. Major story twists were avoided.
+An additional reviewer checked each new batch or the assembled selections.
+Corrections included an unverified username, vague pronouns, and duplicated
+types of evidence. Difficulty remains editorial rather than player-tested.
+
+HISTORY AND INSTALLATION
+All 30 IDs were absent from all 42 pre-update catalog revisions. The installer
+then checks actual live last_played_on across all rows, including inactive
+aliases, plus immutable puzzle snapshots. If any selected game is already used
+or reserved, the entire schedule is rejected without altering existing dates.
+This guards against unknown live changes beyond the source-history audit.
+Legacy records cannot reconstruct deleted pre-migration history by themselves;
+the fact these games were never in the source catalog supplies extra evidence.
+
+Installation must occur November 12, before the November 13 UTC reset. It writes
+all 30 snapshots in one transaction and preserves today's and past puzzles.
+Any old unpublished selection inside the requested range is backed up in
+curated_schedule_backups, keyed by version and puzzle date, before replacement.
+The installed pack fingerprint prevents later edits under the same version.
+Restarts never reroll the month. Cached text means Steam is not needed to serve
+these 30 days. The ordinary unused-first policy resumes after the month.
+
+OWNER VERIFICATION
+/stats/schedule provides the owner schedule; ?format=json provides its report.
+Both require the existing owner session and send private/no-store headers.
+complete=true requires the installed pack fingerprint, all 30 correct dates,
+all 30 correct game IDs, all 180 exact stored clues, and no installation error.
+The route does not expose future answers to logged-out HTTP visitors.
+
+VALIDATION BEFORE RELEASE
+92 tests pass. Coverage includes full installation, rollback on late failure,
+inactive-alias play history, protected published puzzles, version immutability,
+changed-clue detection, owner authentication, and HTML escaping.
+A real-pack integration test registered all 510 catalog games, installed all
+30 dates, served all 180 cached clues without Steam calls, and preserved today's
+captured live puzzle. The owner schedule passed desktop/mobile browser checks.
+
+OPERATIONS
+Reverting code does not revert already-written persistent schedule rows.
+Any intentional restoration must use versioned backups and must never replace
+a date that has already been published. Do not edit this installed version;
+use a new version and a separately reviewed future-only change if needed.
+Normal automatic clue fetching skips the curated games.
+
+MEASURING QUALITY
+Use existing per-puzzle owner analytics after each date completes. Look for
+meaningful solves on clues 2–4 and fewer 'None helped' responses, while keeping
+familiarity and differences in game popularity in mind. The initial 30-day run
+is not a controlled experiment, and no player improvement is claimed in advance.
+The accompanying JSON file lists every date and game without duplicating clues.

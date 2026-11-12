@@ -76,7 +76,7 @@ function escapeHtml(value) {
 
 function page(title, body, signedIn) {
     const session = signedIn
-        ? '<form action="/stats/logout" method="post"><button class="logout">Sign out</button></form>'
+        ? '<a href="/stats/schedule">Puzzle schedule</a><form action="/stats/logout" method="post"><button class="logout">Sign out</button></form>'
         : '<a href="/">Play Steamdle</a>';
     return `<!doctype html><html lang="en"><head><meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">

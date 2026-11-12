@@ -4,9 +4,9 @@ const express = require('express');
 const { createStatsRoutes } = require('../stats-routes');
 const owner = require('../stats-owner.json');
 
-async function server(t, data, env) {
+async function server(t, data, env, options) {
     const app = express();
-    app.use(createStatsRoutes(data, env));
+    app.use(createStatsRoutes(data, env, options));
     const handle = await new Promise(resolve => {
         const instance = app.listen(0, '127.0.0.1', () => resolve(instance));
     });
@@ -73,6 +73,29 @@ test('owner data needs a real session, which is private, revocable and independe
     assert.match(await (await get('/stats', session)).text(), /Owner key/);
     const fork = await server(t, data, {RENDER_EXTERNAL_HOSTNAME:'someone-else.onrender.com'});
     assert.equal((await fetch(fork+'/stats/login', {method:'POST',body:new URLSearchParams({key})})).status,503);
+});
+
+test('future schedule is owner-only, never cached, and escapes game titles', async t => {
+    const key = 'schedule-test-key'.repeat(3);
+    let reads = 0;
+    const report = { version: 'test-month', complete: true, days: [
+        { date: '2026-11-13', title: '<script>secret future game</script>', clueCount: 6, matches: true }
+    ] };
+    const url = await server(t, {}, { STEAMDLE_STATS_KEY: key }, {
+        scheduleStatus: async () => { reads++; return report; }
+    });
+    const denied = await fetch(url + '/stats/schedule?format=json');
+    assert.equal(denied.status, 401);
+    assert.doesNotMatch(await denied.text(), /secret future game/);
+    assert.equal(reads, 0);
+    const login = await fetch(url + '/stats/login', { method: 'POST', redirect: 'manual', body: new URLSearchParams({ key }) });
+    const headers = { Cookie: login.headers.get('set-cookie').split(';')[0] };
+    const json = await fetch(url + '/stats/schedule?format=json', { headers });
+    assert.match(json.headers.get('cache-control'), /private, no-store/);
+    assert.deepEqual(await json.json(), report);
+    const html = await (await fetch(url + '/stats/schedule', { headers })).text();
+    assert.match(html, /&lt;script&gt;secret future game&lt;\/script&gt;/);
+    assert.doesNotMatch(html, /<script>/);
 });
 
 test('analytics accepts same-site JSON, honors opt-out and rejects foreign or oversized writes', async t => {

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Steamdle · Curated clue trial</title>
+<style>
+:root{color-scheme:dark;--bg:#10161d;--panel:#1b2632;--line:#344454;--muted:#b5c3d0;--accent:#b9f18c;--ink:#f2f7fb}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,sans-serif}main{max-width:860px;margin:auto;padding:36px 24px 70px}header{border-bottom:1px solid var(--line);padding-bottom:25px}.eyebrow{font-size:12px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase;font-weight:750}h1{font-size:clamp(30px,6vw,48px);letter-spacing:-.04em;line-height:1.1;margin:12px 0}h2{font-size:22px;margin:22px 0 12px}p{margin:10px 0}.muted,small{color:var(--muted)}nav{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 20px}button,input,select,textarea{font:inherit;border-radius:9px;border:1px solid var(--line);padding:11px 14px}button{background:#263645;color:var(--ink);cursor:pointer}button:hover{border-color:var(--accent)}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #8cd8fb;outline-offset:3px}button:disabled{opacity:.5;cursor:default}nav button[aria-current=true],.primary{background:var(--accent);color:#17211b;border-color:var(--accent);font-weight:700}.topline{display:flex;align-items:center;justify-content:space-between;gap:12px}.pill{padding:4px 10px;border:1px solid var(--line);border-radius:30px;font-size:13px;color:var(--muted)}article{background:var(--panel);padding:22px 24px;border:1px solid var(--line);border-radius:14px;margin:14px 0}.quote{font-size:19px;line-height:1.6;white-space:pre-line;margin:15px 0 3px}form{display:flex;gap:9px;margin-top:22px}input,textarea,select{background:#0e141b;color:var(--ink);min-width:0}input{flex:1}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}#status{min-height:26px;color:var(--accent);margin:16px 0}.answer{padding:22px;background:#243b2c;border:1px solid #5a805b;border-radius:14px}.review-note{border-top:1px solid var(--line);margin-top:16px;padding-top:13px;font-size:14px}a{color:#a7dafa}label{display:block;margin:14px 0 6px}.feedback{margin-top:24px;border-top:1px solid var(--line);padding-top:10px}textarea{width:100%;min-height:80px}select{width:100%}footer{border-top:1px solid var(--line);padding-top:18px;margin-top:35px;font-size:13px}.hidden,[hidden]{display:none!important}.feedback-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:560px){main{padding:24px 16px 45px}article{padding:18px}form{flex-wrap:wrap}form input{flex-basis:100%}.feedback-grid{grid-template-columns:1fr;gap:0}.quote{font-size:18px}}
+</style>
+</head>
+<body><main>
+<header><div class="eyebrow">Steamdle / editorial trial</div><h1>Six games. Better clues.</h1><p class="muted">Guess from real Steam reviews, one clue at a time. Each round should add something useful.</p><span class="pill">Local preview · no changes to the live puzzle</span></header>
+<nav id="games" aria-label="Trial games"></nav>
+<div class="topline"><h2 id="round-title">Trial game 1</h2><span id="progress" class="pill"></span></div>
+<div id="reviews"></div>
+<div id="answer" class="answer" hidden></div>
+<form id="guess-form"><label for="guess" class="hidden">Game title</label><input id="guess" aria-label="Game title" placeholder="Enter a game title…" autocomplete="off"><button class="primary" type="submit">Guess</button></form>
+<div class="actions"><button id="next" type="button">Next clue</button><button id="reveal" type="button">Reveal answer</button><button id="restart" type="button">Restart this game</button></div>
+<p id="status" role="status" aria-live="polite"></p>
+<section id="feedback" class="feedback" hidden><h2>How did it play?</h2><p class="muted">Your notes stay in this browser. Download them after trying the six games.</p>
+<div class="feedback-grid"><div><label for="familiarity">Did you know this game?</label><select id="familiarity"><option value="">Choose…</option><option>Played it</option><option>Knew of it</option><option>Had never heard of it</option></select></div><div><label for="quality">Clue progression</label><select id="quality"><option value="">Choose…</option><option>Too easy</option><option>About right</option><option>Too vague or too hard</option><option>Misleading</option></select></div></div>
+<label for="helpful">Which clue helped most?</label><select id="helpful"><option value="">Choose…</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>None</option></select>
+<label for="notes">Anything unclear, repetitive, or revealing too soon?</label><textarea id="notes" placeholder="Optional notes"></textarea><div class="actions"><button id="download">Download trial results</button></div></section>
+<footer>36 manually selected clues. Shortened reviews are labeled as excerpts; wording is unchanged. Sources and editorial notes appear after the answer. Difficulty has not yet been tested with players.</footer>
+</main>
+<script src="../data/clue-trial-2026-11-12.js"></script>
+<script>
+'use strict';
+const trial=window.steamdleClueTrial;
+const $=id=>document.getElementById(id);
+const normalize=s=>s.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+const aliases={'3527290':['Peak'],'1903340':['Clair Obscur Expedition 33','Clair Obscur','Expedition 33','Expedition33'],'2835570':['Buckshot Roulette'],'3070070':['TCG Card Shop Simulator','TCG Card Shop Sim'],'2868840':['Slay the Spire 2','Slay the Spire II','STS2'],'686060':['Mewgenics']};
+const key=trial.version+'-feedback';
+let results={};try{results=JSON.parse(localStorage.getItem(key)||'{}')}catch{}
+let index=0,shown=1,finished=false;
+function save(){try{localStorage.setItem(key,JSON.stringify(results))}catch{}}
+function game(){return trial.games[index]}
+function record(){return results[game().steam_app_id] ||= {title:game().title,guesses:[]}}
+function addText(parent,tag,text,className){const e=document.createElement(tag);e.textContent=text;if(className)e.className=className;parent.appendChild(e);return e}
+function render(){
+ $('round-title').textContent='Trial game '+(index+1);$('progress').textContent=shown+' / 6 clues';
+ $('reviews').replaceChildren();
+ game().clues.slice(0,finished?6:shown).forEach((c,i)=>{const a=document.createElement('article');addText(a,'div','CLUE '+(i+1)+' · '+(c.isExcerpt?'REVIEW EXCERPT':'COMPLETE REVIEW'),'eyebrow');addText(a,'p',c.displayText,'quote');if(finished){const n=addText(a,'div',c.evidenceAdded,'review-note');n.appendChild(document.createElement('br'));const l=addText(n,'a','Read original Steam review');l.href=c.sourceUrl;l.target='_blank';l.rel='noopener noreferrer'}$('reviews').appendChild(a)});
+ $('guess-form').hidden=finished;$('next').disabled=finished;$('reveal').disabled=finished;$('next').textContent=shown<6?'Next clue':'Finish without a correct guess';$('answer').hidden=!finished;$('feedback').hidden=!finished;
+ document.querySelectorAll('#games button').forEach((b,i)=>b.setAttribute('aria-current',String(i===index)));
+ if(finished){const r=record();$('answer').replaceChildren();addText($('answer'),'div','THE ANSWER','eyebrow');addText($('answer'),'h2',game().title);addText($('answer'),'p',r.solvedAt?'Solved on clue '+r.solvedAt+'.':'Answer revealed after '+r.cluesSeen+' clues.');for(const field of ['familiarity','quality','helpful','notes'])$(field).value=r[field]||''}
+}
+function finish(solved){finished=true;Object.assign(record(),{cluesSeen:shown,solvedAt:solved?shown:null,completedAt:new Date().toISOString()});save();$('status').textContent=solved?'Correct. Sources and editorial notes are now visible.':'Sources and editorial notes are now visible.';render()}
+function next(){if(shown<6){shown++;$('status').textContent='Another clue is ready.';render()}else finish(false)}
+function select(i){index=i;shown=1;finished=false;$('guess').value='';$('status').textContent='';render()}
+trial.games.forEach((g,i)=>{const b=addText($('games'),'button','Game '+(i+1));b.type='button';b.onclick=()=>select(i)});
+$('guess-form').onsubmit=e=>{e.preventDefault();const guess=$('guess').value.trim();if(!guess)return;record().guesses.push({clue:shown,guess});save();if([game().title,...(aliases[game().steam_app_id]||[])].some(t=>normalize(t)===normalize(guess)))finish(true);else{const last=shown===6;next();$('status').textContent=last?'No correct guess this round. The answer is revealed.':'That is not the game. Try the next clue.'}$('guess').value=''};
+$('next').onclick=next;$('reveal').onclick=()=>finish(false);$('restart').onclick=()=>{delete results[game().steam_app_id];save();select(index)};
+for(const field of ['familiarity','quality','helpful','notes'])$(field).oninput=()=>{record()[field]=$(field).value;save()};
+$('download').onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify({trialVersion:trial.version,exportedAt:new Date().toISOString(),results},null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='steamdle-clue-trial-feedback.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+render();
+</script></body></html>

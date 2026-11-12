@@ -1,0 +1,1007 @@
+STEAMDLE CATALOG REVIEW - NOVEMBER 12, 2026
+
+Original games: 400
+Added games: 110
+Total catalog: 510
+Removed games: 0
+Common accepted spellings added: 90
+
+ASSESSMENT
+The original catalog has broad genre coverage but missed many major 2025 and 2026 releases.
+The additions mix widely recognized new releases with distinctive indie, strategy, puzzle, cozy and simulation games.
+Existing entries are preserved, including delisted games with useful review histories.
+
+CORRECTIONS APPLIED
+Ori and the Blind Forest: Definitive Edition: Steam app 261570 -> 387290.
+The title stays the same; the old ID pointed at the original edition.
+Sources: https://store.steampowered.com/app/261570/ and https://store.steampowered.com/app/387290/
+1000xRESIST: Steam app 1675560 -> 1675830. The previous ID did not resolve to the game.
+Source: https://store.steampowered.com/app/1675830/
+
+EXISTING ENTRY REQUIRING A DECISION
+Alan Wake Remastered is still paired with 1335790, which is actually Operation: Tango.
+The remaster has no verified Steam release. The original Alan Wake is available as app 108710 and was added separately.
+The old entry is preserved and visibly flagged, pending the choice to replace it with the original game or keep it separately.
+Do not curate clues for this mismatched entry until its identity is resolved.
+Sources: https://store.steampowered.com/app/1335790/ ; https://store.steampowered.com/app/108710/ ; https://www.alanwake.com/story/faq/
+
+VALIDATION
+All 400 original Steam IDs were checked against public Steam metadata.
+399 returned released game records; the remaining original ID was corrected for 1000xRESIST. The two label/edition mismatches above are separate from this API result.
+All original titles retained, all final app IDs are strings and unique, and all final titles are unique.
+66 existing tests passed after expansion; all 9 search/guess tests passed again after the two ID corrections.
+Live deployment and manual clue curation are separate from this local catalog update.
+
+CURATION NOTES
+- All original game titles retained. The existing Alan Wake Remastered mismatch remains explicitly flagged pending the owner decision.
+- 399 original IDs returned released-game metadata; the remaining incorrect 1000xRESIST ID was corrected. Label correctness is a separate check.
+- Forza Horizon 4, Fall Guys and Rocket League remain useful recognizable answers despite delisting or unavailability for new purchases.
+- Layers of Fear app 391720 is the 2016 original; do not use reviews for the 2023 game.
+- Store edition/marketing renames on the same app ID do not require duplicate answers (Control, Northgard, GTA V and others).
+- The new games are catalog candidates, not 110 completed manually curated puzzles. Each still needs six authentic, progressive clues.
+- Planet of Lana II has verified total-review availability, but the research did not establish its English-review count.
+- Avoid unqualified DS2 guesses: both Dark Souls II and Death Stranding 2 are in the pool.
+- Do not equate original games with distinct remakes when choosing clues. Preserve sequel-specific identifying evidence.
+
+ADDITIONS
+Dates below are Steam-displayed release dates (possibly Early Access, full release, PC port or edition dates).
+Source review counts are research snapshots, not live counters.
+
+2026 RELEASES
+
+Slay the Spire 2 | Steam 2868840 | 2026-03-05
+  Major deckbuilding sequel; co-op and new characters give recognizable differences from the original.
+  https://store.steampowered.com/app/2868840/
+
+Mewgenics | Steam 686060 | 2026-02-10
+  Widely discussed cat-breeding tactical roguelike with distinctive mechanics.
+  https://store.steampowered.com/app/686060/
+
+Resident Evil Requiem | Steam 3764200 | 2026-02-26
+  Major survival-horror release with a large review pool; require installment-specific clues.
+  https://store.steampowered.com/app/3764200/
+
+Crimson Desert | Steam 3321460 | 2026-03-19
+  Major open-world action game; current Steam store title includes Enhanced, while description uses Crimson Desert.
+  https://store.steampowered.com/app/3321460/
+
+PRAGMATA | Steam 3357650 | 2026-04-16
+  Distinctive lunar science-fiction adventure built around Hugh, Diana and hacking.
+  https://store.steampowered.com/app/3357650/
+
+Subnautica 2 | Steam 1962700 | 2026-05-14
+  Major underwater survival sequel with co-op; require sequel-specific clues.
+  https://store.steampowered.com/app/1962700/
+
+REANIMAL | Steam 2129530 | 2026-02-13
+  Recognizable co-op horror adventure from the Little Nightmares developers.
+  https://store.steampowered.com/app/2129530/
+
+Nioh 3 | Steam 3681010 | 2026-02-05
+  Major samurai action sequel; Samurai/Ninja styles and open-field structure help distinguish it.
+  https://store.steampowered.com/app/3681010/
+
+Marathon | Steam 3065800 | 2026-03-05
+  Bungie extraction shooter with a large review pool; distinguish from the classic Marathon games.
+  https://store.steampowered.com/app/3065800/
+
+Forza Horizon 6 | Steam 2483190 | 2026-05-18
+  Major racing release set in Japan, a strong installment-specific clue.
+  https://store.steampowered.com/app/2483190/
+
+MOUSE: P.I. For Hire | Steam 2416450 | 2026-04-16
+  Rubber-hose cartoon noir FPS offers unusually distinctive clue material.
+  https://store.steampowered.com/app/2416450/
+
+REPLACED | Steam 1663850 | 2026-04-14
+  Cinematic pixel-art cyberpunk adventure, distinct setting and AI protagonist.
+  https://store.steampowered.com/app/1663850/
+
+CONTROL Resonant | Steam 3669870 | 2026-09-24
+  Major sequel with Dylan Faden and warped Manhattan; different protagonist and combat aid identification.
+  https://store.steampowered.com/app/3669870/
+
+Planet of Lana II | Steam 2997230 | 2026-03-05
+  Adds cinematic puzzle-platformer variety; smaller review pool, so verify six strong English clues before scheduling.
+  https://store.steampowered.com/app/2997230/
+
+Monster Hunter Stories 3: Twisted Reflection | Steam 2852190 | 2026-03-12
+  Creature-collecting turn-based RPG in a recognizable franchise.
+  https://store.steampowered.com/app/2852190/
+
+Solasta II | Steam 2975950 | 2026-03-12
+  Tabletop-style tactical CRPG; improves strategy/RPG variety.
+  https://store.steampowered.com/app/2975950/
+
+MENACE | Steam 2432860 | 2026-02-05
+  Sci-fi squad tactics from Battle Brothers developers with a substantial review pool.
+  https://store.steampowered.com/app/2432860/
+
+Windrose | Steam 3041230 | 2026-04-14
+  Popular pirate survival/crafting game with naval combat and distinctive setting.
+  https://store.steampowered.com/app/3041230/
+
+Paralives | Steam 1118520 | 2026-05-25
+  Prominent life-sim release broadens the catalog beyond combat games.
+  https://store.steampowered.com/app/1118520/
+
+High On Life 2 | Steam 2069250 | 2026-02-13
+  Talking alien weapons and skateboarding provide entertaining, distinguishable review clues.
+  https://store.steampowered.com/app/2069250/
+
+CODE VEIN II | Steam 2362060 | 2026-01-29
+  Recognizable anime action-RPG sequel; time travel and partners can distinguish it.
+  https://store.steampowered.com/app/2362060/
+
+Dead as Disco | Steam 3404260 | 2026-05-05
+  Rhythm-driven martial-arts beat-em-up, particularly distinctive clue identity.
+  https://store.steampowered.com/app/3404260/
+
+DEATH STRANDING 2: ON THE BEACH | Steam 3280350 | 2026-03-19
+  Major PC release with substantial review pool; avoid generic clues shared with the first game.
+  https://store.steampowered.com/app/3280350/
+
+Beast of Reincarnation | Steam 2001760 | 2026-08-03
+  Game Freak action RPG with human/dog hybrid combat and a distinctive post-apocalyptic setting.
+  https://store.steampowered.com/app/2001760/
+
+Onimusha: Way of the Sword | Steam 2638890 | 2026-09-03
+  Recognizable franchise revival with Oni Gauntlet and Kyoto setting.
+  https://store.steampowered.com/app/2638890/
+
+007 First Light | Steam 3768760 | 2026-05-26
+  Recognizable James Bond espionage adventure with a large review pool.
+  https://store.steampowered.com/app/3768760/
+
+Mina the Hollower | Steam 1875580 | 2026-05-28
+  Distinctive burrowing gothic action adventure from Shovel Knight creators.
+  https://store.steampowered.com/app/1875580/
+
+Heroes of Might and Magic: Olden Era | Steam 3105440 | 2026-04-30
+  Recognizable strategy series revival; broadens turn-based strategy coverage.
+  https://store.steampowered.com/app/3105440/
+
+RECENT 2024-2025 OMISSIONS
+
+Hades II | Steam 1145350 | 2025-09-25
+  Major missing roguelike sequel; witchcraft and Greek-mythology clues offer recognizable contrasts with Hades.
+  https://store.steampowered.com/app/1145350/
+
+Hollow Knight: Silksong | Steam 1030300 | 2025-09-04
+  Major metroidvania sequel with a large audience and Hornet-specific identifying details.
+  https://store.steampowered.com/app/1030300/
+
+Clair Obscur: Expedition 33 | Steam 1903340 | 2025-04-24
+  Prominent new RPG with a distinctive premise, setting and combat system.
+  https://store.steampowered.com/app/1903340/
+
+Kingdom Come: Deliverance II | Steam 1771300 | 2025-02-04
+  Major medieval RPG sequel; historical setting and Henry's story support specific clues.
+  https://store.steampowered.com/app/1771300/
+
+Split Fiction | Steam 2001120 | 2025-03-06
+  Prominent cooperative adventure spanning science-fiction and fantasy worlds.
+  https://store.steampowered.com/app/2001120/
+
+PEAK | Steam 3527290 | 2025-06-16
+  Popular cooperative climbing game with a clear, distinctive central activity.
+  https://store.steampowered.com/app/3527290/
+
+Blue Prince | Steam 1569580 | 2025-04-10
+  Distinctive room-drafting puzzle adventure; strong fit for progressive identification.
+  https://store.steampowered.com/app/1569580/
+
+Monster Hunter Wilds | Steam 2246340 | 2025-02-27
+  Major missing franchise entry with a large review pool; use sequel-specific clues.
+  https://store.steampowered.com/app/2246340/
+
+DOOM: The Dark Ages | Steam 3017860 | 2025-05-14
+  Major shooter release with medieval setting and shield mechanics to distinguish it.
+  https://store.steampowered.com/app/3017860/
+
+ARC Raiders | Steam 1808500 | 2025-10-30
+  Prominent extraction game; mechanical enemies and setting give useful clue material.
+  https://store.steampowered.com/app/1808500/
+
+Dispatch | Steam 2592160 | 2025-10-22
+  Distinctive superhero workplace narrative with a large audience.
+  https://store.steampowered.com/app/2592160/
+
+Escape From Duckov | Steam 3167020 | 2025-10-16
+  Recognizable duck-themed extraction survival game.
+  https://store.steampowered.com/app/3167020/
+
+Megabonk | Steam 3405340 | 2025-09-18
+  Popular 3D survivor roguelite with distinctive characters and movement.
+  https://store.steampowered.com/app/3405340/
+
+BALL x PIT | Steam 2062430 | 2025-10-15
+  Distinctive combination of ricocheting balls, roguelite upgrades and base building.
+  https://store.steampowered.com/app/2062430/
+
+The Alters | Steam 1601570 | 2025-06-13
+  Strong premise around alternate versions of one survivor; distinctive narrative survival clues.
+  https://store.steampowered.com/app/1601570/
+
+The Elder Scrolls IV: Oblivion Remastered | Steam 2623190 | 2025-04-22
+  Major remake; requires careful edition distinction when choosing clues.
+  https://store.steampowered.com/app/2623190/
+
+Path of Exile 2 | Steam 2694490 | 2024-12-06
+  Major playable action-RPG sequel with substantial reviews; include Early Access games.
+  https://store.steampowered.com/app/2694490/
+
+S.T.A.L.K.E.R. 2: Heart of Chornobyl | Steam 1643320 | 2024-11-20
+  Major missing survival-shooter sequel and distinctive Zone setting.
+  https://store.steampowered.com/app/1643320/
+
+Indiana Jones and the Great Circle | Steam 2677660 | 2024-12-08
+  Recognizable licensed adventure with archaeology, stealth and first-person exploration.
+  https://store.steampowered.com/app/2677660/
+
+Battlefield 6 | Steam 2807960 | 2025-10-10
+  Major multiplayer shooter entry with extensive review pool.
+  https://store.steampowered.com/app/2807960/
+
+Borderlands 4 | Steam 1285190 | 2025-09-11
+  Major looter-shooter sequel; use game-specific rather than series-wide clues.
+  https://store.steampowered.com/app/1285190/
+
+Dune: Awakening | Steam 1172710 | 2025-06-10
+  Recognizable survival game set on Arrakis; strong thematic clue material.
+  https://store.steampowered.com/app/1172710/
+
+Grounded 2 | Steam 2661300 | 2025-07-29
+  Playable survival sequel; insect mounts and park setting can distinguish it from Grounded.
+  https://store.steampowered.com/app/2661300/
+
+Avowed | Steam 2457220 | 2025-02-18
+  Missing first-person fantasy RPG in Eora; distinct setting and spellcasting.
+  https://store.steampowered.com/app/2457220/
+
+Assassin's Creed Shadows | Steam 3159330 | 2025-03-19
+  Major missing historical action game with dual protagonists in Japan.
+  https://store.steampowered.com/app/3159330/
+
+The Outer Worlds 2 | Steam 1449110 | 2025-10-29
+  Missing science-fiction RPG sequel; requires sequel-specific details.
+  https://store.steampowered.com/app/1449110/
+
+Europa Universalis V | Steam 3450310 | 2025-11-04
+  Major missing grand-strategy sequel; broaden recent strategy coverage.
+  https://store.steampowered.com/app/3450310/
+
+Mafia: The Old Country | Steam 1941540 | 2025-08-07
+  Major narrative crime game with a distinctive Sicilian setting.
+  https://store.steampowered.com/app/1941540/
+
+Anno 117: Pax Romana | Steam 3274580 | 2025-11-12
+  Missing Roman-era city builder; clear contrast with other Anno games.
+  https://store.steampowered.com/app/3274580/
+
+METAL GEAR SOLID Δ: SNAKE EATER | Steam 2417610 | 2025-08-28
+  Major stealth remake; protect against ambiguity with original Snake Eater.
+  https://store.steampowered.com/app/2417610/
+
+SILENT HILL f | Steam 2947440 | 2025-09-24
+  Distinctive new horror entry with a Japanese setting.
+  https://store.steampowered.com/app/2947440/
+
+Sid Meier's Civilization VII | Steam 1295660 | 2025-02-10
+  Major missing strategy release with substantial English reviews.
+  https://store.steampowered.com/app/1295660/
+
+Little Nightmares III | Steam 1392860 | 2025-10-09
+  Recognizable horror series entry with cooperative characters; use sequel-specific details.
+  https://store.steampowered.com/app/1392860/
+
+Look Outside | Steam 3373660 | 2025-03-21
+  Distinctive apartment-building horror RPG, with substantial audience and strong premise.
+  https://store.steampowered.com/app/3373660/
+
+Keep Driving | Steam 2756920 | 2025-02-06
+  Distinctive road-trip management RPG; improves genre variety.
+  https://store.steampowered.com/app/2756920/
+
+Bongo Cat | Steam 3419430 | 2025-03-05
+  Widely reviewed desktop idle game with instantly recognizable theme and interaction.
+  https://store.steampowered.com/app/3419430/
+
+RV There Yet? | Steam 3949040 | 2025-10-21
+  Popular cooperative RV-driving adventure with distinctive mishaps and winching mechanics.
+  https://store.steampowered.com/app/3949040/
+
+No, I'm not a Human | Steam 3180070 | 2025-09-15
+  Recognizable paranoia horror game about identifying visitors; strong clue potential.
+  https://store.steampowered.com/app/3180070/
+
+The Midnight Walk | Steam 2863640 | 2025-05-08
+  Clay-crafted dark-fantasy adventure with a distinctive visual identity.
+  https://store.steampowered.com/app/2863640/
+
+Is This Seat Taken? | Steam 3035120 | 2025-08-07
+  Cozy seating-logic puzzle; clear central mechanic and broader genre coverage.
+  https://store.steampowered.com/app/3035120/
+
+9 Kings | Steam 2784470 | 2025-05-23
+  Popular compact roguelike kingdom builder with a substantial review pool.
+  https://store.steampowered.com/app/2784470/
+
+Tiny Bookshop | Steam 2133760 | 2025-08-07
+  Distinctive cozy bookshop-management game; broadens answer variety.
+  https://store.steampowered.com/app/2133760/
+
+The King is Watching | Steam 2753900 | 2025-07-21
+  Distinctive gaze-controlled kingdom builder; strong mechanic-based clues.
+  https://store.steampowered.com/app/2753900/
+
+Baby Steps | Steam 1281040 | 2025-09-23
+  Distinctive physics-based walking game; recognizable creator lineage and premise.
+  https://store.steampowered.com/app/1281040/
+
+Mouthwashing | Steam 2475490 | 2024-09-26
+  Prominent late-2024 narrative horror game with distinctive freighter setting.
+  https://store.steampowered.com/app/2475490/
+
+Nine Sols | Steam 1809540 | 2024-05-28
+  Widely reviewed 2024 action-platformer with deflection combat and taopunk identity.
+  https://store.steampowered.com/app/1809540/
+
+ENDER MAGNOLIA: Bloom in the Mist | Steam 2725260 | 2025-01-22
+  Missing metroidvania follow-up with substantial reviews and distinct setting.
+  https://store.steampowered.com/app/2725260/
+
+The Last of Us Part II Remastered | Steam 2531310 | 2025-04-03
+  Major 2025 Steam port; ensure sequel-specific clues.
+  https://store.steampowered.com/app/2531310/
+
+FINAL FANTASY VII REBIRTH | Steam 2909400 | 2025-01-23
+  Major missing RPG entry and 2025 PC release; distinct from Remake.
+  https://store.steampowered.com/app/2909400/
+
+God of War Ragnarök | Steam 2322010 | 2024-09-19
+  Major missing 2024 PC sequel; large review pool.
+  https://store.steampowered.com/app/2322010/
+
+Marvel's Spider-Man 2 | Steam 2651280 | 2025-01-30
+  Major 2025 PC sequel with distinctive dual-hero and symbiote content.
+  https://store.steampowered.com/app/2651280/
+
+Date Everything! | Steam 2201320 | 2025-06-17
+  Distinctive dating simulator about household objects; broadens genre coverage.
+  https://store.steampowered.com/app/2201320/
+
+WUCHANG: Fallen Feathers | Steam 2277560 | 2025-07-23
+  Recognizable 2025 soulslike with historical Chinese setting and feathering theme.
+  https://store.steampowered.com/app/2277560/
+
+Two Point Museum | Steam 2185060 | 2025-03-04
+  Missing management game with a clear museum premise and substantial reviews.
+  https://store.steampowered.com/app/2185060/
+
+inZOI | Steam 2456740 | 2025-03-27
+  Widely reviewed playable life simulator; broadens recent simulation coverage.
+  https://store.steampowered.com/app/2456740/
+
+ESTABLISHED GAMES AND RECENT FULL RELEASES
+
+Age of Empires II: Definitive Edition | Steam 813780 | 2019-11-14
+  Recognizable historical RTS with civilization, age progression, economy and siege clues.
+  https://store.steampowered.com/app/813780/
+
+Sid Meier's Civilization V | Steam 8930 | 2010-09-21
+  Major missing strategy franchise entry; hex tiles and one unit per tile distinguish it from adjacent entries.
+  https://store.steampowered.com/app/8930/
+
+Anno 1800 | Steam 916440 | 2019-04-16
+  Distinctive industrial city building and production-chain management broadens strategy coverage.
+  https://store.steampowered.com/app/916440/
+
+Timberborn | Steam 1062090 | 2026-03-12
+  Beaver colonies, droughts, dams and water engineering produce unusually distinctive clues.
+  https://store.steampowered.com/app/1062090/
+
+BeamNG.drive | Steam 284160 | 2015-05-29
+  Very large audience and unmistakable soft-body vehicle physics and crash simulation.
+  https://store.steampowered.com/app/284160/
+
+THE FINALS | Steam 2073850 | 2023-12-07
+  Recognizable competitive shooter with destructible arenas, cashouts and a game-show setting.
+  https://store.steampowered.com/app/2073850/
+
+BioShock | Steam 7670 | 2007-08-21
+  Iconic underwater Rapture setting, plasmids and Big Daddies make a strong evergreen addition.
+  https://store.steampowered.com/app/7670/
+
+Grand Theft Auto IV: The Complete Edition | Steam 12210 | 2020-03-24
+  Major missing open-world crime entry; Niko Bellic and Liberty City provide specific clues.
+  https://store.steampowered.com/app/12210/
+
+Core Keeper | Steam 1621690 | 2024-08-27
+  Popular underground mining survival game with cooperative exploration and distinctive bosses.
+  https://store.steampowered.com/app/1621690/
+
+Buckshot Roulette | Steam 2835570 | 2024-04-04
+  A widely recognized compact game built around shotgun roulette and a dealer.
+  https://store.steampowered.com/app/2835570/
+
+Backpack Battles | Steam 2427700 | 2025-06-13
+  Inventory arrangement and item-synergy autobattling provide a distinctive mechanical identity.
+  https://store.steampowered.com/app/2427700/
+
+Escape the Backrooms | Steam 1943950 | 2025-10-23
+  Large cooperative horror audience with recognizable liminal-space and entity clues.
+  https://store.steampowered.com/app/1943950/
+
+Peglin | Steam 1296610 | 2024-08-27
+  Pachinko-style combat mixed with roguelike progression offers clear mechanical clues.
+  https://store.steampowered.com/app/1296610/
+
+Super Auto Pets | Steam 1714040 | 2021-09-24
+  Recognizable animal-team autobattler with accessible, distinctive shop and synergy mechanics.
+  https://store.steampowered.com/app/1714040/
+
+Luck be a Landlord | Steam 1404850 | 2023-01-06
+  Slot-machine roguelike about paying rent has a particularly concise and distinctive premise.
+  https://store.steampowered.com/app/1404850/
+
+Slice & Dice | Steam 1775490 | 2024-03-20
+  Dice-based tactical roguelike built around a five-hero party broadens puzzle and strategy coverage.
+  https://store.steampowered.com/app/1775490/
+
+Chained Together | Steam 2567870 | 2024-06-19
+  Popular cooperative climbing game whose shared chain is immediately distinctive.
+  https://store.steampowered.com/app/2567870/
+
+TCG Card Shop Simulator | Steam 3070070 | 2026-09-14
+  Trading-card retail management and opening booster packs make a recognizable simulator entry.
+  https://store.steampowered.com/app/3070070/
+
+Supermarket Simulator | Steam 2670630 | 2025-06-19
+  Large-audience grocery-store management simulator fills a notable recent simulation gap.
+  https://store.steampowered.com/app/2670630/
+
+DARK SOULS II: Scholar of the First Sin | Steam 335300 | 2015-04-01
+  Important missing Souls installment; use Drangleic and installment-specific clues to distinguish it.
+  https://store.steampowered.com/app/335300/
+
+Borderlands 3 | Steam 397540 | 2020-03-13
+  Major missing looter-shooter entry with distinct Vault Hunters and multiple planets.
+  https://store.steampowered.com/app/397540/
+
+Diablo IV | Steam 2344520 | 2023-10-17
+  Recognizable major action RPG with Sanctuary, Lilith and an open-world structure.
+  https://store.steampowered.com/app/2344520/
+
+The Talos Principle 2 | Steam 835960 | 2023-11-02
+  Philosophical robot puzzle sequel provides distinctive setting and puzzle-mechanic clues.
+  https://store.steampowered.com/app/835960/
+
+Battle Brothers | Steam 365360 | 2017-03-24
+  Established tactical mercenary-company RPG with permadeath and a medieval procedural world.
+  https://store.steampowered.com/app/365360/
+
+No More Room in Hell | Steam 224260 | 2011-10-31
+  Well-known cooperative Source-engine zombie survival game with infection and limited supplies.
+  https://store.steampowered.com/app/224260/
+
+Left 4 Dead | Steam 500 | 2008-11-17
+  Iconic original cooperative zombie shooter; original survivors distinguish it from the sequel.
+  https://store.steampowered.com/app/500/
+
+Alan Wake | Steam 108710 | 2012-02-16
+  Recognizable writer-in-Bright-Falls thriller using light against darkness; check existing mislabeled remaster before adding.
+  https://store.steampowered.com/app/108710/
+
+FULL CATALOG (alphabetical; NEW marks additions)
+
+[NEW] 007 First Light | 3768760
+1000xRESIST | 1675830
+7 Days to Die | 251570
+[NEW] 9 Kings | 2784470
+A Hat in Time | 253230
+A Short Hike | 1055540
+A Way Out | 1222700
+ABZÛ | 384190
+ACE COMBAT™ 7: SKIES UNKNOWN | 502500
+Against the Storm | 1336490
+[NEW] Age of Empires II: Definitive Edition | 813780
+[NEW] Alan Wake | 108710
+[REVIEW REQUIRED] Alan Wake Remastered | 1335790
+Alien: Isolation | 214490
+American Truck Simulator | 270880
+AMID EVIL | 673130
+Amnesia: Rebirth | 999220
+Amnesia: The Dark Descent | 57300
+Among Us | 945360
+ANIMAL WELL | 813230
+[NEW] Anno 117: Pax Romana | 3274580
+[NEW] Anno 1800 | 916440
+Antichamber | 219890
+Apex Legends | 1172470
+Aragami | 280160
+[NEW] ARC Raiders | 1808500
+ARK: Survival Evolved | 346110
+Arma 3 | 107410
+ARMORED CORE™ VI FIRES OF RUBICON™ | 1888160
+[NEW] Assassin's Creed Shadows | 3159330
+ASTRONEER | 361420
+[NEW] Avowed | 2457220
+Axiom Verge | 332200
+Baba Is You | 736260
+[NEW] Baby Steps | 1281040
+[NEW] Backpack Battles | 2427700
+Balatro | 2379780
+Baldur's Gate 3 | 1086940
+[NEW] BALL x PIT | 2062430
+Barony | 371970
+Barotrauma | 602960
+Bastion | 107100
+Batman™: Arkham Knight | 208650
+[NEW] Battle Brothers | 365360
+BattleBlock Theater® | 238460
+[NEW] Battlefield 6 | 2807960
+Bayonetta | 460790
+[NEW] BeamNG.drive | 284160
+Bear and Breakfast | 1136370
+[NEW] Beast of Reincarnation | 2001760
+BELOW | 250680
+[NEW] BioShock | 7670
+BioShock Infinite | 8870
+Black Mesa | 362890
+Black Myth: Wukong | 2358720
+Blasphemous | 774361
+Blasphemous 2 | 2114740
+Bloodstained: Ritual of the Night | 692850
+Bloons TD 6 | 960090
+[NEW] Blue Prince | 1569580
+[NEW] Bongo Cat | 3419430
+Borderlands 2 | 49520
+[NEW] Borderlands 3 | 397540
+[NEW] Borderlands 4 | 1285190
+Braid | 26800
+Brawlhalla | 291550
+Broforce | 274190
+Brotato | 1942280
+Brothers - A Tale of Two Sons | 225080
+[NEW] Buckshot Roulette | 2835570
+Cassette Beasts | 1321440
+Castle Crashers® | 204360
+Caves of Qud | 333640
+Celeste | 504230
+[NEW] Chained Together | 2567870
+Chicory: A Colorful Tale | 1123450
+Children of Morta | 330020
+CHRONO TRIGGER | 613830
+Cities: Skylines | 255710
+[NEW] Clair Obscur: Expedition 33 | 1903340
+CODE VEIN | 678960
+[NEW] CODE VEIN II | 2362060
+Coffee Talk | 914800
+Conan Exiles | 440900
+Content Warning | 2881650
+Control | 870780
+[NEW] CONTROL Resonant | 3669870
+Coral Island | 1158160
+[NEW] Core Keeper | 1621690
+Counter-Strike 2 | 730
+Crash Bandicoot™ N. Sane Trilogy | 731490
+[NEW] Crimson Desert | 3321460
+CrossCode | 368340
+Crusader Kings III | 1158310
+Crypt of the NecroDancer | 247080
+Cult of the Lamb | 1313140
+Cuphead | 268910
+Cyberpunk 2077 | 1091500
+Danganronpa: Trigger Happy Havoc | 413410
+[NEW] DARK SOULS II: Scholar of the First Sin | 335300
+DARK SOULS™ III | 374320
+DARK SOULS™: REMASTERED | 570940
+Darkest Dungeon® | 262060
+Darkest Dungeon® II | 1940340
+Darkwood | 274520
+[NEW] Date Everything! | 2201320
+DAVE THE DIVER | 1868140
+Days Gone | 1259420
+DayZ | 221100
+[NEW] Dead as Disco | 3404260
+Dead by Daylight | 381210
+Dead Cells | 588650
+Dead Space | 1693980
+[NEW] DEATH STRANDING 2: ON THE BEACH | 3280350
+Death Stranding Director's Cut | 1850570
+DEATHLOOP | 1252330
+Deep Rock Galactic | 548430
+DELTARUNE | 1671210
+Destiny 2 | 1085660
+Devil May Cry 5 | 601150
+[NEW] Diablo IV | 2344520
+Disco Elysium - The Final Cut | 632470
+Dishonored | 205100
+Dishonored 2 | 403640
+[NEW] Dispatch | 2592160
+Divinity: Original Sin 2 - Definitive Edition | 435150
+Doki Doki Literature Club Plus! | 1388880
+Don't Starve | 219740
+Don't Starve Together | 322330
+DOOM | 379720
+DOOM Eternal | 782330
+[NEW] DOOM: The Dark Ages | 3017860
+Dorfromantik | 1455840
+Dota 2 | 570
+Dragon Age: Origins - Ultimate Edition | 47810
+DRAGON BALL FighterZ | 678950
+Dragon's Dogma 2 | 2054970
+Dragon's Dogma: Dark Arisen | 367500
+DREDGE | 1562430
+[NEW] Dune: Awakening | 1172710
+DUSK | 519860
+Dwarf Fortress | 975370
+Dying Light | 239140
+Dying Light 2 Stay Human | 534380
+Dyson Sphere Program | 1366540
+Eastward | 977880
+Elden Ring | 1245620
+ELDEN RING NIGHTREIGN | 2622380
+ENDER LILIES: Quietus of the Knights | 1369630
+[NEW] ENDER MAGNOLIA: Bloom in the Mist | 2725260
+Enshrouded | 1203620
+Enter the Gungeon | 311690
+[NEW] Escape From Duckov | 3167020
+[NEW] Escape the Backrooms | 1943950
+Euro Truck Simulator 2 | 227300
+Europa Universalis IV | 236850
+[NEW] Europa Universalis V | 3450310
+Everhood | 1229380
+Exo One | 773370
+Factorio | 427520
+Fall Guys | 1097150
+Fallout 4 | 377160
+Fallout: New Vegas | 22380
+FEZ | 224760
+[NEW] FINAL FANTASY VII REBIRTH | 2909400
+FINAL FANTASY VII REMAKE INTERGRADE | 1462040
+Firewatch | 383870
+Forza Horizon 4 | 1293830
+Forza Horizon 5 | 1551360
+[NEW] Forza Horizon 6 | 2483190
+Frostpunk | 323190
+Frostpunk 2 | 1601580
+FTL: Faster Than Light | 212680
+Furi | 423230
+Gang Beasts | 285900
+Garry's Mod | 4000
+Geometry Dash | 322170
+Getting Over It with Bennett Foddy | 240720
+Ghost of Tsushima DIRECTOR'S CUT | 2215430
+Ghostrunner | 1139900
+Ghostwire: Tokyo | 1475810
+Goat Simulator | 265930
+God of War | 1593500
+[NEW] God of War Ragnarök | 2322010
+Gone Home | 232430
+Gorilla Tag | 1533390
+Granblue Fantasy: Relink | 881020
+[NEW] Grand Theft Auto IV: The Complete Edition | 12210
+Grand Theft Auto V | 271590
+Graveyard Keeper | 599140
+Green Hell | 815370
+GRIS | 683320
+Grounded | 962130
+[NEW] Grounded 2 | 2661300
+Guild Wars 2 | 1284210
+GUILTY GEAR -STRIVE- | 1384160
+Gunfire Reborn | 1217060
+Hades | 1145360
+[NEW] Hades II | 1145350
+Half-Life | 70
+Half-Life 2 | 220
+Half-Life: Alyx | 546560
+Halo Infinite | 1240440
+Halo: The Master Chief Collection | 976730
+Hearts of Iron IV | 394360
+Hell Let Loose | 686810
+HELLDIVERS™ 2 | 553850
+[NEW] Heroes of Might and Magic: Olden Era | 3105440
+Hi-Fi RUSH | 1817230
+[NEW] High On Life 2 | 2069250
+HITMAN World of Assassination | 1659040
+Hogwarts Legacy | 990080
+Hollow Knight | 367520
+[NEW] Hollow Knight: Silksong | 1030300
+Horizon Zero Dawn Remastered | 2561580
+Hotline Miami | 219150
+Hotline Miami 2: Wrong Number | 274170
+Human: Fall Flat | 477160
+Hunt: Showdown 1896 | 594650
+Hyper Light Drifter | 257850
+[NEW] Indiana Jones and the Great Circle | 2677660
+Inscryption | 1092790
+INSIDE | 304430
+Insurgency: Sandstorm | 581320
+Into the Breach | 590380
+Invisible, Inc. | 243970
+[NEW] inZOI | 2456740
+[NEW] Is This Seat Taken? | 3035120
+It Takes Two | 1426210
+Journey | 638230
+Just Cause 3 | 225540
+Katana ZERO | 460950
+[NEW] Keep Driving | 2756920
+Kenshi | 233860
+Kerbal Space Program | 220200
+Kingdom Come: Deliverance | 379430
+[NEW] Kingdom Come: Deliverance II | 1771300
+L.A. Noire | 110800
+Layers of Fear | 391720
+[NEW] Left 4 Dead | 500
+Left 4 Dead 2 | 550
+Lethal Company | 1966720
+Lethal League Blaze | 553310
+Lies of P | 1627720
+Life is Strange | 319630
+Like a Dragon: Infinite Wealth | 2072450
+LIMBO | 48000
+Limbus Company | 1973530
+LISA: The Painful | 335670
+Little Nightmares | 424840
+Little Nightmares II | 860510
+[NEW] Little Nightmares III | 1392860
+LOCKDOWN Protocol | 2780980
+[NEW] Look Outside | 3373660
+Loop Hero | 1282730
+[NEW] Luck be a Landlord | 1404850
+Mad Max | 234140
+Mafia: Definitive Edition | 1030840
+[NEW] Mafia: The Old Country | 1941540
+Magic: The Gathering Arena | 2141910
+Manifold Garden | 473950
+Manor Lords | 1363080
+[NEW] Marathon | 3065800
+Mark of the Ninja: Remastered | 860950
+Marvel Rivals | 2767030
+[NEW] Marvel's Spider-Man 2 | 2651280
+Marvel's Spider-Man Remastered | 1817070
+Marvel's Spider-Man: Miles Morales | 1817190
+Mass Effect™ Legendary Edition | 1328670
+Mega Man 11 | 742300
+[NEW] Megabonk | 3405340
+[NEW] MENACE | 2432860
+METAL GEAR RISING: REVENGEANCE | 235460
+METAL GEAR SOLID V: THE PHANTOM PAIN | 287700
+[NEW] METAL GEAR SOLID Δ: SNAKE EATER | 2417610
+Metaphor: ReFantazio | 2679460
+[NEW] Mewgenics | 686060
+Middle-earth™: Shadow of Mordor™ | 241930
+[NEW] Mina the Hollower | 1875580
+Mini Motorways | 1127500
+Momodora: Reverie Under The Moonlight | 428550
+Monster Hunter Rise | 1446780
+[NEW] Monster Hunter Stories 3: Twisted Reflection | 2852190
+[NEW] Monster Hunter Wilds | 2246340
+Monster Hunter: World | 582010
+Moonlighter | 606150
+Mortal Kombat 11 | 976310
+Mortal Shell | 1110910
+Mount & Blade II: Bannerlord | 261550
+[NEW] MOUSE: P.I. For Hire | 2416450
+[NEW] Mouthwashing | 2475490
+Myst | 1255560
+Neon White | 1533420
+Neva | 2420660
+Ni no Kuni™ Wrath of the White Witch™ Remastered | 798460
+Nidhogg 2 | 535520
+NieR Replicant™ ver.1.22474487139... | 1113560
+NieR:Automata™ | 524220
+Night in the Woods | 481510
+[NEW] Nine Sols | 1809540
+Nioh 2 – The Complete Edition | 1325200
+[NEW] Nioh 3 | 3681010
+No Man's Sky | 275850
+[NEW] No More Room in Hell | 224260
+[NEW] No, I'm not a Human | 3180070
+Noita | 881100
+Northgard | 466560
+Nuclear Throne | 242680
+OCTOPATH TRAVELER | 921570
+OCTOPATH TRAVELER II | 1971650
+Okami HD | 587620
+OMORI | 1150690
+OneShot | 420530
+[NEW] Onimusha: Way of the Sword | 2638890
+Opus Magnum | 558990
+Ori and the Blind Forest: Definitive Edition | 387290
+Ori and the Will of the Wisps | 1057090
+Outer Wilds | 753640
+Outlast | 238320
+Overcooked! 2 | 728880
+Oxenfree | 388880
+Oxygen Not Included | 457140
+Pacific Drive | 1458140
+Palworld | 1623730
+Papers, Please | 239030
+[NEW] Paralives | 1118520
+Parkitect | 453090
+Path of Exile | 238960
+[NEW] Path of Exile 2 | 2694490
+PAYDAY 2 | 218620
+[NEW] PEAK | 3527290
+[NEW] Peglin | 1296610
+Persona 3 Reload | 2161700
+Persona 4 Golden | 1113000
+Persona 5 Royal | 1687950
+Phasmophobia | 739630
+Phoenix Wright: Ace Attorney Trilogy | 787480
+Pillars of Eternity | 291650
+Pizza Tower | 2231450
+[NEW] Planet of Lana II | 2997230
+Planet Zoo | 703080
+PlateUp! | 1599600
+Poco | 3454610
+Portal | 400
+Portal 2 | 620
+Potion Craft: Alchemist Simulator | 1210320
+PowerWash Simulator | 1290000
+[NEW] PRAGMATA | 3357650
+Prey | 480490
+Prison Architect | 233450
+Prodeus | 964800
+Project Zomboid | 108600
+Psychonauts | 3830
+Psychonauts 2 | 607080
+PUBG: BATTLEGROUNDS | 578080
+R.E.P.O | 3241660
+Raft | 648800
+Rain World | 312520
+Rakuen | 559210
+Ratchet & Clank: Rift Apart | 1895880
+Ready or Not | 1144200
+[NEW] REANIMAL | 2129530
+Recettear: An Item Shop's Tale | 70400
+Red Dead Redemption 2 | 1174180
+REMNANT II | 1282100
+Remnant: From the Ashes | 617290
+[NEW] REPLACED | 1663850
+Resident Evil 2 | 883710
+Resident Evil 4 | 2050650
+Resident Evil 7 Biohazard | 418370
+[NEW] Resident Evil Requiem | 3764200
+Resident Evil Village | 1196590
+Return of the Obra Dinn | 653530
+Returnal™ | 1649240
+RimWorld | 294100
+Risk of Rain 2 | 632360
+Rocket League® | 252950
+Rogue Legacy 2 | 1253920
+Rust | 252490
+[NEW] RV There Yet? | 3949040
+[NEW] S.T.A.L.K.E.R. 2: Heart of Chornobyl | 1643320
+Salt and Sanctuary | 283640
+Satisfactory | 526870
+SCARLET NEXUS | 775500
+Schedule I | 3164500
+Sea of Thieves | 1172620
+Sekiro™: Shadows Die Twice - GOTY Edition | 814380
+Shovel Knight: Treasure Trove | 250760
+[NEW] Sid Meier's Civilization V | 8930
+[NEW] Sid Meier's Civilization VII | 1295660
+Sid Meier’s Civilization® VI | 289070
+Sifu | 2138710
+SIGNALIS | 1262350
+Silent Hill 2 | 2124490
+[NEW] SILENT HILL f | 2947440
+Slay the Spire | 646570
+[NEW] Slay the Spire 2 | 2868840
+Sleeping Dogs: Definitive Edition | 307690
+[NEW] Slice & Dice | 1775490
+Slime Rancher | 433340
+Solar Ash | 1867530
+[NEW] Solasta II | 2975950
+SOMA | 282140
+Sonic Frontiers | 1237320
+Sonic Mania | 584400
+Sons Of The Forest | 1326470
+Soulstone Survivors | 2066020
+South Park™: The Stick of Truth™ | 213670
+Spec Ops: The Line | 50300
+Spelunky 2 | 418530
+Spiritfarer®: Farewell Edition | 972660
+[NEW] Split Fiction | 2001120
+Spyro™ Reignited Trilogy | 996580
+Squad | 393380
+STAR WARS Jedi: Fallen Order™ | 1172380
+STAR WARS Jedi: Survivor™ | 1774580
+Stardew Valley | 413150
+Starfield | 1716740
+STEINS;GATE | 412830
+Stellaris | 281990
+Stick Fight: The Game | 674940
+Storyteller | 1624540
+Strange Horticulture | 1574580
+Stray | 1332010
+Street Fighter™ 6 | 1364780
+Streets of Rogue | 512900
+Subnautica | 264710
+[NEW] Subnautica 2 | 1962700
+Subnautica: Below Zero | 848450
+[NEW] Super Auto Pets | 1714040
+Super Meat Boy | 40800
+SUPERHOT | 322500
+Superliminal | 1049410
+[NEW] Supermarket Simulator | 2670630
+Tabletop Simulator | 286160
+Tales of Arise | 740130
+[NEW] TCG Card Shop Simulator | 3070070
+Team Fortress 2 | 440
+TEKKEN 8 | 1778820
+Terraria | 105600
+Thank Goodness You're Here! | 2366980
+[NEW] The Alters | 1601570
+The Binding of Isaac: Rebirth | 250900
+[NEW] The Elder Scrolls IV: Oblivion Remastered | 2623190
+The Elder Scrolls V: Skyrim Special Edition | 489830
+The Evil Within 2 | 601430
+[NEW] THE FINALS | 2073850
+The Forest | 242760
+[NEW] The King is Watching | 2753900
+[NEW] The Last of Us Part II Remastered | 2531310
+The Last of Us™ Part I | 1888930
+The Long Dark | 305620
+The Messenger | 764790
+[NEW] The Midnight Walk | 2863640
+The Outer Worlds | 578650
+[NEW] The Outer Worlds 2 | 1449110
+The Sims™ 4 | 1222670
+The Stanley Parable: Ultra Deluxe | 1703340
+The Talos Principle | 257510
+[NEW] The Talos Principle 2 | 835960
+The Witcher 3: Wild Hunt | 292030
+The Witness | 210970
+They Are Billions | 644930
+This War of Mine | 282070
+Thymesia | 1343240
+[NEW] Timberborn | 1062090
+[NEW] Tiny Bookshop | 2133760
+Tinykin | 1599020
+Titanfall® 2 | 1237970
+To the Moon | 206440
+Tom Clancy's Rainbow Six® Siege | 359550
+Total War: WARHAMMER III | 1142710
+Totally Accurate Battle Simulator | 508440
+Transistor | 237930
+Trek to Yomi | 1370050
+Tropico 6 | 492720
+TUNIC | 553420
+Two Point Hospital | 535930
+[NEW] Two Point Museum | 2185060
+UFO 50 | 1147860
+ULTRAKILL | 1229490
+UNCHARTED™: Legacy of Thieves Collection | 1659420
+Undertale | 391540
+Unpacking | 1135690
+Unrailed! | 1016920
+Untitled Goose Game | 837470
+V Rising | 1604030
+VA-11 Hall-A: Cyberpunk Bartender Action | 447530
+Valheim | 892970
+Vampire Survivors | 1794680
+Victoria 3 | 529340
+Visage | 594330
+Void Bastards | 857980
+VRChat | 438100
+Warframe | 230410
+Warhammer 40,000: Darktide | 1361210
+Warhammer 40,000: Space Marine 2 | 2183900
+Warhammer: Vermintide 2 | 552500
+WEBFISHING | 3146520
+What Remains of Edith Finch | 501300
+[NEW] Windrose | 3041230
+Wizard of Legend | 445980
+Wo Long: Fallen Dynasty | 1448440
+WORLD OF HORROR | 913740
+Worms W.M.D | 327030
+[NEW] WUCHANG: Fallen Feathers | 2277560
+XCOM® 2 | 268500
+Yakuza 0 | 638970
+Yakuza: Like a Dragon | 1235140
+Yu-Gi-Oh! Master Duel | 1449850

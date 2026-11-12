@@ -1,0 +1,1197 @@
+{
+  "checked_at": "2026-11-12",
+  "baseline_count": 400,
+  "additions_count": 110,
+  "total_count": 510,
+  "original_entries_removed": 0,
+  "selection": "Released Steam base games, including playable Early Access, selected for recognition, genre variety and review availability. Final six-review clue quality is not yet curated or certified.",
+  "review_count_note": "Observed source snapshots establish pool size; counts can change. Steam dates may represent Early Access, full launch or a PC/edition release.",
+  "additions": [
+    {
+      "title": "Slay the Spire 2",
+      "steam_app_id": "2868840",
+      "release_date": "2026-03-05",
+      "url": "https://store.steampowered.com/app/2868840/",
+      "reason": "Major deckbuilding sequel; co-op and new characters give recognizable differences from the original.",
+      "english_reviews": 70417,
+      "early_access": true,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Mewgenics",
+      "steam_app_id": "686060",
+      "release_date": "2026-02-10",
+      "url": "https://store.steampowered.com/app/686060/",
+      "reason": "Widely discussed cat-breeding tactical roguelike with distinctive mechanics.",
+      "english_reviews": 28937,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Resident Evil Requiem",
+      "steam_app_id": "3764200",
+      "release_date": "2026-02-26",
+      "url": "https://store.steampowered.com/app/3764200/",
+      "reason": "Major survival-horror release with a large review pool; require installment-specific clues.",
+      "english_reviews": 53741,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Crimson Desert",
+      "steam_app_id": "3321460",
+      "release_date": "2026-03-19",
+      "url": "https://store.steampowered.com/app/3321460/",
+      "reason": "Major open-world action game; current Steam store title includes Enhanced, while description uses Crimson Desert.",
+      "english_reviews": 61893,
+      "early_access": false,
+      "group": "2026 releases",
+      "steam_title": "Crimson Desert Enhanced"
+    },
+    {
+      "title": "PRAGMATA",
+      "steam_app_id": "3357650",
+      "release_date": "2026-04-16",
+      "url": "https://store.steampowered.com/app/3357650/",
+      "reason": "Distinctive lunar science-fiction adventure built around Hugh, Diana and hacking.",
+      "english_reviews": 16403,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Subnautica 2",
+      "steam_app_id": "1962700",
+      "release_date": "2026-05-14",
+      "url": "https://store.steampowered.com/app/1962700/",
+      "reason": "Major underwater survival sequel with co-op; require sequel-specific clues.",
+      "english_reviews": 71783,
+      "early_access": true,
+      "group": "2026 releases"
+    },
+    {
+      "title": "REANIMAL",
+      "steam_app_id": "2129530",
+      "release_date": "2026-02-13",
+      "url": "https://store.steampowered.com/app/2129530/",
+      "reason": "Recognizable co-op horror adventure from the Little Nightmares developers.",
+      "english_reviews": 6087,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Nioh 3",
+      "steam_app_id": "3681010",
+      "release_date": "2026-02-05",
+      "url": "https://store.steampowered.com/app/3681010/",
+      "reason": "Major samurai action sequel; Samurai/Ninja styles and open-field structure help distinguish it.",
+      "english_reviews": 4916,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Marathon",
+      "steam_app_id": "3065800",
+      "release_date": "2026-03-05",
+      "url": "https://store.steampowered.com/app/3065800/",
+      "reason": "Bungie extraction shooter with a large review pool; distinguish from the classic Marathon games.",
+      "english_reviews": 36799,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Forza Horizon 6",
+      "steam_app_id": "2483190",
+      "release_date": "2026-05-18",
+      "url": "https://store.steampowered.com/app/2483190/",
+      "reason": "Major racing release set in Japan, a strong installment-specific clue.",
+      "english_reviews": 42697,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "MOUSE: P.I. For Hire",
+      "steam_app_id": "2416450",
+      "release_date": "2026-04-16",
+      "url": "https://store.steampowered.com/app/2416450/",
+      "reason": "Rubber-hose cartoon noir FPS offers unusually distinctive clue material.",
+      "english_reviews": 9419,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "REPLACED",
+      "steam_app_id": "1663850",
+      "release_date": "2026-04-14",
+      "url": "https://store.steampowered.com/app/1663850/",
+      "reason": "Cinematic pixel-art cyberpunk adventure, distinct setting and AI protagonist.",
+      "english_reviews": 3519,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "CONTROL Resonant",
+      "steam_app_id": "3669870",
+      "release_date": "2026-09-24",
+      "url": "https://store.steampowered.com/app/3669870/",
+      "reason": "Major sequel with Dylan Faden and warped Manhattan; different protagonist and combat aid identification.",
+      "english_reviews": 10064,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Planet of Lana II",
+      "steam_app_id": "2997230",
+      "release_date": "2026-03-05",
+      "url": "https://store.steampowered.com/app/2997230/",
+      "reason": "Adds cinematic puzzle-platformer variety; smaller review pool, so verify six strong English clues before scheduling.",
+      "english_reviews": null,
+      "early_access": false,
+      "total_reviews": 931,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Monster Hunter Stories 3: Twisted Reflection",
+      "steam_app_id": "2852190",
+      "release_date": "2026-03-12",
+      "url": "https://store.steampowered.com/app/2852190/",
+      "reason": "Creature-collecting turn-based RPG in a recognizable franchise.",
+      "english_reviews": 2480,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Solasta II",
+      "steam_app_id": "2975950",
+      "release_date": "2026-03-12",
+      "url": "https://store.steampowered.com/app/2975950/",
+      "reason": "Tabletop-style tactical CRPG; improves strategy/RPG variety.",
+      "english_reviews": 1716,
+      "early_access": true,
+      "group": "2026 releases"
+    },
+    {
+      "title": "MENACE",
+      "steam_app_id": "2432860",
+      "release_date": "2026-02-05",
+      "url": "https://store.steampowered.com/app/2432860/",
+      "reason": "Sci-fi squad tactics from Battle Brothers developers with a substantial review pool.",
+      "english_reviews": 8929,
+      "early_access": true,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Windrose",
+      "steam_app_id": "3041230",
+      "release_date": "2026-04-14",
+      "url": "https://store.steampowered.com/app/3041230/",
+      "reason": "Popular pirate survival/crafting game with naval combat and distinctive setting.",
+      "english_reviews": 29054,
+      "early_access": true,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Paralives",
+      "steam_app_id": "1118520",
+      "release_date": "2026-05-25",
+      "url": "https://store.steampowered.com/app/1118520/",
+      "reason": "Prominent life-sim release broadens the catalog beyond combat games.",
+      "english_reviews": 14868,
+      "early_access": true,
+      "group": "2026 releases"
+    },
+    {
+      "title": "High On Life 2",
+      "steam_app_id": "2069250",
+      "release_date": "2026-02-13",
+      "url": "https://store.steampowered.com/app/2069250/",
+      "reason": "Talking alien weapons and skateboarding provide entertaining, distinguishable review clues.",
+      "english_reviews": 1914,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "CODE VEIN II",
+      "steam_app_id": "2362060",
+      "release_date": "2026-01-29",
+      "url": "https://store.steampowered.com/app/2362060/",
+      "reason": "Recognizable anime action-RPG sequel; time travel and partners can distinguish it.",
+      "english_reviews": 2730,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Dead as Disco",
+      "steam_app_id": "3404260",
+      "release_date": "2026-05-05",
+      "url": "https://store.steampowered.com/app/3404260/",
+      "reason": "Rhythm-driven martial-arts beat-em-up, particularly distinctive clue identity.",
+      "english_reviews": 8099,
+      "early_access": true,
+      "group": "2026 releases"
+    },
+    {
+      "title": "DEATH STRANDING 2: ON THE BEACH",
+      "steam_app_id": "3280350",
+      "release_date": "2026-03-19",
+      "url": "https://store.steampowered.com/app/3280350/",
+      "reason": "Major PC release with substantial review pool; avoid generic clues shared with the first game.",
+      "english_reviews": 6298,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Beast of Reincarnation",
+      "steam_app_id": "2001760",
+      "release_date": "2026-08-03",
+      "url": "https://store.steampowered.com/app/2001760/",
+      "reason": "Game Freak action RPG with human/dog hybrid combat and a distinctive post-apocalyptic setting.",
+      "english_reviews": 1554,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Onimusha: Way of the Sword",
+      "steam_app_id": "2638890",
+      "release_date": "2026-09-03",
+      "url": "https://store.steampowered.com/app/2638890/",
+      "reason": "Recognizable franchise revival with Oni Gauntlet and Kyoto setting.",
+      "english_reviews": 6073,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "007 First Light",
+      "steam_app_id": "3768760",
+      "release_date": "2026-05-26",
+      "url": "https://store.steampowered.com/app/3768760/",
+      "reason": "Recognizable James Bond espionage adventure with a large review pool.",
+      "english_reviews": 19929,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Mina the Hollower",
+      "steam_app_id": "1875580",
+      "release_date": "2026-05-28",
+      "url": "https://store.steampowered.com/app/1875580/",
+      "reason": "Distinctive burrowing gothic action adventure from Shovel Knight creators.",
+      "english_reviews": 5571,
+      "early_access": false,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Heroes of Might and Magic: Olden Era",
+      "steam_app_id": "3105440",
+      "release_date": "2026-04-30",
+      "url": "https://store.steampowered.com/app/3105440/",
+      "reason": "Recognizable strategy series revival; broadens turn-based strategy coverage.",
+      "english_reviews": 6754,
+      "early_access": true,
+      "group": "2026 releases"
+    },
+    {
+      "title": "Hades II",
+      "steam_app_id": "1145350",
+      "release_date": "2025-09-25",
+      "url": "https://store.steampowered.com/app/1145350/",
+      "reason": "Major missing roguelike sequel; witchcraft and Greek-mythology clues offer recognizable contrasts with Hades.",
+      "english_reviews": 65799,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Hollow Knight: Silksong",
+      "steam_app_id": "1030300",
+      "release_date": "2025-09-04",
+      "url": "https://store.steampowered.com/app/1030300/",
+      "reason": "Major metroidvania sequel with a large audience and Hornet-specific identifying details.",
+      "english_reviews": 145869,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Clair Obscur: Expedition 33",
+      "steam_app_id": "1903340",
+      "release_date": "2025-04-24",
+      "url": "https://store.steampowered.com/app/1903340/",
+      "reason": "Prominent new RPG with a distinctive premise, setting and combat system.",
+      "english_reviews": 104064,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Kingdom Come: Deliverance II",
+      "steam_app_id": "1771300",
+      "release_date": "2025-02-04",
+      "url": "https://store.steampowered.com/app/1771300/",
+      "reason": "Major medieval RPG sequel; historical setting and Henry's story support specific clues.",
+      "english_reviews": 67696,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Split Fiction",
+      "steam_app_id": "2001120",
+      "release_date": "2025-03-06",
+      "url": "https://store.steampowered.com/app/2001120/",
+      "reason": "Prominent cooperative adventure spanning science-fiction and fantasy worlds.",
+      "english_reviews": 24018,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "PEAK",
+      "steam_app_id": "3527290",
+      "release_date": "2025-06-16",
+      "url": "https://store.steampowered.com/app/3527290/",
+      "reason": "Popular cooperative climbing game with a clear, distinctive central activity.",
+      "english_reviews": 148881,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Blue Prince",
+      "steam_app_id": "1569580",
+      "release_date": "2025-04-10",
+      "url": "https://store.steampowered.com/app/1569580/",
+      "reason": "Distinctive room-drafting puzzle adventure; strong fit for progressive identification.",
+      "english_reviews": 14528,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Monster Hunter Wilds",
+      "steam_app_id": "2246340",
+      "release_date": "2025-02-27",
+      "url": "https://store.steampowered.com/app/2246340/",
+      "reason": "Major missing franchise entry with a large review pool; use sequel-specific clues.",
+      "english_reviews": 86496,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "DOOM: The Dark Ages",
+      "steam_app_id": "3017860",
+      "release_date": "2025-05-14",
+      "url": "https://store.steampowered.com/app/3017860/",
+      "reason": "Major shooter release with medieval setting and shield mechanics to distinguish it.",
+      "english_reviews": 19851,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "ARC Raiders",
+      "steam_app_id": "1808500",
+      "release_date": "2025-10-30",
+      "url": "https://store.steampowered.com/app/1808500/",
+      "reason": "Prominent extraction game; mechanical enemies and setting give useful clue material.",
+      "english_reviews": 204478,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Dispatch",
+      "steam_app_id": "2592160",
+      "release_date": "2025-10-22",
+      "url": "https://store.steampowered.com/app/2592160/",
+      "reason": "Distinctive superhero workplace narrative with a large audience.",
+      "english_reviews": 109708,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Escape From Duckov",
+      "steam_app_id": "3167020",
+      "release_date": "2025-10-16",
+      "url": "https://store.steampowered.com/app/3167020/",
+      "reason": "Recognizable duck-themed extraction survival game.",
+      "english_reviews": 10681,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Megabonk",
+      "steam_app_id": "3405340",
+      "release_date": "2025-09-18",
+      "url": "https://store.steampowered.com/app/3405340/",
+      "reason": "Popular 3D survivor roguelite with distinctive characters and movement.",
+      "english_reviews": 57970,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "BALL x PIT",
+      "steam_app_id": "2062430",
+      "release_date": "2025-10-15",
+      "url": "https://store.steampowered.com/app/2062430/",
+      "reason": "Distinctive combination of ricocheting balls, roguelite upgrades and base building.",
+      "english_reviews": 15403,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "The Alters",
+      "steam_app_id": "1601570",
+      "release_date": "2025-06-13",
+      "url": "https://store.steampowered.com/app/1601570/",
+      "reason": "Strong premise around alternate versions of one survivor; distinctive narrative survival clues.",
+      "english_reviews": 6266,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "The Elder Scrolls IV: Oblivion Remastered",
+      "steam_app_id": "2623190",
+      "release_date": "2025-04-22",
+      "url": "https://store.steampowered.com/app/2623190/",
+      "reason": "Major remake; requires careful edition distinction when choosing clues.",
+      "english_reviews": 48159,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Path of Exile 2",
+      "steam_app_id": "2694490",
+      "release_date": "2024-12-06",
+      "url": "https://store.steampowered.com/app/2694490/",
+      "reason": "Major playable action-RPG sequel with substantial reviews; include Early Access games.",
+      "english_reviews": 98309,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "S.T.A.L.K.E.R. 2: Heart of Chornobyl",
+      "steam_app_id": "1643320",
+      "release_date": "2024-11-20",
+      "url": "https://store.steampowered.com/app/1643320/",
+      "reason": "Major missing survival-shooter sequel and distinctive Zone setting.",
+      "english_reviews": 44815,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Indiana Jones and the Great Circle",
+      "steam_app_id": "2677660",
+      "release_date": "2024-12-08",
+      "url": "https://store.steampowered.com/app/2677660/",
+      "reason": "Recognizable licensed adventure with archaeology, stealth and first-person exploration.",
+      "english_reviews": 7855,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Battlefield 6",
+      "steam_app_id": "2807960",
+      "release_date": "2025-10-10",
+      "url": "https://store.steampowered.com/app/2807960/",
+      "reason": "Major multiplayer shooter entry with extensive review pool.",
+      "english_reviews": 157188,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Borderlands 4",
+      "steam_app_id": "1285190",
+      "release_date": "2025-09-11",
+      "url": "https://store.steampowered.com/app/1285190/",
+      "reason": "Major looter-shooter sequel; use game-specific rather than series-wide clues.",
+      "english_reviews": 44747,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Dune: Awakening",
+      "steam_app_id": "1172710",
+      "release_date": "2025-06-10",
+      "url": "https://store.steampowered.com/app/1172710/",
+      "reason": "Recognizable survival game set on Arrakis; strong thematic clue material.",
+      "english_reviews": 47368,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Grounded 2",
+      "steam_app_id": "2661300",
+      "release_date": "2025-07-29",
+      "url": "https://store.steampowered.com/app/2661300/",
+      "reason": "Playable survival sequel; insect mounts and park setting can distinguish it from Grounded.",
+      "english_reviews": 12881,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Avowed",
+      "steam_app_id": "2457220",
+      "release_date": "2025-02-18",
+      "url": "https://store.steampowered.com/app/2457220/",
+      "reason": "Missing first-person fantasy RPG in Eora; distinct setting and spellcasting.",
+      "english_reviews": 9887,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Assassin's Creed Shadows",
+      "steam_app_id": "3159330",
+      "release_date": "2025-03-19",
+      "url": "https://store.steampowered.com/app/3159330/",
+      "reason": "Major missing historical action game with dual protagonists in Japan.",
+      "english_reviews": 16338,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "The Outer Worlds 2",
+      "steam_app_id": "1449110",
+      "release_date": "2025-10-29",
+      "url": "https://store.steampowered.com/app/1449110/",
+      "reason": "Missing science-fiction RPG sequel; requires sequel-specific details.",
+      "english_reviews": 6248,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Europa Universalis V",
+      "steam_app_id": "3450310",
+      "release_date": "2025-11-04",
+      "url": "https://store.steampowered.com/app/3450310/",
+      "reason": "Major missing grand-strategy sequel; broaden recent strategy coverage.",
+      "english_reviews": 14185,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Mafia: The Old Country",
+      "steam_app_id": "1941540",
+      "release_date": "2025-08-07",
+      "url": "https://store.steampowered.com/app/1941540/",
+      "reason": "Major narrative crime game with a distinctive Sicilian setting.",
+      "english_reviews": 9510,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Anno 117: Pax Romana",
+      "steam_app_id": "3274580",
+      "release_date": "2025-11-12",
+      "url": "https://store.steampowered.com/app/3274580/",
+      "reason": "Missing Roman-era city builder; clear contrast with other Anno games.",
+      "english_reviews": 5654,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "METAL GEAR SOLID Δ: SNAKE EATER",
+      "steam_app_id": "2417610",
+      "release_date": "2025-08-28",
+      "url": "https://store.steampowered.com/app/2417610/",
+      "reason": "Major stealth remake; protect against ambiguity with original Snake Eater.",
+      "english_reviews": 8638,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "SILENT HILL f",
+      "steam_app_id": "2947440",
+      "release_date": "2025-09-24",
+      "url": "https://store.steampowered.com/app/2947440/",
+      "reason": "Distinctive new horror entry with a Japanese setting.",
+      "english_reviews": 9225,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Sid Meier's Civilization VII",
+      "steam_app_id": "1295660",
+      "release_date": "2025-02-10",
+      "url": "https://store.steampowered.com/app/1295660/",
+      "reason": "Major missing strategy release with substantial English reviews.",
+      "english_reviews": 30118,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Little Nightmares III",
+      "steam_app_id": "1392860",
+      "release_date": "2025-10-09",
+      "url": "https://store.steampowered.com/app/1392860/",
+      "reason": "Recognizable horror series entry with cooperative characters; use sequel-specific details.",
+      "english_reviews": 5064,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Look Outside",
+      "steam_app_id": "3373660",
+      "release_date": "2025-03-21",
+      "url": "https://store.steampowered.com/app/3373660/",
+      "reason": "Distinctive apartment-building horror RPG, with substantial audience and strong premise.",
+      "english_reviews": 9517,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Keep Driving",
+      "steam_app_id": "2756920",
+      "release_date": "2025-02-06",
+      "url": "https://store.steampowered.com/app/2756920/",
+      "reason": "Distinctive road-trip management RPG; improves genre variety.",
+      "english_reviews": 3256,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Bongo Cat",
+      "steam_app_id": "3419430",
+      "release_date": "2025-03-05",
+      "url": "https://store.steampowered.com/app/3419430/",
+      "reason": "Widely reviewed desktop idle game with instantly recognizable theme and interaction.",
+      "english_reviews": 29387,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "RV There Yet?",
+      "steam_app_id": "3949040",
+      "release_date": "2025-10-21",
+      "url": "https://store.steampowered.com/app/3949040/",
+      "reason": "Popular cooperative RV-driving adventure with distinctive mishaps and winching mechanics.",
+      "english_reviews": 32035,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "No, I'm not a Human",
+      "steam_app_id": "3180070",
+      "release_date": "2025-09-15",
+      "url": "https://store.steampowered.com/app/3180070/",
+      "reason": "Recognizable paranoia horror game about identifying visitors; strong clue potential.",
+      "english_reviews": 9973,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "The Midnight Walk",
+      "steam_app_id": "2863640",
+      "release_date": "2025-05-08",
+      "url": "https://store.steampowered.com/app/2863640/",
+      "reason": "Clay-crafted dark-fantasy adventure with a distinctive visual identity.",
+      "english_reviews": 1747,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Is This Seat Taken?",
+      "steam_app_id": "3035120",
+      "release_date": "2025-08-07",
+      "url": "https://store.steampowered.com/app/3035120/",
+      "reason": "Cozy seating-logic puzzle; clear central mechanic and broader genre coverage.",
+      "english_reviews": 5831,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "9 Kings",
+      "steam_app_id": "2784470",
+      "release_date": "2025-05-23",
+      "url": "https://store.steampowered.com/app/2784470/",
+      "reason": "Popular compact roguelike kingdom builder with a substantial review pool.",
+      "english_reviews": 10013,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Tiny Bookshop",
+      "steam_app_id": "2133760",
+      "release_date": "2025-08-07",
+      "url": "https://store.steampowered.com/app/2133760/",
+      "reason": "Distinctive cozy bookshop-management game; broadens answer variety.",
+      "english_reviews": 5057,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "The King is Watching",
+      "steam_app_id": "2753900",
+      "release_date": "2025-07-21",
+      "url": "https://store.steampowered.com/app/2753900/",
+      "reason": "Distinctive gaze-controlled kingdom builder; strong mechanic-based clues.",
+      "english_reviews": 3398,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Baby Steps",
+      "steam_app_id": "1281040",
+      "release_date": "2025-09-23",
+      "url": "https://store.steampowered.com/app/1281040/",
+      "reason": "Distinctive physics-based walking game; recognizable creator lineage and premise.",
+      "english_reviews": 1757,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Mouthwashing",
+      "steam_app_id": "2475490",
+      "release_date": "2024-09-26",
+      "url": "https://store.steampowered.com/app/2475490/",
+      "reason": "Prominent late-2024 narrative horror game with distinctive freighter setting.",
+      "english_reviews": 24719,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Nine Sols",
+      "steam_app_id": "1809540",
+      "release_date": "2024-05-28",
+      "url": "https://store.steampowered.com/app/1809540/",
+      "reason": "Widely reviewed 2024 action-platformer with deflection combat and taopunk identity.",
+      "english_reviews": 20748,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "ENDER MAGNOLIA: Bloom in the Mist",
+      "steam_app_id": "2725260",
+      "release_date": "2025-01-22",
+      "url": "https://store.steampowered.com/app/2725260/",
+      "reason": "Missing metroidvania follow-up with substantial reviews and distinct setting.",
+      "english_reviews": 4744,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "The Last of Us Part II Remastered",
+      "steam_app_id": "2531310",
+      "release_date": "2025-04-03",
+      "url": "https://store.steampowered.com/app/2531310/",
+      "reason": "Major 2025 Steam port; ensure sequel-specific clues.",
+      "english_reviews": 13276,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "FINAL FANTASY VII REBIRTH",
+      "steam_app_id": "2909400",
+      "release_date": "2025-01-23",
+      "url": "https://store.steampowered.com/app/2909400/",
+      "reason": "Major missing RPG entry and 2025 PC release; distinct from Remake.",
+      "english_reviews": 13454,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "God of War Ragnarök",
+      "steam_app_id": "2322010",
+      "release_date": "2024-09-19",
+      "url": "https://store.steampowered.com/app/2322010/",
+      "reason": "Major missing 2024 PC sequel; large review pool.",
+      "english_reviews": 16594,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Marvel's Spider-Man 2",
+      "steam_app_id": "2651280",
+      "release_date": "2025-01-30",
+      "url": "https://store.steampowered.com/app/2651280/",
+      "reason": "Major 2025 PC sequel with distinctive dual-hero and symbiote content.",
+      "english_reviews": 19360,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Date Everything!",
+      "steam_app_id": "2201320",
+      "release_date": "2025-06-17",
+      "url": "https://store.steampowered.com/app/2201320/",
+      "reason": "Distinctive dating simulator about household objects; broadens genre coverage.",
+      "english_reviews": 6026,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "WUCHANG: Fallen Feathers",
+      "steam_app_id": "2277560",
+      "release_date": "2025-07-23",
+      "url": "https://store.steampowered.com/app/2277560/",
+      "reason": "Recognizable 2025 soulslike with historical Chinese setting and feathering theme.",
+      "english_reviews": 5467,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Two Point Museum",
+      "steam_app_id": "2185060",
+      "release_date": "2025-03-04",
+      "url": "https://store.steampowered.com/app/2185060/",
+      "reason": "Missing management game with a clear museum premise and substantial reviews.",
+      "english_reviews": 5290,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "inZOI",
+      "steam_app_id": "2456740",
+      "release_date": "2025-03-27",
+      "url": "https://store.steampowered.com/app/2456740/",
+      "reason": "Widely reviewed playable life simulator; broadens recent simulation coverage.",
+      "english_reviews": 14652,
+      "verified_on": "2026-11-12",
+      "verification": "Primary Steam store page; review count is an observed page snapshot, not a live counter.",
+      "group": "Recent 2024-2025 omissions"
+    },
+    {
+      "title": "Age of Empires II: Definitive Edition",
+      "steam_app_id": "813780",
+      "release_date": "2019-11-14",
+      "url": "https://store.steampowered.com/app/813780/",
+      "reason": "Recognizable historical RTS with civilization, age progression, economy and siege clues.",
+      "english_reviews": 62587,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Sid Meier's Civilization V",
+      "steam_app_id": "8930",
+      "release_date": "2010-09-21",
+      "url": "https://store.steampowered.com/app/8930/",
+      "reason": "Major missing strategy franchise entry; hex tiles and one unit per tile distinguish it from adjacent entries.",
+      "english_reviews": 78954,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Anno 1800",
+      "steam_app_id": "916440",
+      "release_date": "2019-04-16",
+      "url": "https://store.steampowered.com/app/916440/",
+      "reason": "Distinctive industrial city building and production-chain management broadens strategy coverage.",
+      "english_reviews": 12184,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Timberborn",
+      "steam_app_id": "1062090",
+      "release_date": "2026-03-12",
+      "url": "https://store.steampowered.com/app/1062090/",
+      "reason": "Beaver colonies, droughts, dams and water engineering produce unusually distinctive clues.",
+      "english_reviews": 24605,
+      "early_access_release_date": "2021-09-15",
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "BeamNG.drive",
+      "steam_app_id": "284160",
+      "release_date": "2015-05-29",
+      "url": "https://store.steampowered.com/app/284160/",
+      "reason": "Very large audience and unmistakable soft-body vehicle physics and crash simulation.",
+      "english_reviews": 215214,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "THE FINALS",
+      "steam_app_id": "2073850",
+      "release_date": "2023-12-07",
+      "url": "https://store.steampowered.com/app/2073850/",
+      "reason": "Recognizable competitive shooter with destructible arenas, cashouts and a game-show setting.",
+      "english_reviews": 160874,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "BioShock",
+      "steam_app_id": "7670",
+      "release_date": "2007-08-21",
+      "url": "https://store.steampowered.com/app/7670/",
+      "reason": "Iconic underwater Rapture setting, plasmids and Big Daddies make a strong evergreen addition.",
+      "english_reviews": 12812,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Grand Theft Auto IV: The Complete Edition",
+      "steam_app_id": "12210",
+      "release_date": "2020-03-24",
+      "url": "https://store.steampowered.com/app/12210/",
+      "reason": "Major missing open-world crime entry; Niko Bellic and Liberty City provide specific clues.",
+      "english_reviews": 73597,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Core Keeper",
+      "steam_app_id": "1621690",
+      "release_date": "2024-08-27",
+      "url": "https://store.steampowered.com/app/1621690/",
+      "reason": "Popular underground mining survival game with cooperative exploration and distinctive bosses.",
+      "english_reviews": 24039,
+      "early_access_release_date": "2022-03-08",
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Buckshot Roulette",
+      "steam_app_id": "2835570",
+      "release_date": "2024-04-04",
+      "url": "https://store.steampowered.com/app/2835570/",
+      "reason": "A widely recognized compact game built around shotgun roulette and a dealer.",
+      "english_reviews": 37054,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Backpack Battles",
+      "steam_app_id": "2427700",
+      "release_date": "2025-06-13",
+      "url": "https://store.steampowered.com/app/2427700/",
+      "reason": "Inventory arrangement and item-synergy autobattling provide a distinctive mechanical identity.",
+      "english_reviews": 5630,
+      "early_access_release_date": "2024-03-08",
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Escape the Backrooms",
+      "steam_app_id": "1943950",
+      "release_date": "2025-10-23",
+      "url": "https://store.steampowered.com/app/1943950/",
+      "reason": "Large cooperative horror audience with recognizable liminal-space and entity clues.",
+      "english_reviews": 47327,
+      "early_access_release_date": "2022-08-11",
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Peglin",
+      "steam_app_id": "1296610",
+      "release_date": "2024-08-27",
+      "url": "https://store.steampowered.com/app/1296610/",
+      "reason": "Pachinko-style combat mixed with roguelike progression offers clear mechanical clues.",
+      "english_reviews": 10368,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Super Auto Pets",
+      "steam_app_id": "1714040",
+      "release_date": "2021-09-24",
+      "url": "https://store.steampowered.com/app/1714040/",
+      "reason": "Recognizable animal-team autobattler with accessible, distinctive shop and synergy mechanics.",
+      "english_reviews": 25101,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Luck be a Landlord",
+      "steam_app_id": "1404850",
+      "release_date": "2023-01-06",
+      "url": "https://store.steampowered.com/app/1404850/",
+      "reason": "Slot-machine roguelike about paying rent has a particularly concise and distinctive premise.",
+      "english_reviews": 5356,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Slice & Dice",
+      "steam_app_id": "1775490",
+      "release_date": "2024-03-20",
+      "url": "https://store.steampowered.com/app/1775490/",
+      "reason": "Dice-based tactical roguelike built around a five-hero party broadens puzzle and strategy coverage.",
+      "english_reviews": 1970,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Chained Together",
+      "steam_app_id": "2567870",
+      "release_date": "2024-06-19",
+      "url": "https://store.steampowered.com/app/2567870/",
+      "reason": "Popular cooperative climbing game whose shared chain is immediately distinctive.",
+      "english_reviews": 20753,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "TCG Card Shop Simulator",
+      "steam_app_id": "3070070",
+      "release_date": "2026-09-14",
+      "url": "https://store.steampowered.com/app/3070070/",
+      "reason": "Trading-card retail management and opening booster packs make a recognizable simulator entry.",
+      "english_reviews": 34422,
+      "early_access_release_date": "2024-09-15",
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Supermarket Simulator",
+      "steam_app_id": "2670630",
+      "release_date": "2025-06-19",
+      "url": "https://store.steampowered.com/app/2670630/",
+      "reason": "Large-audience grocery-store management simulator fills a notable recent simulation gap.",
+      "english_reviews": 34650,
+      "early_access_release_date": "2024-02-20",
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "DARK SOULS II: Scholar of the First Sin",
+      "steam_app_id": "335300",
+      "release_date": "2015-04-01",
+      "url": "https://store.steampowered.com/app/335300/",
+      "reason": "Important missing Souls installment; use Drangleic and installment-specific clues to distinguish it.",
+      "english_reviews": 35528,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Borderlands 3",
+      "steam_app_id": "397540",
+      "release_date": "2020-03-13",
+      "url": "https://store.steampowered.com/app/397540/",
+      "reason": "Major missing looter-shooter entry with distinct Vault Hunters and multiple planets.",
+      "english_reviews": 60469,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Diablo IV",
+      "steam_app_id": "2344520",
+      "release_date": "2023-10-17",
+      "url": "https://store.steampowered.com/app/2344520/",
+      "reason": "Recognizable major action RPG with Sanctuary, Lilith and an open-world structure.",
+      "english_reviews": 22453,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "The Talos Principle 2",
+      "steam_app_id": "835960",
+      "release_date": "2023-11-02",
+      "url": "https://store.steampowered.com/app/835960/",
+      "reason": "Philosophical robot puzzle sequel provides distinctive setting and puzzle-mechanic clues.",
+      "english_reviews": 8646,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Battle Brothers",
+      "steam_app_id": "365360",
+      "release_date": "2017-03-24",
+      "url": "https://store.steampowered.com/app/365360/",
+      "reason": "Established tactical mercenary-company RPG with permadeath and a medieval procedural world.",
+      "english_reviews": 15672,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "No More Room in Hell",
+      "steam_app_id": "224260",
+      "release_date": "2011-10-31",
+      "url": "https://store.steampowered.com/app/224260/",
+      "reason": "Well-known cooperative Source-engine zombie survival game with infection and limited supplies.",
+      "english_reviews": 30704,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Left 4 Dead",
+      "steam_app_id": "500",
+      "release_date": "2008-11-17",
+      "url": "https://store.steampowered.com/app/500/",
+      "reason": "Iconic original cooperative zombie shooter; original survivors distinguish it from the sequel.",
+      "english_reviews": 20440,
+      "group": "Established games and recent full releases"
+    },
+    {
+      "title": "Alan Wake",
+      "steam_app_id": "108710",
+      "release_date": "2012-02-16",
+      "url": "https://store.steampowered.com/app/108710/",
+      "reason": "Recognizable writer-in-Bright-Falls thriller using light against darkness; check existing mislabeled remaster before adding.",
+      "english_reviews": 17416,
+      "group": "Established games and recent full releases"
+    }
+  ],
+  "pending_issue": {
+    "title": "Alan Wake Remastered",
+    "steam_app_id": "1335790",
+    "actual_game": "Operation: Tango",
+    "status": "Existing entry preserved pending owner choice; original Alan Wake added separately as app 108710.",
+    "sources": [
+      "https://store.steampowered.com/app/1335790/",
+      "https://store.steampowered.com/app/108710/",
+      "https://www.alanwake.com/story/faq/"
+    ]
+  },
+  "original_audit": {
+    "checked": 400,
+    "metadata_success": 399,
+    "released_game_records": 399,
+    "note": "A returned released-game record does not prove the catalog label is correct or that the game remains purchasable. Label/edition mismatches are recorded separately.",
+    "evidence_file": "catalog-existing-steam-audit-2026-11-12.json"
+  },
+  "corrections": [
+    {
+      "title": "Ori and the Blind Forest: Definitive Edition",
+      "previous_app_id": "261570",
+      "corrected_app_id": "387290",
+      "reason": "The old ID belongs to the original edition. Preserve the listed Definitive Edition and point it at its actual Steam app.",
+      "sources": [
+        "https://store.steampowered.com/app/261570/",
+        "https://store.steampowered.com/app/387290/"
+      ]
+    },
+    {
+      "title": "1000xRESIST",
+      "previous_app_id": "1675560",
+      "corrected_app_id": "1675830",
+      "reason": "The old ID does not return a valid app record; the verified Steam game is 1675830.",
+      "sources": [
+        "https://store.steampowered.com/app/1675830/"
+      ]
+    }
+  ],
+  "curation_notes": [
+    "All original game titles retained. The existing Alan Wake Remastered mismatch remains explicitly flagged pending the owner decision.",
+    "399 original IDs returned released-game metadata; the remaining incorrect 1000xRESIST ID was corrected. Label correctness is a separate check.",
+    "Forza Horizon 4, Fall Guys and Rocket League remain useful recognizable answers despite delisting or unavailability for new purchases.",
+    "Layers of Fear app 391720 is the 2016 original; do not use reviews for the 2023 game.",
+    "Store edition/marketing renames on the same app ID do not require duplicate answers (Control, Northgard, GTA V and others).",
+    "The new games are catalog candidates, not 110 completed manually curated puzzles. Each still needs six authentic, progressive clues.",
+    "Planet of Lana II has verified total-review availability, but the research did not establish its English-review count.",
+    "Avoid unqualified DS2 guesses: both Dark Souls II and Death Stranding 2 are in the pool.",
+    "Do not equate original games with distinct remakes when choosing clues. Preserve sequel-specific identifying evidence."
+  ]
+}

@@ -1,0 +1,88 @@
+STEAMDLE — AGENT-CURATED CLUE TRIAL
+Prepared November 12, 2026. Local changes only; not committed, pushed or deployed.
+
+DELIVERED
+Six games, six authentic Steam-review clues each. 15 complete short reviews and
+21 exact contiguous excerpts. Every clue has a unique reviewer within its game,
+an individual Steam review link, recommendation ID, source timestamp, character
+offsets and a source-text hash. No paraphrased reviews or fabricated quotations.
+The wording is stored once in data/clue-trial-2026-11-12.js.
+
+Try docs/clue-trial-2026-11-12.html in a browser. It reveals one clue at a time,
+accepts guesses, shows sources/editorial notes after the answer, and saves local
+feedback that can be downloaded. The preview makes no changes to live analytics.
+
+PROPOSED ORDER AT THE NEXT UNSCHEDULED DATES
+1. PEAK — survival, spatial voice chat, climbing, daily maps, Scouts, mascot.
+2. Clair Obscur: Expedition 33 — turn-based combat, active defense, French
+   aesthetic, Pictos, signature motto, the Paintress's opening premise.
+3. Buckshot Roulette — horror choices, gambling/techno, shell counting,
+   unusual healing items, ammunition inspection, the Dealer and shotgun.
+4. TCG Card Shop Simulator — retail work, randomized collectibles, game tables,
+   customer hygiene, Tetramon, the conflict between selling and opening stock.
+5. Slay the Spire 2 — cards/block, companion, Enchantments, four-player mode,
+   Ancients and the Regent. Multiple clues distinguish it from the first game.
+6. Mewgenics — tactics, corpse-healing trait, genetics, singing cats,
+   cat character classes and the creator/combat premise.
+
+UNUSED-GAME EVIDENCE AND LIMITS
+All six IDs were absent from every catalog/seed revision in all 42 reachable Git
+commits. They are strong unused candidates. The production database was not
+directly accessible, so this is not a claim that the full year's published
+puzzles were independently audited. The import additionally checks actual DB
+history and will not replace a used or already-snapshotted game's clues.
+
+Blue Prince was excluded: it appeared in the May 2025 catalog despite being
+missing from the current list. Of the 110 catalog additions, 109 were never
+listed in recorded source; Blue Prince is the one known reintroduction.
+
+Legacy last_played_on began May 15, 2025. Some older failed selections were
+marked played before clues loaded. Treating those as used is conservative.
+Immutable daily_puzzles began November 4, 2026. Existing surviving play dates
+were retained by that migration, but older deleted rows may have lost history.
+See unused-games-audit-2026-11-12.json for IDs and supporting commit evidence.
+
+SCHEDULING AND IMPORT CHANGES
+Unused games precede every repeat, regardless of cached-clue availability.
+The six unused trial games receive the order above within the unused pool.
+Used priority games receive no special preference. After unused games are
+exhausted, repeats follow oldest-use order; adjacent days cannot share an answer.
+
+Catalog placeholders are registered before scheduling, so an unfinished import
+or transient Steam failure cannot masquerade as exhaustion and promote repeats.
+When no unused game has a usable set, preparation waits for a usable set.
+Existing published and prepared snapshots remain unchanged across restarts.
+
+Usage combines immutable snapshot identity, legacy last_played_on across all
+rows with the same Steam ID, and optional recovered history. Removed catalog
+rows are deactivated rather than deleted, retaining their history. Cached
+curated clues load before scheduling and automatic reseeding cannot replace
+them. Public review cards label excerpts.
+
+EDITORIAL RESULT
+All six have enough material for a useful progression; a small-batch workflow
+looks viable. An independent audit caught and corrected one excerpt that
+described a reviewer's real job, and replaced a repeated French-aesthetic clue
+with a different game system. Mechanical checks alone would not catch those.
+
+This pilot uses popular games with abundant reviews. It does not yet establish
+365-game throughput or quality on sparse-review titles. Difficulty remains an
+editorial judgment until people try the games. Dark player humor is retained;
+Mewgenics's final clue mentions a deity fight but no major story twist.
+
+EVALUATING THE TRIAL
+Have players guess before revealing the editorial notes. Record familiarity,
+solve clue, the most useful clue, and whether the progression felt fair.
+Look for meaningful correct guesses on clues 2–4 and fewer 'None helped'
+responses; do not judge only by a higher overall win rate. The six games have
+different audiences, so results are directional, not a controlled experiment.
+After deployment, existing owner analytics can inspect clue-level outcomes for
+each completed day. No live trial outcomes have been collected yet.
+
+VALIDATION
+87 repository tests passed, including no-repeat selection, alias history,
+unready imports, source attribution, protected snapshots and startup import.
+The six-round browser preview passed correct/incorrect guesses, source reveal,
+feedback persistence, result download and desktop/mobile layout checks.
+All 36 excerpts were checked against fetched Steam source text, with distinct
+reviewers, no title/accepted-alias leaks, and at most 25 words per source.

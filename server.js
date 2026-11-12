@@ -26,11 +26,17 @@ const STEAM_APPS_CACHE_DURATION = 24 * 60 * 60 * 1000;
 const STEAM_APPS_RETRY_COOLDOWN = 5 * 60 * 1000;
 const STEAM_API_KEY = process.env.STEAM_API_KEY || '';
 
-const dailyPuzzles = createDailyPuzzles(db, scrapeSteamReview);
+const clueTrial = require('./active-curation');
+const { curatedScheduleStatus } = require('./curated-schedule');
+const dailyPuzzles = createDailyPuzzles(db, scrapeSteamReview, {
+    priorityAppIds: clueTrial.games.map(game => game.steam_app_id)
+});
 let preparedThrough = null;
 
 // --- Middleware ---
-app.use(createStatsRoutes(createAnalytics(db)));
+app.use(createStatsRoutes(createAnalytics(db), process.env, {
+    scheduleStatus: clueTrial.schedule ? () => curatedScheduleStatus(db, clueTrial) : undefined
+}));
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));

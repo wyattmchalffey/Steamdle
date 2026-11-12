@@ -496,6 +496,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Review Text
         if (reviewData.reviewText && reviewData.reviewText !== "Could not load review text.") {
+            if (reviewData.isExcerpt) {
+                const excerptLabel = document.createElement('p');
+                excerptLabel.className = 'review-date';
+                excerptLabel.textContent = 'Excerpt from a Steam review';
+                reviewCard.appendChild(excerptLabel);
+            }
             const reviewTextP = document.createElement('p');
             reviewTextP.classList.add('review-text-content');
             reviewTextP.style.whiteSpace = 'pre-line';

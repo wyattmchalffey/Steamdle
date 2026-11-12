@@ -1,0 +1,162 @@
+{
+  "version": "curated-month-2026-11-13-v1",
+  "startDate": "2026-11-13",
+  "endDate": "2026-12-12",
+  "games": [
+    {
+      "date": "2026-11-13",
+      "steam_app_id": "3527290",
+      "title": "PEAK"
+    },
+    {
+      "date": "2026-11-14",
+      "steam_app_id": "1771300",
+      "title": "Kingdom Come: Deliverance II"
+    },
+    {
+      "date": "2026-11-15",
+      "steam_app_id": "1145350",
+      "title": "Hades II"
+    },
+    {
+      "date": "2026-11-16",
+      "steam_app_id": "2133760",
+      "title": "Tiny Bookshop"
+    },
+    {
+      "date": "2026-11-17",
+      "steam_app_id": "1903340",
+      "title": "Clair Obscur: Expedition 33"
+    },
+    {
+      "date": "2026-11-18",
+      "steam_app_id": "2835570",
+      "title": "Buckshot Roulette"
+    },
+    {
+      "date": "2026-11-19",
+      "steam_app_id": "1621690",
+      "title": "Core Keeper"
+    },
+    {
+      "date": "2026-11-20",
+      "steam_app_id": "2001120",
+      "title": "Split Fiction"
+    },
+    {
+      "date": "2026-11-21",
+      "steam_app_id": "1030300",
+      "title": "Hollow Knight: Silksong"
+    },
+    {
+      "date": "2026-11-22",
+      "steam_app_id": "3070070",
+      "title": "TCG Card Shop Simulator"
+    },
+    {
+      "date": "2026-11-23",
+      "steam_app_id": "2677660",
+      "title": "Indiana Jones and the Great Circle"
+    },
+    {
+      "date": "2026-11-24",
+      "steam_app_id": "1296610",
+      "title": "Peglin"
+    },
+    {
+      "date": "2026-11-25",
+      "steam_app_id": "1808500",
+      "title": "ARC Raiders"
+    },
+    {
+      "date": "2026-11-26",
+      "steam_app_id": "2756920",
+      "title": "Keep Driving"
+    },
+    {
+      "date": "2026-11-27",
+      "steam_app_id": "3764200",
+      "title": "Resident Evil Requiem"
+    },
+    {
+      "date": "2026-11-28",
+      "steam_app_id": "2483190",
+      "title": "Forza Horizon 6"
+    },
+    {
+      "date": "2026-11-29",
+      "steam_app_id": "2475490",
+      "title": "Mouthwashing"
+    },
+    {
+      "date": "2026-11-30",
+      "steam_app_id": "2185060",
+      "title": "Two Point Museum"
+    },
+    {
+      "date": "2026-12-01",
+      "steam_app_id": "2868840",
+      "title": "Slay the Spire 2"
+    },
+    {
+      "date": "2026-12-02",
+      "steam_app_id": "1601570",
+      "title": "The Alters"
+    },
+    {
+      "date": "2026-12-03",
+      "steam_app_id": "1714040",
+      "title": "Super Auto Pets"
+    },
+    {
+      "date": "2026-12-04",
+      "steam_app_id": "1962700",
+      "title": "Subnautica 2"
+    },
+    {
+      "date": "2026-12-05",
+      "steam_app_id": "3017860",
+      "title": "DOOM: The Dark Ages"
+    },
+    {
+      "date": "2026-12-06",
+      "steam_app_id": "1062090",
+      "title": "Timberborn"
+    },
+    {
+      "date": "2026-12-07",
+      "steam_app_id": "2592160",
+      "title": "Dispatch"
+    },
+    {
+      "date": "2026-12-08",
+      "steam_app_id": "1809540",
+      "title": "Nine Sols"
+    },
+    {
+      "date": "2026-12-09",
+      "steam_app_id": "2062430",
+      "title": "BALL x PIT"
+    },
+    {
+      "date": "2026-12-10",
+      "steam_app_id": "835960",
+      "title": "The Talos Principle 2"
+    },
+    {
+      "date": "2026-12-11",
+      "steam_app_id": "1663850",
+      "title": "REPLACED"
+    },
+    {
+      "date": "2026-12-12",
+      "steam_app_id": "686060",
+      "title": "Mewgenics"
+    }
+  ],
+  "sourceHistoryOverlap": [],
+  "clueCount": 180,
+  "newReviewPoolCount": 6447,
+  "completeReviews": 30,
+  "excerpts": 150
+}
