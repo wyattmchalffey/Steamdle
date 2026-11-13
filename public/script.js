@@ -42,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const feedbackForm = document.getElementById('clue-feedback');
     const feedbackChoices = document.getElementById('feedback-choices');
     const feedbackStatus = document.getElementById('feedback-status');
-    const resultStats = document.getElementById('result-stats');
     const toastEl = document.getElementById('toast');
     const creditEl = document.getElementById('credit');
     const autocompleteDropdown = document.getElementById('autocomplete-dropdown');
@@ -511,14 +510,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (didWin) {
-            winLoseText.textContent = "Nicely done.";
+            winLoseText.textContent = 'Solved';
             gameOverMessageDiv.classList.add('win');
-            const cluesUsed = attempts.length;
-            resultStats.textContent = `Solved in ${cluesUsed} ${cluesUsed === 1 ? 'clue' : 'clues'}.`;
         } else {
-            winLoseText.textContent = "There's always tomorrow.";
+            winLoseText.textContent = 'Not solved';
             gameOverMessageDiv.classList.add('lose');
-            resultStats.textContent = `You used all ${currentGame.reviews.length} clues.`;
         }
         shareSection.classList.remove('hidden');
         prepareSharing();
@@ -582,13 +578,8 @@ document.addEventListener('DOMContentLoaded', () => {
         shareImageUrl = null;
         const native = canShareText(result);
         copyResultsButton.classList.toggle('hidden', !native);
-        document.getElementById('share-help').textContent = native
-            ? 'Share your score. Keep the answer to yourself.'
-            : 'Copies your score and link. No spoilers.';
+        shareButton.textContent = native ? 'Share result' : 'Copy result';
         document.getElementById('share-score').textContent = result.score;
-        document.getElementById('share-prompt').textContent = result.won
-            ? (attempts.length === 1 ? 'One clue. Can your friends match that?' : 'Can your friends beat your score?')
-            : 'Challenge a friend to crack this one.';
         const grid = document.getElementById('share-grid');
         grid.replaceChildren();
         grid.setAttribute('role', 'img');
@@ -800,7 +791,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (shareResult !== result) return;
         if (copied) {
             manualShare.classList.add('hidden');
-            showToast('Result copied. Send it to a friend!');
+            showToast('Result copied.');
         } else {
             manualShareText.value = result.text;
             manualShare.classList.remove('hidden');

@@ -45,7 +45,7 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .container { width: min(100% - 40px, 680px); margin: 44px auto 0; }
 .puzzle-meta { display: flex; align-items: center; justify-content: center; margin-bottom: 26px; font-size: 11px; color: var(--muted); }
 .puzzle-meta time { font-variant-numeric: tabular-nums; }
-.site-footer { width: min(100% - 40px, 680px); margin: 48px auto 24px; padding-top: 20px; border-top: 1px solid #2b3744; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 20px; color: #92a3b2; font-size: 11px; line-height: 1.6; }
+.site-footer { width: min(100% - 40px, 680px); margin: 32px auto 24px; padding-top: 16px; border-top: 1px solid #2b3744; display: flex; justify-content: flex-end; align-items: center; color: #92a3b2; font-size: 11px; line-height: 1.6; }
 .credit { font-size: inherit; margin: 0; }
 .credit a { color: #bdcbd6; text-decoration: none; }
 .credit a:hover { color: var(--blue); }
@@ -80,34 +80,30 @@ body:not(.round-complete) .review-disclosure > summary { display: none; }
 #previous-guesses-list li { padding: 5px 9px; background: #2a282d; border: 1px solid #61484c; color: #e0b5b5; border-radius: 2px; font-size: 11px; overflow-wrap: anywhere; max-width: 100%; }
 #previous-guesses-list li.skipped { background: #202e3c; border-color: #405265; color: #b5c6d3; }
 
-/* One result panel, one primary action. */
-#game-over-message { background: var(--surface); border: 1px solid #344b60; border-radius: 4px; padding: 24px; }
-.result-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 24px; }
+/* Compact result panel aligned with the review cards. */
+#game-over-message { max-width: 612px; margin-inline: auto; background: #16202d; border: 1px solid #2f4050; padding: 18px; }
+.result-heading { display: flex; align-items: baseline; gap: 8px; margin-bottom: 16px; }
 #win-lose-text { margin: 0; color: var(--green); font-size: 13px; font-weight: 600; }
 .lose #win-lose-text { color: #d5c1a2; }
-#share-date { color: var(--muted); font-size: 11px; }
-.answer-reveal { display: flex; align-items: center; gap: 24px; }
-#game-image { display: block; width: 46%; height: auto; aspect-ratio: 460 / 215; object-fit: cover; border-radius: 2px; flex-shrink: 0; }
+#share-date { margin-left: auto; color: var(--muted); font-size: 11px; }
+.answer-reveal { display: flex; align-items: center; gap: 16px; }
+#game-image { display: block; width: 160px; height: auto; aspect-ratio: 460 / 215; object-fit: cover; flex-shrink: 0; }
 .answer-copy { min-width: 0; }
-.eyebrow { display: block; margin-bottom: 7px; color: var(--muted); font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; }
-#correct-game-title { font-size: 24px; font-weight: 600; letter-spacing: -.5px; line-height: 1.2; margin: 0; overflow-wrap: anywhere; }
-.result-stats { color: #bccbd6; font-size: 13px; margin: 9px 0 12px; }
-#steam-link { font-size: 12px; text-decoration: none; }
+#correct-game-title { font-size: 21px; font-weight: 600; letter-spacing: -.3px; line-height: 1.25; margin: 0; overflow-wrap: anywhere; }
+#steam-link { display: inline-block; margin-top: 8px; font-size: 12px; text-decoration: none; }
 #steam-link span { margin-left: 4px; }
-.share-section { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); }
-.result-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 18px; }
-.share-preview { display: flex; align-items: center; gap: 18px; }
-#share-score { color: #f0f5f9; font-size: 27px; font-weight: 500; letter-spacing: -1px; font-variant-numeric: tabular-nums; }
-.share-grid { display: flex; gap: 5px; }
-.share-tile { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 28px; border-radius: 2px; font-size: 18px; font-weight: 600; }
+.share-section { margin-top: 16px; padding-top: 14px; border-top: 1px solid #2f4050; }
+.result-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+#share-score { color: #f0f5f9; font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.share-grid { display: flex; gap: 4px; }
+.share-tile { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 26px; border-radius: 2px; font-size: 16px; font-weight: 600; }
 .share-tile.wrong { background: #77464c; color: #ffe4e4; }
 .share-tile.skip { background: #536475; color: #e6edf2; }
 .share-tile.solve { background: #92bc58; color: #172412; }
 .share-tile.unused { border: 1px solid #40556b; color: #94a7b9; }
-#share-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; }
-.share-help { color: var(--muted); font-size: 11px; text-align: right; margin: 10px 0 0; }
-.share-options { margin-top: 16px; }
-.share-options > summary { color: var(--muted); font-size: 11px; width: fit-content; padding: 5px 0; }
+#share-button { min-height: 44px; flex-shrink: 0; padding: 10px 14px; font-size: 12px; }
+.share-options { margin-top: 4px; }
+.share-options > summary { color: var(--muted); font-size: 11px; width: fit-content; padding: 8px 0; }
 .share-options > summary:hover { color: #fff; }
 .share-extras { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; margin: 10px 0; }
 .share-secondary, .share-link-twitter { padding: 6px 0; border: 0; background: transparent; font-size: 12px; color: #9cd6f7; text-decoration: underline; text-underline-offset: 4px; }
@@ -118,18 +114,17 @@ body:not(.round-complete) .review-disclosure > summary { display: none; }
 .manual-share { margin-top: 18px; }
 .manual-share label { color: var(--muted); font-size: 12px; }
 .manual-share textarea { display: block; width: 100%; margin-top: 8px; padding: 12px; border: 1px solid #5c7488; border-radius: 2px; background: #101821; color: var(--text); font: 12px/1.6 monospace; resize: vertical; }
-.next-puzzle { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line); }
-.next-puzzle > div { display: flex; flex-direction: column; gap: 5px; font-size: 12px; color: #c5d2dc; }
+.next-puzzle { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-top: 10px; padding-top: 14px; border-top: 1px solid #2f4050; }
 #next-puzzle-local { font-size: 11px; color: var(--muted); }
-.next-puzzle .next-puzzle-clock { text-align: right; font-size: 10px; color: var(--muted); }
-#next-puzzle-countdown { color: #dce8f2; font: 18px/1.2 ui-monospace, "Cascadia Code", Consolas, monospace; letter-spacing: .5px; }
-.round-complete .review-disclosure { margin-top: 22px; }
-.round-complete .review-disclosure > summary, .feedback-disclosure > summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid #2f4050; padding: 17px 0; color: #c3d1dc; font-size: 12px; list-style: none; }
+.next-puzzle-clock { display: flex; align-items: baseline; gap: 8px; font-size: 11px; color: var(--muted); }
+#next-puzzle-countdown { color: #dce8f2; font: 14px/1.2 ui-monospace, "Cascadia Code", Consolas, monospace; font-variant-numeric: tabular-nums; }
+.round-complete .review-disclosure, .feedback-disclosure { max-width: 612px; margin-inline: auto; }
+.round-complete .review-disclosure { margin-top: 12px; }
+.round-complete .review-disclosure > summary, .feedback-disclosure > summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; border-bottom: 1px solid #2f4050; padding: 10px 0; color: #c3d1dc; font-size: 12px; list-style: none; }
 .round-complete .review-disclosure > summary::-webkit-details-marker, .feedback-disclosure > summary::-webkit-details-marker { display: none; }
 .round-complete .review-disclosure > summary::after, .feedback-disclosure > summary::after { content: '+'; color: #b4cee0; font-size: 18px; }
 .round-complete .review-disclosure[open] > summary::after, .feedback-disclosure[open] > summary::after { content: '−'; }
-.disclosure-note { margin-left: auto; font-size: 11px; color: #94a8b9; }
-.round-complete .review-disclosure[open] #reviews-container { padding-top: 24px; }
+.round-complete .review-disclosure[open] #reviews-container { padding-top: 16px; }
 .round-complete .review-disclosure #previous-guesses-container { padding-bottom: 20px; }
 #clue-feedback { padding: 20px 0 4px; }
 #clue-feedback fieldset { border: 0; margin: 0; padding: 0; }
@@ -162,23 +157,11 @@ body:not(.round-complete) .review-disclosure > summary { display: none; }
     #autocomplete-wrapper { grid-column: 1 / -1; }
     #guess-input { font-size: 16px; }
     #guess-button, #skip-button { min-height: 44px; }
-    #game-over-message { padding: 20px; }
-    .result-heading { margin-bottom: 20px; }
-    .answer-reveal { flex-direction: column; align-items: stretch; gap: 20px; }
-    #game-image { width: 100%; }
-    #correct-game-title { font-size: 26px; }
-    .result-stats { margin-bottom: 10px; }
-    .result-actions { justify-content: center; gap: 20px; }
-    #share-button { width: 100%; }
-    .share-preview { width: 100%; justify-content: space-between; gap: 12px; }
-    .share-grid { gap: 5px; }
-    .share-tile { width: 29px; height: 30px; }
-    .share-help { text-align: center; line-height: 1.5; }
-    .share-options { text-align: center; }
-    .share-options > summary { margin: auto; }
-    .share-extras { justify-content: center; }
-    .share-image-preview { text-align: left; }
-    .site-footer { margin-top: 36px; }
+    #game-over-message { padding: 16px; }
+    .answer-reveal { gap: 12px; }
+    #game-image { width: 104px; }
+    #correct-game-title { font-size: 18px; }
+    .site-footer { margin-top: 28px; }
 }
 @media (max-width: 360px) {
     .site-header { padding: 0 16px; gap: 12px; }
@@ -187,10 +170,10 @@ body:not(.round-complete) .review-disclosure > summary { display: none; }
     .header-tools { gap: 12px; }
     .header-disclosure > summary { font-size: 11px; }
     .container, .site-footer { width: calc(100% - 32px); }
-    #game-over-message { padding: 16px; }
-    .share-tile { width: 25px; height: 27px; }
-    .share-grid { gap: 4px; }
-    .disclosure-note { display: none; }
+    #game-image { width: 88px; }
+    .share-tile { width: 21px; height: 24px; }
+    .share-grid { gap: 3px; }
+    #share-button { padding-inline: 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }

@@ -80,31 +80,21 @@
             <button type="button" id="retry-load-button">Try again</button>
         </div>
         <section id="game-over-message" class="hidden" aria-labelledby="correct-game-title">
-            <div class="result-heading"><h2 id="win-lose-text"></h2><span id="share-date"></span></div>
+            <div class="result-heading"><h2 id="win-lose-text"></h2><strong id="share-score"></strong><span id="share-date"></span></div>
             <div class="answer-reveal">
                 <img id="game-image" src="" alt="" width="460" height="215" class="hidden" />
                 <div class="answer-copy">
-                    <span class="eyebrow">Today's game</span>
                     <h3 id="correct-game-title"></h3>
-                    <p id="result-stats" class="result-stats"></p>
                     <a id="steam-link" href="#" target="_blank" rel="noopener noreferrer" class="hidden">View on Steam <span aria-hidden="true">↗</span></a>
                 </div>
             </div>
             <div id="share-section" class="share-section hidden">
                 <div class="result-actions">
-                <div class="share-preview" aria-label="Your spoiler-free result">
-                    <strong id="share-score"></strong>
-                    <div id="share-grid" class="share-grid"></div>
+                <div id="share-grid" class="share-grid"></div>
+                <button id="share-button" type="button">Share result</button>
                 </div>
-                <button id="share-button" type="button" aria-describedby="share-help">
-                    <svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M10 13V2m-4 4 4-4 4 4M4 10v7h12v-7"/></svg>
-                    Share result
-                </button>
-                </div>
-                <p id="share-prompt" class="visually-hidden"></p>
-                <p id="share-help" class="share-help"></p>
                 <details id="share-options" class="share-options">
-                    <summary>More sharing options</summary>
+                    <summary>Sharing options</summary>
                     <div class="share-extras">
                     <button id="copy-results-button" class="share-secondary hidden" type="button">Copy results</button>
                     <button id="save-image-button" class="share-secondary hidden" type="button">Save image</button>
@@ -122,14 +112,14 @@
                 </div>
             </div>
             <div class="next-puzzle">
-                <div><span>Back for another?</span><time id="next-puzzle-local"></time></div>
-                <div class="next-puzzle-clock"><span>Next game in</span>
+                <div class="next-puzzle-clock"><span>Next game</span>
                 <strong id="next-puzzle-countdown" aria-live="off"></strong>
                 </div>
+                <time id="next-puzzle-local"></time>
             </div>
         </section>
         <details id="review-disclosure" class="review-disclosure" open>
-            <summary>Read today's reviews <span class="disclosure-note">All six clues</span></summary>
+            <summary>Reviews</summary>
             <div id="reviews-container"></div>
             <div id="previous-guesses-container" class="hidden" aria-live="polite">
                 <h3>Your guesses</h3>
@@ -137,11 +127,10 @@
             </div>
         </details>
         <details id="feedback-disclosure" class="feedback-disclosure hidden">
-            <summary>Which clue gave it away? <span class="disclosure-note">Leave feedback</span></summary>
+            <summary>Clue feedback</summary>
             <form id="clue-feedback" class="hidden">
                 <fieldset>
                     <legend>Which review helped you recognize the game?</legend>
-                    <p>Choose a clue you saw before the answer was revealed.</p>
                     <div id="feedback-choices"></div>
                     <button type="submit">Send feedback</button>
                 </fieldset>
@@ -163,7 +152,7 @@
             <button id="skip-button" type="button" disabled aria-describedby="guesses-remaining-desc">Skip clue</button>
         </div>
     </main>
-    <footer class="site-footer"><span>A fresh game. Every day.</span><p id="credit" class="credit">Made by <a href="https://wyattmchalffey.com" target="_blank" rel="noopener noreferrer">Wyatt McHalffey</a></p></footer>
+    <footer class="site-footer"><p id="credit" class="credit">Made by <a href="https://wyattmchalffey.com" target="_blank" rel="noopener noreferrer">Wyatt McHalffey</a></p></footer>
     <template id="steam-review-template">
         <article class="steam-review-card">
             <div class="profile_small_header_bg">
