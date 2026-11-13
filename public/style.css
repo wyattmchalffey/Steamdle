@@ -43,8 +43,7 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .personal-history li { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 12px; }
 .personal-history li + li { margin-top: 0; }
 .container { width: min(100% - 40px, 680px); margin: 44px auto 0; }
-.puzzle-meta { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 26px; font-size: 11px; color: var(--muted); }
-.puzzle-meta > span { text-transform: uppercase; letter-spacing: 1.6px; color: var(--blue); font-weight: 600; }
+.puzzle-meta { display: flex; align-items: center; justify-content: center; margin-bottom: 26px; font-size: 11px; color: var(--muted); }
 .puzzle-meta time { font-variant-numeric: tabular-nums; }
 .site-footer { width: min(100% - 40px, 680px); margin: 48px auto 24px; padding-top: 20px; border-top: 1px solid #2b3744; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 20px; color: #92a3b2; font-size: 11px; line-height: 1.6; }
 .credit { font-size: inherit; margin: 0; }
