@@ -48,13 +48,14 @@ export function sourceForVisit(href, referrer) {
     const campaign = url.searchParams.get('utm_campaign')?.toLowerCase();
     let source = 'direct';
     if (tag) {
-        source = SOURCES.has(tag) ? tag : 'other';
+        // Today's Dailies publishes this exact source tag on its game-page links.
+        source = tag === 'todaysdailies' ? 'directory' : SOURCES.has(tag) ? tag : 'other';
     } else if (referrer) {
         let host = '';
         try { host = new URL(referrer).hostname; } catch { /* Unrecognized referrer. */ }
         if (host === url.hostname) source = 'direct';
         else if (/(^|\.)(discord\.com|discord\.gg)$/.test(host)) source = 'discord';
-        else if (/(^|\.)(alldle\.net|dles\.gg|dledirectory\.com|dailygamestoplay\.com)$/.test(host)) source = 'directory';
+        else if (/(^|\.)(alldle\.net|dles\.gg|dles\.aukspot\.com|todaysdailies\.com|listdle\.com|wordleverse\.net|dledirectory\.com|dailygamestoplay\.com)$/.test(host)) source = 'directory';
         else if (/(^|\.)(google\.com|bing\.com|duckduckgo\.com)$/.test(host)) source = 'search';
         else if (/(^|\.)(reddit\.com|x\.com|t\.co|youtube\.com|twitch\.tv|bsky\.app)$/.test(host)) source = 'social';
         else source = 'other';

@@ -31,6 +31,32 @@ test('assigns bounded sources and sends only safe campaign slugs', async () => {
     assert.deepEqual(sourceForVisit(origin + '/?utm_source=secret&utm_campaign=a%40example.com', ''), visit('other'));
 });
 
+test('recognizes verified directory referrers and the exact Today\'s Dailies link tag', async () => {
+    const { sourceForVisit } = await import('../public/analytics.mjs');
+    for (const host of ['dles.aukspot.com', 'todaysdailies.com', 'www.todaysdailies.com',
+        'listdle.com', 'www.listdle.com', 'wordleverse.net', 'www.wordleverse.net']) {
+        assert.deepEqual(sourceForVisit(origin, `https://${host}/game/steamdle`), {
+            source: 'directory', attributionVersion: 3, referrerDomain: host.replace(/^www\./, '')
+        });
+    }
+    // Live link verified at https://todaysdailies.com/game/steamdle on 2026-11-13.
+    const link = origin + '/?utm_source=todaysdailies&utm_medium=referral&utm_campaign=game-page';
+    assert.deepEqual(sourceForVisit(link, ''), {
+        source: 'directory', campaign: 'game-page', attributionVersion: 3, referrerDomain: ''
+    });
+    assert.equal(sourceForVisit(link.replace('todaysdailies', 'TodaysDailies'), '').source, 'directory');
+    assert.equal('campaign' in sourceForVisit(link.replace('game-page', 'a%40example.com'), ''), false);
+    for (const host of ['aukspot.com', 'notdles.aukspot.com', 'dles.aukspot.com.evil.example',
+        'nottodaysdailies.com', 'todaysdailies.com.evil.example', 'notlistdle.com',
+        'listdle.com.evil.example', 'notwordleverse.net', 'wordleverse.net.evil.example']) {
+        assert.equal(sourceForVisit(origin, `https://${host}/`).source, 'other', host);
+    }
+    for (const tag of ['unknown', 'todays-dailies', 'todaysdailies.com']) {
+        assert.equal(sourceForVisit(origin + '/?utm_source=' + tag, 'https://todaysdailies.com/').source, 'other');
+    }
+    assert.equal(sourceForVisit(origin + '/?utm_source=streamer', 'https://todaysdailies.com/').source, 'streamer');
+});
+
 test('tracks the first landing, subsequent round sources, and deduplicates acknowledged snapshots', async () => {
     const { createRoundAnalytics } = await import('../public/analytics.mjs');
     const requests = [];

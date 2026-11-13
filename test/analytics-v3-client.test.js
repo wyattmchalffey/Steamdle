@@ -84,6 +84,27 @@ test('first acquisition, later round arrivals and saved retries keep their origi
     assert.equal(JSON.stringify(requests).includes('private'), false);
 });
 
+test('new directory classification does not rewrite saved round or view attribution on retry', async () => {
+    const { createRoundAnalytics } = await import('../public/analytics.mjs');
+    const { browser, values, requests } = fixture();
+    const browserId = webcrypto.randomUUID();
+    const attribution = { source: 'other', attributionVersion: 3, referrerDomain: 'dles.aukspot.com' };
+    values.set(prefix + 'browser', browserId);
+    values.set(prefix + 'round.' + today, JSON.stringify({ ...attribution, turns: ['wrong'] }));
+    values.set(events + today + '.view', JSON.stringify({ ...attribution,
+        browserId, puzzleDate: today, event: 'view', eventId: webcrypto.randomUUID()
+    }));
+    browser.location.href = origin + '/?utm_source=todaysdailies&utm_campaign=game-page';
+    browser.document.referrer = 'https://todaysdailies.com/game/steamdle';
+    const play = createRoundAnalytics(browser);
+    await tick();
+    play(today, ['wrong', 'solve']);
+    await tick();
+    assert.ok(requests.length >= 2);
+    assert.ok(requests.every(request => request.source === 'other' && request.referrerDomain === 'dles.aukspot.com'));
+    assert.equal(JSON.parse(values.get(prefix + 'round.' + today)).source, 'other');
+});
+
 test('old rounds, events and first visits never acquire a referrer from a later visit', async () => {
     const { createRoundAnalytics } = await import('../public/analytics.mjs');
     const { browser, values, requests } = fixture();
