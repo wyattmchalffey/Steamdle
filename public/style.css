@@ -1,793 +1,231 @@
-body {
-    font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    margin: 0;
-    background-color: #1b2838;
-    color: #c7d5e0;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.container {
-    background-color: #2a475e;
-    padding: 25px 35px;
-    border-radius: 3px;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.3);
-    text-align: center;
-    width: 95%;
-    max-width: 800px;
-}
-
-h1 {
-    color: #66c0f4;
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 2.5em;
-}
-
-p {
-    line-height: 1.6;
-    margin-bottom: 15px;
-    color: #acb2b8;
-}
-
-.subtitle {
-    margin-bottom: 20px;
-}
-
-.subtitle-hint {
-    font-size: 0.9em;
-    color: #8999a8;
-}
-
-.credit {
-    margin-top: 28px;
-    margin-bottom: 0;
-    font-size: 0.8rem;
-    color: #6d7a88;
-}
-
-.credit a {
-    color: #8f98a0;
-    text-decoration: none;
-}
-
-.credit a:hover {
-    color: #66c0f4;
-}
-
-#reviews-container {
-    margin-top: 20px;
-    margin-bottom: 25px;
-    border: none;
-    padding: 0;
-    min-height: 80px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.loading-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    padding: 28px 20px;
-    color: #a0b1c0;
-}
-
-.loading-state.hidden {
-    display: none !important;
-}
-
-.loading-spinner {
-    width: 32px;
-    height: 32px;
-    border: 3px solid #2a475e;
-    border-top-color: #66c0f4;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-.confetti-container {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 9998;
-}
-
-.confetti-particle {
-    position: absolute;
-    top: -20px;
-    animation: confetti-fall linear forwards;
-}
-
-@keyframes confetti-fall {
-    0% {
-        transform: translateY(0) translateX(0) rotate(0deg);
-        opacity: 1;
-    }
-    50% {
-        transform: translateY(50vh) translateX(40px) rotate(360deg);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh) translateX(-30px) rotate(720deg);
-        opacity: 0;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .confetti-particle {
-        animation: none;
-        opacity: 0;
-    }
-}
-
-.load-error-state {
-    text-align: center;
-    padding: 20px;
-    margin-top: 10px;
-}
-
-.load-error-state.hidden {
-    display: none !important;
-}
-
-.load-error-state .review-image-error {
-    margin-bottom: 14px;
-}
-
-.load-error-state button {
-    padding: 10px 20px;
-    font-size: 1em;
-    font-weight: bold;
-    background-color: #5c7e10;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.load-error-state button:hover {
-    opacity: 0.9;
-}
-
-#loading-message {
-    color: #a0b1c0;
-    font-style: italic;
-    margin: 0;
-}
-
-.review-item-wrapper {
-    padding: 0;
-    opacity: 0;
-    transform: translateY(15px);
-    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.review-item-wrapper.loaded {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .review-item-wrapper {
-        transition: opacity 0.15s ease-out;
-        transform: none;
-    }
-    .review-item-wrapper.loaded {
-        transform: none;
-    }
-    .toast {
-        animation: none;
-    }
-}
-
-.clue-number {
-    display: block;
-    font-weight: normal;
-    margin-bottom: 10px;
-    color: #8999a8;
-    font-size: 0.95em;
-    text-align: center;
-}
-
-
-.review-image-error {
-    color: #ff6666;
-    font-style: italic;
-    padding: 10px;
-    background-color: #4d2929;
-    border-radius: 3px;
-}
-
-#input-area {
-    margin-top: 10px;
-    margin-bottom: 25px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    align-items: flex-start;
-}
-
-#autocomplete-wrapper {
-    position: relative;
-    flex-grow: 1;
-    max-width: 350px;
-}
-
-#guess-input {
-    padding: 12px 15px;
-    font-size: 16px;
-    border: 1px solid #4b607c;
-    background-color: #17212e;
-    color: #c7d5e0;
-    border-radius: 4px;
-    width: 100%;
-    box-sizing: border-box;
-}
-#guess-input:focus {
-    outline: none;
-    border-color: #66c0f4;
-    box-shadow: 0 0 0 2px rgba(102, 192, 244, 0.5);
-}
-#guess-input::placeholder {
-    color: #7a8b99;
-}
-
-#guess-button,
-#skip-button {
-    padding: 12px 20px;
-    font-size: 16px;
-    background-color: #5c7e10;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    font-weight: bold;
-}
-
-#skip-button {
-    color: #dbe8f1;
-    background: #263b4d;
-    box-shadow: inset 0 0 0 1px #7893a9;
-}
-
-#skip-button:hover:not(:disabled) {
-    background-color: #344e63;
-}
-
-#guess-button:hover:not(:disabled) {
-    background-color: #769d22;
-}
-
-#guess-button:focus-visible,
-#skip-button:focus-visible,
-#share-button:focus-visible,
-.share-link-twitter:focus-visible {
-    outline: 2px solid #66c0f4;
-    outline-offset: 2px;
-}
-
-#guess-button:disabled,
-#skip-button:disabled,
-#guess-input:disabled {
-    background-color: #4a5866;
-    cursor: not-allowed;
-    color: #8999a8;
-}
-#guess-input:disabled {
-     background-color: #223145;
-}
-
-
-#previous-guesses-container {
-    margin-top: 20px;
-    text-align: left;
-}
-
-#previous-guesses-container.hidden {
-    display: none !important;
-}
-
-#previous-guesses-container h3 {
-    color: #a0b1c0;
-    font-size: 1.1em;
-    margin-bottom: 8px;
-}
-
-#previous-guesses-list {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-#previous-guesses-list li {
-    padding: 8px 10px;
-    background-color: #3a4e68;
-    color: #f0f2f4;
-    border: 1px solid #4b607c;
-    border-left: 3px solid #e74c3c;
-    border-radius: 3px;
-    margin-bottom: 6px;
-    font-size: 0.95em;
-    overflow-wrap: anywhere;
-}
-
-#previous-guesses-list li.skipped {
-    border-left-color: #a3bccd;
-}
-
-.hidden {
-    display: none !important;
-}
-
-#game-over-message {
-    margin-top: 25px;
-    padding: 20px;
-    border-radius: 5px;
-    font-size: 1em;
-    background: #172b3a;
-    border: 1px solid #49657a;
-}
-
-#game-over-message.win {
-    border-top: 3px solid #82b94d;
-    color: #d4edda;
-}
-
-#game-over-message.lose {
-    border-top: 3px solid #d8ab75;
-    color: #f8d7da;
-}
-#game-over-message p { margin-bottom: 10px;}
-#game-over-message strong { color: #fff; font-weight: bold;}
-#game-over-message h2 { margin: 0 0 .5rem; font-size: 1.8rem; letter-spacing: -.04em; }
-
-.result-stats {
-    font-size: 1em;
-    margin-bottom: 6px;
-    opacity: 0.95;
-}
-
-.share-section {
-    margin-top: 20px;
-}
-
-.share-section.hidden {
-    display: none !important;
-}
-
-.share-prompt {
-    margin-bottom: 8px;
-    font-size: 0.95em;
-}
-
-.share-secondary, #clue-feedback button {
-    border: 1px solid #abbabf;
-    border-radius: 4px;
-    background: #243b49;
-    color: #fff;
-    padding: 10px 16px;
-    cursor: pointer;
-    font: inherit;
-}
-#clue-feedback { margin: 1.25rem 0 0; }
-#clue-feedback fieldset { margin: 0; padding: .6rem; border: 0; }
-#clue-feedback legend { width: 100%; font-weight: bold; }
-#clue-feedback p { font-size: .9rem; }
-#feedback-choices { display: flex; justify-content: center; flex-wrap: wrap; gap: .4rem; margin: .75rem 0; }
-#feedback-choices label { display: flex; align-items: center; gap: .2rem; padding: .4rem; cursor: pointer; }
-#feedback-status:empty { display: none; }
-
-.share-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
-}
-
-.share-link-twitter {
-    display: inline-flex;
-    align-items: center;
-    padding: 10px 6px;
-    font-size: .9rem;
-    text-underline-offset: 3px;
-    color: #b9dff5;
-}
-
-.share-link-twitter:hover {
-    color: #fff;
-}
-
-.toast {
-    pointer-events: none;
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 12px 24px;
-    background-color: #2a475e;
-    color: #c7d5e0;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    font-weight: 500;
-    z-index: 9999;
-    animation: toast-in 0.2s ease-out;
-}
-
-.toast.hidden {
-    display: none !important;
-}
-
-@keyframes toast-in {
-    from { opacity: 0; transform: translateX(-50%) translateY(8px); }
-    to { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-
-#game-image {
-    display: block;
-    width: 70%;
-    max-width: 400px;
-    height: auto;
-    margin-top: 20px;
-    margin-bottom: 15px;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 4px;
-    border: 1px solid #4a5c74; /* Slightly thinner border maybe */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-}
-
-#steam-link {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 10px 18px;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 1em;
-    font-weight: bold;
-    transition: opacity 0.2s;
-}
-#steam-link:hover {
-    opacity: 0.85;
-}
-
-#steam-link {
-    background-color: #101d2f;
-    color: #66c0f4;
-    cursor: pointer;
-    border: 1px solid #66c0f4;
-}
-
-#share-button {
-    display: inline-block;
-    margin-top: 0;
-    padding: 13px 24px;
-    background-color: #80cafa;
-    color: #102534;
-    border: none;
-    border-radius: 4px;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: opacity 0.2s;
-}
-#share-button:hover {
-    opacity: 0.9;
-}
-
-.share-preview { max-width: 25rem; margin: 0 auto 1rem; padding: 1rem; background: #102130; border: 1px solid #365268; border-radius: 8px; }
-.share-preview-header { display: flex; align-items: center; justify-content: space-between; gap: .8rem; color: #b8cad6; font-size: .85rem; }
-#share-score { font-size: 1.35rem; }
-.share-grid { display: flex; justify-content: center; gap: 6px; margin-top: .9rem; }
-.share-tile { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 5px; font-size: 1.65rem; font-weight: 700; }
-.share-tile.wrong { background: #b24c50; color: #fff; }
-.share-tile.skip { background: #c6d2db; color: #172d3d; }
-.share-tile.solve { background: #81bb51; color: #112609; }
-.share-tile.unused { box-shadow: inset 0 0 0 1px #496074; color: #8298aa; }
-#game-over-message .share-prompt { color: #d2e1eb; margin: 0 0 1rem; }
-#game-over-message .share-help { font-size: .8rem; color: #9fb4c4; margin: .6rem 0 .9rem; }
-.share-extras { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: .3rem 1rem; }
-.share-extras .share-secondary { padding: 9px 3px; border: 0; background: transparent; color: #b9dff5; font-size: .9rem; text-decoration: underline; text-underline-offset: 3px; }
+:root {
+    color-scheme: dark;
+    --page: #171d25; --surface: #1b2838; --line: #344658; --text: #e3eaf0;
+    --muted: #a1b1bf; --blue: #66c0f4; --green: #a4cf72;
+    font-family: "Motiva Sans", "Segoe UI", Arial, sans-serif; font-synthesis: none;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: var(--page); color: var(--text); }
+button, input, textarea { font: inherit; }
+button, a, summary, input, textarea { -webkit-tap-highlight-color: transparent; }
+button, summary { cursor: pointer; }
+button { border-radius: 3px; }
+a { color: var(--blue); text-underline-offset: 4px; }
+a:hover { color: #fff; }
+p { line-height: 1.6; }
+button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+.hidden, [hidden] { display: none !important; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* A restrained Steam-client frame; the game itself carries the colour. */
+.site-header { max-width: 1040px; margin: auto; min-height: 94px; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid #2b3744; }
+.title-container { display: inline-flex; align-items: center; gap: 10px; color: #edf3f8; text-decoration: none; flex-shrink: 0; }
+.title-container h1 { margin: 0; font-size: 27px; line-height: 1; font-weight: 650; letter-spacing: -.8px; }
+#steam-logo-header { width: 36px; height: 36px; object-fit: contain; }
+.header-tools { display: flex; align-items: center; gap: 26px; }
+.header-disclosure { position: relative; }
+.header-disclosure > summary { list-style: none; padding: 12px 0; color: var(--muted); font-size: 13px; white-space: nowrap; }
+.header-disclosure > summary::-webkit-details-marker { display: none; }
+.header-disclosure > summary:hover, .header-disclosure[open] > summary { color: #fff; }
+.header-disclosure[open] > summary { box-shadow: 0 2px var(--blue); }
+.utility-panel { position: absolute; z-index: 20; top: calc(100% + 12px); right: 0; width: 350px; max-width: calc(100vw - 32px); max-height: calc(100dvh - 100px); overflow-y: auto; overscroll-behavior: contain; padding: 24px; background: #203043; border: 1px solid #40546a; border-radius: 4px; box-shadow: 0 12px 36px #0007; }
+.utility-panel h2 { margin: 0 0 16px; font-size: 18px; font-weight: 600; }
+.utility-panel p, .utility-panel li { font-size: 13px; color: var(--muted); line-height: 1.65; }
+.utility-panel ol:not(.personal-history) { padding-left: 20px; }
+.utility-panel li + li { margin-top: 6px; }
+.utility-panel .record-note { font-size: 12px; margin: 16px 0 0; }
+.personal-numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 0 0 16px; }
+.personal-numbers dt { font-size: 10px; color: var(--muted); white-space: nowrap; }
+.personal-numbers dd { font-size: 24px; font-weight: 600; margin: 5px 0 0; font-variant-numeric: tabular-nums; }
+.personal-record h3 { margin: 24px 0 10px; font-size: 12px; color: var(--text); }
+.personal-history { list-style: none; padding: 0; margin: 0; }
+.personal-history li { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 12px; }
+.personal-history li + li { margin-top: 0; }
+.container { width: min(100% - 40px, 680px); margin: 44px auto 0; }
+.puzzle-meta { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 26px; font-size: 11px; color: var(--muted); }
+.puzzle-meta > span { text-transform: uppercase; letter-spacing: 1.6px; color: var(--blue); font-weight: 600; }
+.puzzle-meta time { font-variant-numeric: tabular-nums; }
+.game-intro { margin-bottom: 34px; }
+.game-intro h2 { margin: 0; font-size: clamp(27px, 5vw, 36px); line-height: 1.2; letter-spacing: -1.2px; font-weight: 600; }
+.game-intro h2 span { color: var(--blue); }
+.subtitle { margin: 12px 0 0; color: var(--muted); font-size: 14px; }
+.round-complete .game-intro { display: none; }
+.site-footer { width: min(100% - 40px, 680px); margin: 48px auto 24px; padding-top: 20px; border-top: 1px solid #2b3744; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 20px; color: #92a3b2; font-size: 11px; line-height: 1.6; }
+.credit { font-size: inherit; margin: 0; }
+.credit a { color: #bdcbd6; text-decoration: none; }
+.credit a:hover { color: var(--blue); }
+
+/* The clue is the focal point. Metadata stays familiar, but secondary. */
+#reviews-container { display: flex; flex-direction: column; gap: 24px; }
+body:not(.round-complete) .review-disclosure > summary { display: none; }
+.review-item-wrapper { min-width: 0; opacity: 0; transition: opacity .18s ease; }
+.review-item-wrapper.loaded { opacity: 1; }
+.clue-number { display: block; margin: 0 0 10px; color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+.steam-review-card { background: var(--surface); border-top: 2px solid #49657b; border-radius: 2px; overflow: hidden; }
+.steam-review-card.recommended { border-top-color: #5b94b4; }
+.steam-review-card.not-recommended { border-top-color: #a87770; }
+.review-recommendation { display: flex; align-items: center; gap: 10px; padding: 15px 24px 0; }
+.recommendation-icon { width: 28px; height: 28px; flex: 0 0 28px; background-repeat: no-repeat; background-size: contain; background-position: center; }
+.review-recommendation.recommended .recommendation-icon { background-image: url('/images/thumb-up.png'); }
+.review-recommendation.not-recommended .recommendation-icon { background-image: url('/images/thumb-down.png'); }
+.recommendation-details { flex: 1; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.recommendation-text { color: #b9dff5; font-size: 12px; }
+.not-recommended .recommendation-text { color: #e1b4ad; }
+.review-playtime { color: var(--muted); font-size: 11px; margin: 0; }
+.review-text-content { color: #e0e7ed; font-size: 19px; line-height: 1.6; padding: 20px 24px 24px; margin: 0; white-space: pre-line; overflow-wrap: anywhere; }
+.review-metadata { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 12px 24px; background: #16222f; color: var(--muted); font-size: 11px; }
+.review-header { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.reviewer-avatar { width: 20px; height: 20px; object-fit: cover; border-radius: 2px; }
+.reviewer-name { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.review-date { margin: 0; font-size: 11px; color: var(--muted); }
+.review-excerpt { margin-left: auto; }
+.review-image-error { padding: 20px; color: #e5b4ae; background: #33282b; font-size: 14px; }
+.review-source-url-error { font-size: 11px; overflow-wrap: anywhere; color: var(--muted); }
+#input-area { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; margin-top: 26px; }
+.guess-label-row { grid-column: 1 / -1; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 1px; font-size: 12px; }
+.guess-label-row label { font-weight: 600; }
+#guesses-remaining-desc { margin: 0; font-size: 11px; color: var(--muted); }
+#autocomplete-wrapper { position: relative; min-width: 0; }
+#guess-input { height: 46px; width: 100%; padding: 11px 14px; background: #101821; border: 1px solid #526374; border-radius: 3px; color: var(--text); font-size: 15px; }
+#guess-input::placeholder { color: #94a3b1; }
+#guess-input:focus { border-color: var(--blue); }
+#guess-button, #share-button, #retry-load-button { background: #66c0f4; color: #0e2535; border: 1px solid transparent; font-weight: 650; font-size: 13px; padding: 12px 20px; }
+#guess-button:hover:not(:disabled), #share-button:hover:not(:disabled), #retry-load-button:hover { background: #91d3fa; }
+#guess-button > span { margin-left: 10px; opacity: .7; }
+#skip-button { border: 1px solid #42566a; background: transparent; color: #bdcbd6; font-size: 13px; padding: 11px 16px; }
+#skip-button:hover:not(:disabled) { background: #233447; color: #fff; }
+#autocomplete-dropdown { position: absolute; z-index: 10; top: calc(100% + 5px); left: 0; right: 0; max-height: 260px; overflow-y: auto; background: #233447; border: 1px solid #4a647b; border-radius: 3px; box-shadow: 0 10px 24px #0005; }
+.autocomplete-item { padding: 13px 15px; border-bottom: 1px solid #35495c; font-size: 14px; cursor: pointer; overflow-wrap: anywhere; }
+.autocomplete-item:last-child { border: 0; }
+.autocomplete-item:hover, .autocomplete-item.active { background: #35536b; color: #fff; }
+.match-highlight { color: #8dd1f9; font-weight: 600; }
+#previous-guesses-container { margin-top: 18px; }
+#previous-guesses-container h3 { margin: 0 0 10px; font-size: 11px; font-weight: 400; color: var(--muted); }
+#previous-guesses-list { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 0; }
+#previous-guesses-list li { padding: 5px 9px; background: #2a282d; border: 1px solid #61484c; color: #e0b5b5; border-radius: 2px; font-size: 11px; overflow-wrap: anywhere; max-width: 100%; }
+#previous-guesses-list li.skipped { background: #202e3c; border-color: #405265; color: #b5c6d3; }
+
+/* One result panel, one primary action. */
+#game-over-message { background: var(--surface); border: 1px solid #344b60; border-radius: 4px; padding: 24px; }
+.result-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 24px; }
+#win-lose-text { margin: 0; color: var(--green); font-size: 13px; font-weight: 600; }
+.lose #win-lose-text { color: #d5c1a2; }
+#share-date { color: var(--muted); font-size: 11px; }
+.answer-reveal { display: flex; align-items: center; gap: 24px; }
+#game-image { display: block; width: 46%; height: auto; aspect-ratio: 460 / 215; object-fit: cover; border-radius: 2px; flex-shrink: 0; }
+.answer-copy { min-width: 0; }
+.eyebrow { display: block; margin-bottom: 7px; color: var(--muted); font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; }
+#correct-game-title { font-size: 24px; font-weight: 600; letter-spacing: -.5px; line-height: 1.2; margin: 0; overflow-wrap: anywhere; }
+.result-stats { color: #bccbd6; font-size: 13px; margin: 9px 0 12px; }
+#steam-link { font-size: 12px; text-decoration: none; }
+#steam-link span { margin-left: 4px; }
+.share-section { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); }
+.result-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 18px; }
+.share-preview { display: flex; align-items: center; gap: 18px; }
+#share-score { color: #f0f5f9; font-size: 27px; font-weight: 500; letter-spacing: -1px; font-variant-numeric: tabular-nums; }
+.share-grid { display: flex; gap: 5px; }
+.share-tile { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 28px; border-radius: 2px; font-size: 18px; font-weight: 600; }
+.share-tile.wrong { background: #77464c; color: #ffe4e4; }
+.share-tile.skip { background: #536475; color: #e6edf2; }
+.share-tile.solve { background: #92bc58; color: #172412; }
+.share-tile.unused { border: 1px solid #40556b; color: #94a7b9; }
+#share-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; }
+.share-help { color: var(--muted); font-size: 11px; text-align: right; margin: 10px 0 0; }
+.share-options { margin-top: 16px; }
+.share-options > summary { color: var(--muted); font-size: 11px; width: fit-content; padding: 5px 0; }
+.share-options > summary:hover { color: #fff; }
+.share-extras { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; margin: 10px 0; }
+.share-secondary, .share-link-twitter { padding: 6px 0; border: 0; background: transparent; font-size: 12px; color: #9cd6f7; text-decoration: underline; text-underline-offset: 4px; }
 .share-secondary:hover { color: #fff; }
-.share-section button:focus-visible, .share-section summary:focus-visible, .personal-record summary:focus-visible { outline: 2px solid #80cafa; outline-offset: 4px; }
-.share-section button:disabled { opacity: .55; cursor: wait; }
-.share-image-preview { max-width: 30rem; margin: .6rem auto 0; color: #b8cad6; }
-.share-image-preview summary { cursor: pointer; font-size: .85rem; padding: .6rem; }
-#share-card-image { display: block; width: 100%; height: auto; border-radius: 6px; margin-top: .6rem; }
-.manual-share { margin-top: 1rem; text-align: left; }
-.manual-share label { font-size: .9rem; }
-.manual-share textarea { display: block; width: 100%; box-sizing: border-box; padding: .7rem; margin-top: .5rem; border: 1px solid #8aa4b7; border-radius: 4px; background: #102130; color: #e5eef5; font: .9rem/1.5 monospace; }
-.next-puzzle { display: flex; flex-direction: column; gap: .35rem; padding: 1.3rem 0; margin-top: 1rem; border-top: 1px solid #365268; }
-.next-puzzle > span { font-size: .8rem; color: #9fb4c4; }
-#next-puzzle-countdown { font-size: 1.6rem; font-variant-numeric: tabular-nums; letter-spacing: .05em; }
-#next-puzzle-local { font-size: .8rem; color: #b8cad6; }
-.answer-reveal { border-top: 1px solid #365268; padding-top: 1rem; }
-.answer-reveal strong { display: block; font-size: 1.1rem; }
-.answer-reveal #game-image { margin-top: .8rem; }
-.personal-record { margin: 0 0 1rem; padding: .8rem 1rem; background: #1b3346; border: 1px solid #42627a; border-radius: 6px; text-align: left; }
-.personal-record summary { cursor: pointer; font-size: .9rem; color: #c5e7fa; text-align: center; padding: .3rem; }
-.personal-numbers { display: grid; grid-template-columns: repeat(4,1fr); gap: .5rem; text-align: center; }
-.personal-numbers dt { color: #a8bdcc; font-size: .75rem; }
-.personal-numbers dd { margin: .4rem 0; font-size: 1.5rem; color: #f1f6fa; font-weight: 700; }
-.personal-record .record-note { font-size: .8rem; margin: 0; color: #9fb4c4; }
-.personal-record h3 { font-size: .85rem; margin: 1.2rem 0 .5rem; color: #d3e3ed; }
-.personal-history { list-style: none; margin: 0; padding: 0; }
-.personal-history li { display: flex; justify-content: space-between; gap: .5rem; padding: .5rem 0; border-top: 1px solid #365268; font-size: .85rem; color: #c1d2de; }
-@media (max-width: 480px) {
-    #game-over-message { padding: 16px 12px; }
-    .share-preview { padding: .8rem .6rem; }
-    .share-tile { width: 33px; height: 36px; }
-    .share-grid { gap: 5px; }
-    .share-preview-header { font-size: .75rem; }
-    #share-button { width: 100%; }
-    .share-buttons .share-secondary { padding: 9px 14px; font-size: .9rem; }
-}
+.share-image-preview { margin-top: 8px; }
+.share-image-preview summary { padding: 6px 0; color: var(--muted); font-size: 12px; }
+#share-card-image { display: block; width: 100%; height: auto; margin-top: 12px; border-radius: 3px; }
+.manual-share { margin-top: 18px; }
+.manual-share label { color: var(--muted); font-size: 12px; }
+.manual-share textarea { display: block; width: 100%; margin-top: 8px; padding: 12px; border: 1px solid #5c7488; border-radius: 2px; background: #101821; color: var(--text); font: 12px/1.6 monospace; resize: vertical; }
+.next-puzzle { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line); }
+.next-puzzle > div { display: flex; flex-direction: column; gap: 5px; font-size: 12px; color: #c5d2dc; }
+#next-puzzle-local { font-size: 11px; color: var(--muted); }
+.next-puzzle .next-puzzle-clock { text-align: right; font-size: 10px; color: var(--muted); }
+#next-puzzle-countdown { color: #dce8f2; font: 18px/1.2 ui-monospace, "Cascadia Code", Consolas, monospace; letter-spacing: .5px; }
+.round-complete .review-disclosure { margin-top: 22px; }
+.round-complete .review-disclosure > summary, .feedback-disclosure > summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid #2f4050; padding: 17px 0; color: #c3d1dc; font-size: 12px; list-style: none; }
+.round-complete .review-disclosure > summary::-webkit-details-marker, .feedback-disclosure > summary::-webkit-details-marker { display: none; }
+.round-complete .review-disclosure > summary::after, .feedback-disclosure > summary::after { content: '+'; color: #b4cee0; font-size: 18px; }
+.round-complete .review-disclosure[open] > summary::after, .feedback-disclosure[open] > summary::after { content: '−'; }
+.disclosure-note { margin-left: auto; font-size: 11px; color: #94a8b9; }
+.round-complete .review-disclosure[open] #reviews-container { padding-top: 24px; }
+.round-complete .review-text-content { font-size: 16px; }
+.round-complete .review-disclosure #previous-guesses-container { padding-bottom: 20px; }
+#clue-feedback { padding: 20px 0 4px; }
+#clue-feedback fieldset { border: 0; margin: 0; padding: 0; }
+#clue-feedback legend { font-size: 13px; font-weight: 500; }
+#clue-feedback p { font-size: 12px; color: var(--muted); margin: 8px 0; }
+#feedback-choices { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+#feedback-choices label { display: flex; align-items: center; gap: 7px; padding: 8px 10px; background: #203043; border: 1px solid #40556b; border-radius: 3px; cursor: pointer; font-size: 12px; }
+#feedback-choices input { margin: 0; accent-color: var(--blue); }
+#feedback-choices label:has(input:checked) { border-color: var(--blue); background: #29465b; }
+#clue-feedback button { background: #263e50; border: 1px solid #557388; color: #d7eaf6; padding: 9px 14px; font-size: 12px; }
+#feedback-status:empty { display: none; }
+.loading-state { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 60px 20px; font-size: 13px; color: var(--muted); }
+.loading-spinner { width: 18px; height: 18px; border: 2px solid #3c5366; border-top-color: var(--blue); border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.load-error-state { padding: 20px 0; }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); max-width: calc(100% - 32px); width: max-content; z-index: 100; background: #d7e9f5; color: #182c3b; border-radius: 3px; padding: 12px 20px; font-size: 13px; box-shadow: 0 6px 24px #0005; pointer-events: none; }
 
-.title-container {
-    display: flex; /* Enables Flexbox */
-    align-items: center; /* Vertically aligns items in the middle */
-    justify-content: center; /* Horizontally aligns items to the center */
-    gap: 12px; /* Adds a small space between the logo and the title text */
-    margin-bottom: 15px; /* Space below the title block */
-}
-
-#steam-logo-header {
-    height: 50px;
-    vertical-align: middle;
-}
-
-/* Adjust existing h1 style if needed, or keep as is */
-.container h1 {
-    color: #66c0f4;
-    margin-top: 0;
-    margin-bottom: 0; /* Remove bottom margin since .title-container handles it */
-    font-size: 2.5em;
-}
-.review-item-wrapper.review-error-item .review-image-error { /* Style for when scraping fails for a clue */
-    margin-top: 10px;
-}
-
-.review-item-wrapper.review-error-item .review-source-url-error {
-    font-size: 0.8em;
-    color: #8999a8;
-    word-break: break-all;
-    margin-top: 5px;
-}
-
-
-/* --- Steam-style review card (matches store.steampowered.com review widget) --- */
-.steam-review-card {
-    background-color: #16202d;
-    color: #8f98a0;
-    padding: 0;
-    border-radius: 0;
-    border: 1px solid #1b2838;
-    border-left-width: 4px;
-    border-left-style: solid;
-    border-left-color: #4a5568;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
-    text-align: left;
-    font-size: 13px;
-    width: 100%;
-    max-width: 612px;
-    box-sizing: border-box;
-    margin-left: auto;
-    margin-right: auto;
-    overflow: hidden;
-}
-
-.steam-review-card.recommended {
-    border-left-color: #417a2b;
-}
-
-.steam-review-card.not-recommended {
-    border-left-color: #8b2e2e;
-}
-
-.review-header {
-    display: flex;
-    align-items: center;
-    padding: 12px 14px 10px;
-    margin-bottom: 0;
-    background-color: rgba(0,0,0,0.15);
-}
-
-.reviewer-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 1px;
-    margin-right: 10px;
-    flex-shrink: 0;
-}
-
-.reviewer-name {
-    color: #c7d5e0;
-    font-weight: normal;
-    font-size: 14px;
-}
-
-.review-recommendation {
-    display: flex;
-    align-items: center;
-    background-color: #26354b;
-    padding: 8px 14px 10px;
-    border-radius: 0;
-    margin-bottom: 0;
-    border-bottom: 1px solid #1b2838;
-}
-
-.recommendation-icon {
-    width: 44px;
-    height: 44px;
-    background-size: 40px 40px;
-    background-repeat: no-repeat;
-    background-position: center center;
-    margin-right: 10px;
-    flex-shrink: 0;
-}
-
-.review-recommendation.recommended .recommendation-icon {
-    background-image: url('/images/thumb-up.png');
-}
-
-.review-recommendation.not-recommended .recommendation-icon {
-    background-image: url('/images/thumb-down.png');
-}
-
-.review-recommendation:not(.recommended):not(.not-recommended) .recommendation-icon {
-    background-color: rgba(255,255,255,0.06);
-    border-radius: 2px;
-}
-
-.recommendation-details {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-}
-
-.recommendation-text {
-    font-size: 14px;
-    font-weight: normal;
-    color: #d6d7d8;
-    font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
-}
-
-.review-playtime {
-    font-size: 11px;
-    color: #8f98a0;
-    margin: 0;
-}
-
-.review-date {
-    font-size: 11px;
-    color: #6d7883;
-    margin: 0;
-    padding: 8px 14px 6px;
-    background-color: #16202d;
-}
-
-.review-text-content {
-    color: #acb2b8;
-    line-height: 1.5;
-    white-space: pre-line;
-    word-wrap: break-word;
-    font-size: 13px;
-    margin: 0;
-    padding: 10px 14px 14px;
-    background-color: #16202d;
-    border-top: 1px solid #1b2838;
-}
-
-/* --- Autocomplete Dropdown --- */
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-}
-
-#autocomplete-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: #1a2736;
-    border: 1px solid #4b607c;
-    border-top: none;
-    border-radius: 0 0 4px 4px;
-    max-height: 260px;
-    overflow-y: auto;
-    z-index: 1000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-}
-
-#autocomplete-dropdown::-webkit-scrollbar {
-    width: 8px;
-}
-#autocomplete-dropdown::-webkit-scrollbar-track {
-    background: #1a2736;
-    border-radius: 0 0 4px 0;
-}
-#autocomplete-dropdown::-webkit-scrollbar-thumb {
-    background-color: #4b607c;
-    border-radius: 4px;
-}
-#autocomplete-dropdown::-webkit-scrollbar-thumb:hover {
-    background-color: #66c0f4;
-}
-
-.autocomplete-item {
-    padding: 10px 14px;
-    cursor: pointer;
-    color: #c7d5e0;
-    font-size: 14px;
-    border-bottom: 1px solid rgba(75, 96, 124, 0.3);
-    transition: background-color 0.1s;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.autocomplete-item:last-child {
-    border-bottom: none;
-}
-
-.autocomplete-item:hover,
-.autocomplete-item.active {
-    background-color: #2a3f5a;
-}
-
-.autocomplete-item .match-highlight {
-    color: #66c0f4;
-    font-weight: bold;
-}
-
-/* --- Mobile Responsive --- */
 @media (max-width: 600px) {
-    body { padding: 12px; }
-    .container { box-sizing: border-box; width: 100%; min-width: 0; padding: 22px 16px; }
-    #input-area {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    #autocomplete-wrapper {
-        max-width: 100%;
-    }
-
-    #guess-button {
-        width: 100%;
-    }
-
-    #autocomplete-dropdown {
-        position: static;
-        box-sizing: border-box;
-    }
-
-    .autocomplete-item {
-        padding: 14px;
-        font-size: 16px;
-    }
-
-    #guess-input {
-        font-size: 16px; /* Prevents iOS zoom on focus */
-    }
+    .site-header { min-height: 78px; padding: 0 20px; gap: 16px; }
+    .title-container { gap: 7px; }
+    .title-container h1 { font-size: 23px; }
+    #steam-logo-header { width: 30px; height: 30px; }
+    .header-tools { gap: 18px; }
+    .header-disclosure { position: static; }
+    .header-disclosure > summary { font-size: 12px; }
+    .utility-panel { top: 69px; right: 16px; }
+    .container { margin-top: 30px; }
+    .puzzle-meta { margin-bottom: 22px; font-size: 10px; }
+    .game-intro { margin-bottom: 28px; }
+    .subtitle { font-size: 13px; }
+    .review-recommendation { padding: 14px 18px 0; }
+    .review-text-content { font-size: 17px; padding: 18px; }
+    .review-metadata { padding: 12px 18px; gap: 7px 12px; }
+    .reviewer-name { max-width: 170px; }
+    .review-excerpt { margin-left: 0; }
+    #input-area { grid-template-columns: 1fr 1fr; }
+    #autocomplete-wrapper { grid-column: 1 / -1; }
+    #guess-input { font-size: 16px; }
+    #guess-button, #skip-button { min-height: 44px; }
+    #game-over-message { padding: 20px; }
+    .result-heading { margin-bottom: 20px; }
+    .answer-reveal { flex-direction: column; align-items: stretch; gap: 20px; }
+    #game-image { width: 100%; }
+    #correct-game-title { font-size: 26px; }
+    .result-stats { margin-bottom: 10px; }
+    .result-actions { justify-content: center; gap: 20px; }
+    #share-button { width: 100%; }
+    .share-preview { width: 100%; justify-content: space-between; gap: 12px; }
+    .share-grid { gap: 5px; }
+    .share-tile { width: 29px; height: 30px; }
+    .share-help { text-align: center; line-height: 1.5; }
+    .share-options { text-align: center; }
+    .share-options > summary { margin: auto; }
+    .share-extras { justify-content: center; }
+    .share-image-preview { text-align: left; }
+    .site-footer { margin-top: 36px; }
+}
+@media (max-width: 360px) {
+    .site-header { padding: 0 16px; gap: 12px; }
+    .title-container h1 { font-size: 21px; }
+    #steam-logo-header { width: 25px; height: 25px; }
+    .header-tools { gap: 12px; }
+    .header-disclosure > summary { font-size: 11px; }
+    .container, .site-footer { width: calc(100% - 32px); }
+    #game-over-message { padding: 16px; }
+    .share-tile { width: 25px; height: 27px; }
+    .share-grid { gap: 4px; }
+    .disclosure-note { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
 }

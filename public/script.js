@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const analytics = import('./analytics.mjs').then(module => module.createRoundAnalytics(window)).catch(() => null);
     // DOM Elements
     const reviewsContainer = document.getElementById('reviews-container');
+    const reviewDisclosure = document.getElementById('review-disclosure');
+    const feedbackDisclosure = document.getElementById('feedback-disclosure');
+    const shareOptions = document.getElementById('share-options');
     const loadingState = document.getElementById('loading-state');
     const loadErrorState = document.getElementById('load-error-state');
     const loadErrorMessage = document.getElementById('load-error-message');
@@ -318,6 +321,11 @@ document.addEventListener('DOMContentLoaded', () => {
         shareImageButton.classList.add('hidden');
         imagePreview.classList.add('hidden');
         imagePreview.open = false;
+        shareOptions.open = false;
+        reviewDisclosure.open = true;
+        feedbackDisclosure.open = false;
+        feedbackDisclosure.classList.add('hidden');
+        document.body.classList.remove('round-complete');
         manualShare.classList.add('hidden');
         renderPersonalRecord();
         openingObserver?.disconnect();
@@ -335,13 +343,20 @@ document.addEventListener('DOMContentLoaded', () => {
         previousGuessesContainer.classList.add('hidden');
         gameOverMessageDiv.classList.add('hidden');
         gameOverMessageDiv.classList.remove('win', 'lose');
-        creditEl.classList.add('hidden');
+        gameImage.classList.add('hidden');
+        gameImage.removeAttribute('src');
         reviewsContainer.replaceChildren();
 
         const gameLoaded = await fetchDailyGame();
         loadingRound = false;
         loadingState.classList.add('hidden');
         if (!gameLoaded) return;
+
+        const puzzleDate = document.getElementById('puzzle-date');
+        puzzleDate.dateTime = currentGame.puzzleDate;
+        puzzleDate.textContent = new Intl.DateTimeFormat(undefined, {
+            month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC'
+        }).format(new Date(currentGame.puzzleDate + 'T12:00:00Z'));
 
         const now = new Date();
         loadedOnDate = now.toISOString().slice(0, 10);
@@ -386,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
         guessInput.disabled = guessButton.disabled = skipButton.disabled = isGameOver;
         inputArea.classList.toggle('hidden', isGameOver);
         guessesRemainingDesc.classList.toggle('hidden', isGameOver);
-        skipButton.textContent = remaining === 1 ? 'Skip and reveal answer' : 'Skip for next clue';
+        skipButton.textContent = remaining === 1 ? 'Reveal answer' : 'Skip clue';
 
         if (isGameOver) endGame(won, interactive);
     }
@@ -414,12 +429,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clue Number
         const clueNumberSpan = document.createElement('span');
         clueNumberSpan.classList.add('clue-number');
-        clueNumberSpan.textContent = `Clue ${index + 1} of ${currentGame.reviews.length}:`;
+        clueNumberSpan.textContent = `Clue ${index + 1} / ${currentGame.reviews.length}`;
         reviewWrapper.appendChild(clueNumberSpan);
 
         // Main review card div (add recommendation state to card for left border styling)
         const reviewCard = document.createElement('div');
         reviewCard.classList.add('steam-review-card');
+        const reviewMetadata = document.createElement('div');
+        reviewMetadata.className = 'review-metadata';
         const isRec = reviewData.recommendation && reviewData.recommendation.toLowerCase() === 'recommended';
         const isNotRec = reviewData.recommendation && reviewData.recommendation.toLowerCase() === 'not recommended';
         if (isRec) reviewCard.classList.add('recommended');
@@ -450,7 +467,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Append header to card ONLY if it has content
         if (headerHasContent) {
-            reviewCard.appendChild(reviewHeader);
+            reviewMetadata.appendChild(reviewHeader);
         }
         // End Review Header Section
 
@@ -491,16 +508,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const dateP = document.createElement('p');
             dateP.classList.add('review-date');
             dateP.textContent = `Posted: ${reviewData.datePosted}`;
-            reviewCard.appendChild(dateP);
+            reviewMetadata.appendChild(dateP);
         }
 
         // Review Text
         if (reviewData.reviewText && reviewData.reviewText !== "Could not load review text.") {
             if (reviewData.isExcerpt) {
                 const excerptLabel = document.createElement('p');
-                excerptLabel.className = 'review-date';
-                excerptLabel.textContent = 'Excerpt from a Steam review';
-                reviewCard.appendChild(excerptLabel);
+                excerptLabel.className = 'review-date review-excerpt';
+                excerptLabel.textContent = 'Review excerpt';
+                reviewMetadata.appendChild(excerptLabel);
             }
             const reviewTextP = document.createElement('p');
             reviewTextP.classList.add('review-text-content');
@@ -511,6 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // End Review Card Content
 
+        reviewCard.appendChild(reviewMetadata);
         reviewWrapper.appendChild(reviewCard);
         reviewsContainer.appendChild(reviewWrapper);
 
@@ -573,6 +591,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function endGame(didWin, interactive) {
         closeDropdown();
+        document.body.classList.add('round-complete');
+        reviewDisclosure.open = false;
         creditEl.classList.remove('hidden');
         gameOverMessageDiv.classList.remove('hidden');
         correctGameTitleSpan.textContent = currentGame.title;
@@ -580,25 +600,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentGame.appId) {
             steamLink.href = `https://store.steampowered.com/app/${currentGame.appId}/`;
             steamLink.classList.remove('hidden');
-            gameImage.src = `https://cdn.akamai.steamstatic.com/steam/apps/${currentGame.appId}/header.jpg`;
             gameImage.onload = () => gameImage.classList.remove('hidden');
             gameImage.onerror = () => {
                 console.warn(`[endGame] Failed to load game cover for AppID ${currentGame.appId}`);
                 gameImage.classList.add('hidden');
             }
+            gameImage.src = `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${currentGame.appId}/header.jpg`;
         } else {
             steamLink.classList.add('hidden');
             gameImage.classList.add('hidden');
         }
 
         if (didWin) {
-            winLoseText.textContent = "You got it!";
+            winLoseText.textContent = "Nicely done.";
             gameOverMessageDiv.classList.add('win');
             const cluesUsed = attempts.length;
-            resultStats.textContent = `You got it in ${cluesUsed} ${cluesUsed === 1 ? 'clue' : 'clues'}!`;
-            if (interactive) triggerConfetti();
+            resultStats.textContent = `Solved in ${cluesUsed} ${cluesUsed === 1 ? 'clue' : 'clues'}.`;
         } else {
-            winLoseText.textContent = "That was a tough one.";
+            winLoseText.textContent = "There's always tomorrow.";
             gameOverMessageDiv.classList.add('lose');
             resultStats.textContent = `You used all ${currentGame.reviews.length} clues.`;
         }
@@ -622,9 +641,10 @@ document.addEventListener('DOMContentLoaded', () => {
         try { stats = readStats(localStorage); } catch { stats = { available: false }; }
         const panel = document.getElementById('personal-record');
         panel.classList.toggle('hidden', !stats.available || !stats.played);
+        document.getElementById('share-date').textContent = stats.available && stats.currentStreak
+            ? `${stats.currentStreak}-day streak` : '';
         if (!stats.available || !stats.played) return;
-        document.getElementById('personal-record-summary').textContent = stats.currentStreak
-            ? `Your record · ${stats.currentStreak}-day streak` : 'Your record';
+        document.getElementById('personal-record-summary').textContent = 'Your record';
         document.getElementById('personal-played').textContent = stats.played;
         document.getElementById('personal-win-rate').textContent = `${stats.winRate}%`;
         document.getElementById('personal-streak').textContent = stats.currentStreak;
@@ -664,9 +684,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const native = canShareText(result);
         copyResultsButton.classList.toggle('hidden', !native);
         document.getElementById('share-help').textContent = native
-            ? 'Send a spoiler-free result and a link to today’s puzzle.'
-            : 'Copies a spoiler-free result and a link to today’s puzzle.';
-        document.getElementById('share-date').textContent = `Steamdle · ${result.dateLabel}`;
+            ? 'Share your score. Keep the answer to yourself.'
+            : 'Copies your score and link. No spoilers.';
         document.getElementById('share-score').textContent = result.score;
         document.getElementById('share-prompt').textContent = result.won
             ? (attempts.length === 1 ? 'One clue. Can your friends match that?' : 'Can your friends beat your score?')
@@ -710,6 +729,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderFeedback(record) {
         if (!isGameOver || !currentGame) return;
         const state = record?.feedback?.(currentGame.puzzleDate);
+        feedbackDisclosure.classList.toggle('hidden', !state);
         feedbackForm.classList.toggle('hidden', !state);
         if (!state) return;
         feedbackForm.querySelector('fieldset').hidden = state.choice !== null;
@@ -746,32 +766,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (saved) renderFeedback(record);
         else feedbackStatus.textContent = 'Your choice could not be saved. Please try again.';
     });
-
-    function triggerConfetti() {
-        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        const colors = ['#66c0f4', '#5c7e10', '#c7d5e0', '#ffd700', '#ff6b6b', '#a78bfa'];
-        const particleCount = 70;
-        const container = document.createElement('div');
-        container.className = 'confetti-container';
-        container.setAttribute('aria-hidden', 'true');
-        for (let i = 0; i < particleCount; i++) {
-            const p = document.createElement('div');
-            p.className = 'confetti-particle';
-            p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            p.style.left = Math.random() * 100 + '%';
-            p.style.animationDelay = (Math.random() * 0.6) + 's';
-            p.style.animationDuration = (2.2 + Math.random() * 1.2) + 's';
-            const size = 6 + Math.floor(Math.random() * 6);
-            p.style.width = size + 'px';
-            p.style.height = size + 'px';
-            if (Math.random() > 0.5) p.style.borderRadius = '50%';
-            container.appendChild(p);
-        }
-        document.body.appendChild(container);
-        setTimeout(() => {
-            container.remove();
-        }, 4000);
-    }
 
     function showToast(message) {
         if (!toastEl) return;
@@ -871,6 +865,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
         if (!e.target.closest('#autocomplete-wrapper')) {
             closeDropdown();
+        }
+        for (const panel of document.querySelectorAll('.header-disclosure[open]')) {
+            if (!panel.contains(e.target)) panel.open = false;
+        }
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') return;
+        for (const panel of document.querySelectorAll('.header-disclosure[open]')) {
+            panel.open = false;
+            panel.querySelector('summary').focus();
         }
     });
 
