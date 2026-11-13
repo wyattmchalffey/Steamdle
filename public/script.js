@@ -1,12 +1,14 @@
 import { canonicalGuess, decodeAttempts, guessError, MAX_GUESS_LENGTH, normalizeTitle } from './round.mjs';
 import { buildShareResult, createShareCard } from './share.mjs';
 import { saveResult, readStats, nextPuzzleTime } from './personal-stats.mjs';
+import { createSteamReviewCard } from './steam-review.mjs';
 
 document.addEventListener('DOMContentLoaded', () => {
     // A content blocker or an unavailable analytics module must not prevent playing.
     const analytics = import('./analytics.mjs').then(module => module.createRoundAnalytics(window)).catch(() => null);
     // DOM Elements
     const reviewsContainer = document.getElementById('reviews-container');
+    const reviewTemplate = document.getElementById('steam-review-template');
     const reviewDisclosure = document.getElementById('review-disclosure');
     const feedbackDisclosure = document.getElementById('feedback-disclosure');
     const shareOptions = document.getElementById('share-options');
@@ -434,110 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clueNumberSpan.textContent = `Clue ${index + 1} / ${currentGame.reviews.length}`;
         reviewWrapper.appendChild(clueNumberSpan);
 
-        // Match Steam's reviewer column and review-content column.
-        const reviewCard = document.createElement('div');
-        reviewCard.classList.add('steam-review-card');
-        const reviewContent = document.createElement('div');
-        reviewContent.className = 'review-content';
-        const isRec = reviewData.recommendation && reviewData.recommendation.toLowerCase() === 'recommended';
-        const isNotRec = reviewData.recommendation && reviewData.recommendation.toLowerCase() === 'not recommended';
-        if (isRec) reviewCard.classList.add('recommended');
-        else if (isNotRec) reviewCard.classList.add('not-recommended');
-
-        const reviewHeader = document.createElement('div');
-        reviewHeader.classList.add('review-header');
-
-        // Add Avatar if available
-        if (reviewData.reviewerAvatarUrl) {
-            const avatarImg = document.createElement('img');
-            avatarImg.src = reviewData.reviewerAvatarUrl;
-            avatarImg.alt = '';
-            avatarImg.width = 36;
-            avatarImg.height = 36;
-            avatarImg.classList.add('reviewer-avatar');
-            avatarImg.addEventListener('error', () => avatarImg.remove(), { once: true });
-            reviewHeader.appendChild(avatarImg);
-        }
-
-        const reviewerIdentity = document.createElement('div');
-        reviewerIdentity.className = 'reviewer-identity';
-        const reviewerNameSpan = document.createElement('span');
-        reviewerNameSpan.classList.add('reviewer-name');
-        reviewerNameSpan.textContent = reviewData.reviewerName || 'Reviewer unavailable';
-        reviewerIdentity.appendChild(reviewerNameSpan);
-        if (Number.isInteger(reviewData.reviewerReviewCount) && reviewData.reviewerReviewCount >= 0) {
-            const reviewCount = document.createElement('span');
-            reviewCount.className = 'reviewer-review-count';
-            reviewCount.textContent = `${reviewData.reviewerReviewCount} ${reviewData.reviewerReviewCount === 1 ? 'review' : 'reviews'}`;
-            reviewerIdentity.appendChild(reviewCount);
-        }
-        reviewHeader.appendChild(reviewerIdentity);
-        reviewCard.appendChild(reviewHeader);
-
-        // Recommendation Block
-        const recommendationDiv = document.createElement('div');
-        recommendationDiv.classList.add('review-recommendation');
-        if (isRec) recommendationDiv.classList.add('recommended');
-        else if (isNotRec) recommendationDiv.classList.add('not-recommended');
-
-        if (isRec || isNotRec) {
-            const iconDiv = document.createElement('div');
-            iconDiv.classList.add('recommendation-icon');
-            iconDiv.setAttribute('aria-hidden', 'true');
-            recommendationDiv.appendChild(iconDiv);
-        }
-
-        const detailsDiv = document.createElement('div');
-        detailsDiv.classList.add('recommendation-details');
-
-        if (reviewData.recommendation) {
-            const recTextSpan = document.createElement('span');
-            recTextSpan.classList.add('recommendation-text');
-            recTextSpan.textContent = reviewData.recommendation;
-            detailsDiv.appendChild(recTextSpan);
-        }
-
-        if (reviewData.playtime && reviewData.playtime !== "Playtime not shown") {
-            const playtimeP = document.createElement('p');
-            playtimeP.classList.add('review-playtime');
-            playtimeP.textContent = reviewData.playtime;
-            detailsDiv.appendChild(playtimeP);
-        }
-
-        if (detailsDiv.hasChildNodes()) { recommendationDiv.appendChild(detailsDiv); }
-        if (recommendationDiv.hasChildNodes()) { reviewContent.appendChild(recommendationDiv); }
-        // End Recommendation Block
-
-        const reviewMetadata = document.createElement('div');
-        reviewMetadata.className = 'review-metadata';
-        if (reviewData.datePosted && reviewData.datePosted !== "Date not found") {
-            const dateP = document.createElement('p');
-            dateP.classList.add('review-date');
-            dateP.textContent = `Posted: ${reviewData.datePosted}`;
-            reviewMetadata.appendChild(dateP);
-        }
-
-        // Review Text
-        if (reviewData.reviewText && reviewData.reviewText !== "Could not load review text.") {
-            if (reviewData.isExcerpt) {
-                const excerptLabel = document.createElement('p');
-                excerptLabel.className = 'review-date review-excerpt';
-                excerptLabel.textContent = 'Review excerpt';
-                reviewMetadata.appendChild(excerptLabel);
-            }
-            if (reviewMetadata.hasChildNodes()) reviewContent.appendChild(reviewMetadata);
-            const reviewTextP = document.createElement('p');
-            reviewTextP.classList.add('review-text-content');
-            reviewTextP.style.whiteSpace = 'pre-line';
-            reviewTextP.textContent = reviewData.reviewText;
-            reviewContent.appendChild(reviewTextP);
-        } else if (reviewMetadata.hasChildNodes()) {
-            reviewContent.appendChild(reviewMetadata);
-        }
-
-        // End Review Card Content
-
-        reviewCard.appendChild(reviewContent);
+        const reviewCard = createSteamReviewCard(document, reviewTemplate, reviewData);
         reviewWrapper.appendChild(reviewCard);
         reviewsContainer.appendChild(reviewWrapper);
 

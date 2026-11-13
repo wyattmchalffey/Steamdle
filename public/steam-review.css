@@ -1,0 +1,81 @@
+/* Steam Community review CSS, scoped to the extracted HTML template.
+   Sources and the deliberate compact-card adaptations are documented in
+   docs/steam-review-template-source.txt. */
+.steam-review-card .ratingSummaryBlock img {
+    margin-inline-end: 10px;
+    width: 44px;
+    height: 44px;
+}
+.steam-review-card .ratingSummaryHeader {
+    background: rgba(0, 0, 0, 0.2);
+}
+.steam-review-card .ratingSummary {
+    font-size: 16px;
+    color: #d6d7d8;
+    padding-top: 4px;
+    padding-bottom: 2px;
+    font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
+    font-weight: normal;
+}
+.steam-review-card .playTime {
+    font-size: 12px;
+    color: #d6d7d8;
+}
+.steam-review-card .review_area_content {
+    font-size: 13px;
+    line-height: 17px;
+    color: #acb2b8;
+    font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
+    font-weight: normal;
+    overflow-wrap: break-word;
+    overflow: hidden;
+}
+.steam-review-card .recommendation_date {
+    font-size: 11px;
+    color: #a0a08b;
+    margin-top: 17px;
+}
+
+/* Keep Steamdle's original stacked card at every viewport width. The Community
+   page's full-size profile banner becomes the familiar compact author strip. */
+.steam-review-card {
+    width: 100%;
+    max-width: 612px;
+    margin-inline: auto;
+    background: #16202d;
+    color: #8f98a0;
+    border: 1px solid #1b2838;
+    border-inline-start: 4px solid #4a5568;
+    border-radius: 0;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.2);
+    text-align: left;
+    font: 13px "Motiva Sans", Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
+.steam-review-card.recommended { border-inline-start-color: #417a2b; }
+.steam-review-card.not-recommended { border-inline-start-color: #8b2e2e; }
+.steam-review-card .profile_small_header_bg { background: rgba(0,0,0,.15); }
+.steam-review-card .profile_small_header_texture {
+    display: flex;
+    align-items: center;
+    padding: 12px 14px 10px;
+}
+.steam-review-card .profile_small_header_avatar { flex: 0 0 32px; margin-inline-end: 10px; }
+.steam-review-card .playerAvatar, .steam-review-card .playerAvatar picture { display: block; width: 32px; height: 32px; }
+.steam-review-card .playerAvatar img { display: block; width: 32px; height: 32px; border-radius: 1px; object-fit: cover; }
+.steam-review-card .profile_small_header_text { min-width: 0; overflow-wrap: anywhere; }
+.steam-review-card .profile_small_header_name { display: block; color: #c7d5e0; font-size: 14px; line-height: 18px; font-weight: normal; }
+.steam-review-card .reviewer-review-count { display: block; margin-top: 2px; color: #8f98a0; font-size: 11px; line-height: 14px; }
+.steam-review-card .ratingSummaryHeader {
+    display: flow-root;
+    min-height: 62px;
+    padding: 8px 14px 10px;
+    background: #26354b;
+    border-bottom: 1px solid #1b2838;
+}
+.steam-review-card .recommendation-icon { float: inline-start; }
+.steam-review-card .playTime { color: #8f98a0; line-height: 16px; overflow-wrap: anywhere; }
+.steam-review-card .recommendation_date { margin: 0; padding: 8px 14px 6px; color: #8f98a0; }
+.steam-review-card .review-excerpt { padding: 0 14px 8px; color: #8f98a0; font-size: 11px; }
+.steam-review-card .review_area { padding: 10px 14px 14px; border-top: 1px solid #1b2838; }
+.steam-review-card .review-text-content { white-space: pre-line; overflow-wrap: anywhere; }

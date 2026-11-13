@@ -1,0 +1,22 @@
+Steam Community review template provenance
+
+Source HTML: https://steamcommunity.com/profiles/76561199111672860/recommended/3527290/
+Source CSS: https://community.akamai.steamstatic.com/public/shared/css/user_reviews.css
+Profile CSS: https://community.akamai.steamstatic.com/public/css/skin_1/profilev2.css
+Raw HTML SHA-256: 0b3fcf3d9fe4426dc5c2e2afc4586663f1fb2352eb338a14f7d6246d58702993
+
+The inline #steam-review-template is extracted from the actual Community HTML:
+profile_small_header_bg > profile_small_header_texture; ratingSummaryBlock >
+ratingSummaryHeader > image, ratingSummary, playTime; recommendation_date;
+review_area > review_area_content > the original ReviewText div.
+
+Adaptations: remove scripts, edit/vote controls, source-specific IDs, purchase
+badges, avatar frames, profile/game links and title breadcrumbs. Replace content
+with textContent bindings, replace ReviewText ID with a class/data-role, and add
+an honest excerpt marker and verified review count. Retain the source classes
+and nesting rather than constructing an approximate card in JavaScript.
+
+Scoped Steam CSS retains the review typography and 44px thumb. Small game-
+specific overrides restore the prior 612px stacked card, 32px author avatar,
+blue-grey recommendation band and green/red edge. No two-column store layout.
+Live Steam page scripts and globals are not loaded by Steamdle.

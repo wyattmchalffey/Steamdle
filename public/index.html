@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Steamdle — Six reviews. One game.</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="steam-review.css">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <meta name="description" content="Can you guess the Steam game from its reviews? One new puzzle every day. 6 clues, 6 guesses. Free to play!">
@@ -167,6 +168,41 @@
         </div>
     </main>
     <footer class="site-footer"><span>A fresh game. Every day.</span><p id="credit" class="credit">Made by <a href="https://wyattmchalffey.com" target="_blank" rel="noopener noreferrer">Wyatt McHalffey</a></p></footer>
+    <template id="steam-review-template">
+        <article class="steam-review-card">
+            <div class="profile_small_header_bg">
+                <div class="profile_small_header_texture">
+                    <div class="profile_small_header_avatar">
+                        <div class="playerAvatar medium">
+                            <picture>
+                                <img alt="" class="reviewer-avatar" width="32" height="32">
+                            </picture>
+                        </div>
+                    </div>
+                    <div class="profile_small_header_text">
+                        <span class="profile_small_header_name">
+                            <span class="whiteLink persona_name_text_content reviewer-name"></span>
+                        </span>
+                        <span class="reviewer-review-count" hidden=""></span>
+                    </div>
+                </div>
+            </div>
+            <div class="ratingSummaryBlock">
+                <div class="ratingSummaryHeader review-recommendation">
+                    <img alt="" class="recommendation-icon" width="44" height="44">
+                    <div class="ratingSummary recommendation-text"></div>
+                    <div class="playTime review-playtime"></div>
+                </div>
+                <div class="recommendation_date review-date"></div>
+                <div class="review-excerpt" hidden="">Review excerpt</div>
+            </div>
+            <div class="review_area">
+                <div class="review_area_content ">
+                    <div class="review-text-content" data-role="review-text"></div>
+                </div>
+            </div>
+        </article>
+    </template>
     <script type="module" src="script.js"></script>
 </body>
 </html>
