@@ -344,6 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
         previousGuessesContainer.classList.add('hidden');
         gameOverMessageDiv.classList.add('hidden');
         gameOverMessageDiv.classList.remove('win', 'lose');
+        gameImage.onload = gameImage.onerror = null;
         gameImage.classList.add('hidden');
         gameImage.removeAttribute('src');
         reviewsContainer.replaceChildren();
@@ -496,14 +497,16 @@ document.addEventListener('DOMContentLoaded', () => {
         correctGameTitleSpan.textContent = currentGame.title;
 
         if (currentGame.appId) {
+            const game = currentGame;
             steamLink.href = `https://store.steampowered.com/app/${currentGame.appId}/`;
             steamLink.classList.remove('hidden');
-            gameImage.onload = () => gameImage.classList.remove('hidden');
+            gameImage.onload = () => {
+                if (currentGame === game && isGameOver) gameImage.classList.remove('hidden');
+            };
             gameImage.onerror = () => {
-                console.warn(`[endGame] Failed to load game cover for AppID ${currentGame.appId}`);
-                gameImage.classList.add('hidden');
+                if (currentGame === game) gameImage.classList.add('hidden');
             }
-            gameImage.src = `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${currentGame.appId}/header.jpg`;
+            gameImage.src = `/api/daily-artwork?date=${encodeURIComponent(game.puzzleDate)}`;
         } else {
             steamLink.classList.add('hidden');
             gameImage.classList.add('hidden');

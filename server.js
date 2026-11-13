@@ -5,6 +5,8 @@ const cors = require('cors');
 const db = require('./db.js');
 const { createDailyPuzzles, utcDay } = require('./daily-puzzles');
 const { decoratePuzzleReviewers } = require('./reviewer-profiles');
+const { createGameArtwork } = require('./game-artwork');
+const { createArtworkHandler } = require('./artwork-route');
 const { createAnalytics } = require('./analytics');
 const { createStatsRoutes } = require('./stats-routes');
 const axios = require('axios');
@@ -33,6 +35,7 @@ const dailyPuzzles = createDailyPuzzles(db, scrapeSteamReview, {
     priorityAppIds: clueTrial.games.map(game => game.steam_app_id)
 });
 let preparedThrough = null;
+const gameArtwork = createGameArtwork();
 
 // --- Middleware ---
 app.use(createStatsRoutes(createAnalytics(db), process.env, {
@@ -119,6 +122,8 @@ app.get('/api/daily-game', async (req, res) => {
         res.status(500).json({ error: 'Could not load the daily puzzle.' });
     }
 });
+
+app.get('/api/daily-artwork', createArtworkHandler({ dailyPuzzles, artwork: gameArtwork }));
 
 // Helper function to scrape a single Steam review page
 async function scrapeSteamReview(reviewUrl) {
