@@ -413,14 +413,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (reviewData.error) {
             const errorWrapper = document.createElement('div');
             errorWrapper.classList.add('review-item-wrapper', 'loaded', 'review-error-item');
-            const number = document.createElement('span');
-            number.className = 'clue-number';
-            number.textContent = `Clue ${index + 1} / ${currentGame.reviews.length}`;
             const message = document.createElement('p');
             message.className = 'review-image-error';
             message.textContent = 'This review could not be loaded. Please try again later.';
             // A source URL or upstream error may expose the mystery game's app ID.
-            errorWrapper.append(number, message);
+            errorWrapper.appendChild(message);
             reviewsContainer.appendChild(errorWrapper);
             reviewsContainer.scrollTop = reviewsContainer.scrollHeight;
             return;
@@ -429,12 +426,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Create HTML structure for the review
         const reviewWrapper = document.createElement('div');
         reviewWrapper.classList.add('review-item-wrapper');
-
-        // Clue Number
-        const clueNumberSpan = document.createElement('span');
-        clueNumberSpan.classList.add('clue-number');
-        clueNumberSpan.textContent = `Clue ${index + 1} / ${currentGame.reviews.length}`;
-        reviewWrapper.appendChild(clueNumberSpan);
 
         const reviewCard = createSteamReviewCard(document, reviewTemplate, reviewData);
         reviewWrapper.appendChild(reviewCard);

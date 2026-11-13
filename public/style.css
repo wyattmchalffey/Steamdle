@@ -46,22 +46,16 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .puzzle-meta { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 26px; font-size: 11px; color: var(--muted); }
 .puzzle-meta > span { text-transform: uppercase; letter-spacing: 1.6px; color: var(--blue); font-weight: 600; }
 .puzzle-meta time { font-variant-numeric: tabular-nums; }
-.game-intro { margin-bottom: 34px; }
-.game-intro h2 { margin: 0; font-size: clamp(27px, 5vw, 36px); line-height: 1.2; letter-spacing: -1.2px; font-weight: 600; }
-.game-intro h2 span { color: var(--blue); }
-.subtitle { margin: 12px 0 0; color: var(--muted); font-size: 14px; }
-.round-complete .game-intro { display: none; }
 .site-footer { width: min(100% - 40px, 680px); margin: 48px auto 24px; padding-top: 20px; border-top: 1px solid #2b3744; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 20px; color: #92a3b2; font-size: 11px; line-height: 1.6; }
 .credit { font-size: inherit; margin: 0; }
 .credit a { color: #bdcbd6; text-decoration: none; }
 .credit a:hover { color: var(--blue); }
 
-/* Clue labels and transitions sit outside the Steam Community template. */
+/* Review transitions sit outside the Steam Community template. */
 #reviews-container { display: flex; flex-direction: column; gap: 24px; }
 body:not(.round-complete) .review-disclosure > summary { display: none; }
 .review-item-wrapper { width: 100%; max-width: 612px; align-self: center; min-width: 0; opacity: 0; transition: opacity .18s ease; }
 .review-item-wrapper.loaded { opacity: 1; }
-.clue-number { display: block; margin: 0 0 10px; color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
 .review-image-error { padding: 20px; color: #e5b4ae; background: #33282b; font-size: 14px; }
 #input-area { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; margin-top: 26px; }
 .guess-label-row { grid-column: 1 / -1; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 1px; font-size: 12px; }
@@ -165,8 +159,6 @@ body:not(.round-complete) .review-disclosure > summary { display: none; }
     .utility-panel { top: 69px; right: 16px; }
     .container { margin-top: 30px; }
     .puzzle-meta { margin-bottom: 22px; font-size: 10px; }
-    .game-intro { margin-bottom: 28px; }
-    .subtitle { font-size: 13px; }
     #input-area { grid-template-columns: 1fr 1fr; }
     #autocomplete-wrapper { grid-column: 1 / -1; }
     #guess-input { font-size: 16px; }
