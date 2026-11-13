@@ -87,7 +87,7 @@ body:not(.round-complete) .review-disclosure > summary { display: none; }
 .lose #win-lose-text { color: #d5c1a2; }
 #share-date { margin-left: auto; color: var(--muted); font-size: 11px; }
 .answer-reveal { display: flex; align-items: center; gap: 16px; }
-#game-image { display: block; width: 160px; height: auto; aspect-ratio: 460 / 215; object-fit: cover; flex-shrink: 0; }
+#game-image { display: block; width: 46%; height: auto; aspect-ratio: 460 / 215; object-fit: cover; flex-shrink: 0; }
 .answer-copy { min-width: 0; }
 #correct-game-title { font-size: 21px; font-weight: 600; letter-spacing: -.3px; line-height: 1.25; margin: 0; overflow-wrap: anywhere; }
 #steam-link { display: inline-block; margin-top: 8px; font-size: 12px; text-decoration: none; }
@@ -158,8 +158,8 @@ body:not(.round-complete) .review-disclosure > summary { display: none; }
     #guess-input { font-size: 16px; }
     #guess-button, #skip-button { min-height: 44px; }
     #game-over-message { padding: 16px; }
-    .answer-reveal { gap: 12px; }
-    #game-image { width: 104px; }
+    .answer-reveal { flex-direction: column; align-items: stretch; gap: 12px; }
+    #game-image { width: 100%; }
     #correct-game-title { font-size: 18px; }
     .site-footer { margin-top: 28px; }
 }
@@ -170,7 +170,6 @@ body:not(.round-complete) .review-disclosure > summary { display: none; }
     .header-tools { gap: 12px; }
     .header-disclosure > summary { font-size: 11px; }
     .container, .site-footer { width: calc(100% - 32px); }
-    #game-image { width: 88px; }
     .share-tile { width: 21px; height: 24px; }
     .share-grid { gap: 3px; }
     #share-button { padding-inline: 10px; }
