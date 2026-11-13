@@ -56,29 +56,29 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .credit a { color: #bdcbd6; text-decoration: none; }
 .credit a:hover { color: var(--blue); }
 
-/* The clue is the focal point. Metadata stays familiar, but secondary. */
+/* Steam store review layout: reviewer at left, recommendation and review at right. */
 #reviews-container { display: flex; flex-direction: column; gap: 24px; }
 body:not(.round-complete) .review-disclosure > summary { display: none; }
 .review-item-wrapper { min-width: 0; opacity: 0; transition: opacity .18s ease; }
 .review-item-wrapper.loaded { opacity: 1; }
 .clue-number { display: block; margin: 0 0 10px; color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
-.steam-review-card { background: var(--surface); border-top: 2px solid #49657b; border-radius: 2px; overflow: hidden; }
-.steam-review-card.recommended { border-top-color: #5b94b4; }
-.steam-review-card.not-recommended { border-top-color: #a87770; }
-.review-recommendation { display: flex; align-items: center; gap: 10px; padding: 15px 24px 0; }
-.recommendation-icon { width: 28px; height: 28px; flex: 0 0 28px; background-repeat: no-repeat; background-size: contain; background-position: center; }
+.steam-review-card { display: flex; align-items: flex-start; padding: 8px; background: #16202d; color: #c6d4df; font: 12px Arial, Helvetica, sans-serif; border: 0; border-radius: 0; }
+.review-header { display: flex; align-items: flex-start; gap: 8px; flex: 0 0 30%; min-width: 0; padding-right: 12px; }
+.reviewer-avatar { display: block; width: 36px; height: 36px; flex: 0 0 36px; object-fit: cover; border: 1px solid #3a515f; border-radius: 0; }
+.reviewer-identity { display: flex; flex-direction: column; min-width: 0; }
+.reviewer-name { display: block; margin-bottom: 3px; color: #c1dbf4; font-size: 13px; font-weight: 700; line-height: 18px; overflow-wrap: anywhere; }
+.reviewer-review-count { color: #c6dbf4; font-size: 11px; line-height: 17px; }
+.review-content { display: flex; flex: 1; flex-direction: column; min-width: 0; gap: 8px; padding: 1px; }
+.review-recommendation { display: flex; align-items: center; gap: 4px; min-height: 40px; padding: 0 4px 0 0; margin-bottom: 5px; background: #101820; }
+.recommendation-icon { width: 40px; height: 40px; flex: 0 0 40px; background-repeat: no-repeat; background-size: 40px 40px; background-position: center; }
 .review-recommendation.recommended .recommendation-icon { background-image: url('/images/thumb-up.png'); }
 .review-recommendation.not-recommended .recommendation-icon { background-image: url('/images/thumb-down.png'); }
-.recommendation-details { flex: 1; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-.recommendation-text { color: #b9dff5; font-size: 12px; }
-.not-recommended .recommendation-text { color: #e1b4ad; }
-.review-playtime { color: var(--muted); font-size: 11px; margin: 0; }
-.review-text-content { color: #e0e7ed; font-size: 19px; line-height: 1.6; padding: 20px 24px 24px; margin: 0; white-space: pre-line; overflow-wrap: anywhere; }
-.review-metadata { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 12px 24px; background: #16222f; color: var(--muted); font-size: 11px; }
-.review-header { display: flex; align-items: center; gap: 7px; min-width: 0; }
-.reviewer-avatar { width: 20px; height: 20px; object-fit: cover; border-radius: 2px; }
-.reviewer-name { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.review-date { margin: 0; font-size: 11px; color: var(--muted); }
+.recommendation-details { display: flex; flex: 1; min-width: 0; flex-direction: column; justify-content: center; }
+.recommendation-text { color: #d6d7d8; font-size: 16px; line-height: 20px; }
+.review-playtime { color: #8091a2; font-size: 11px; font-weight: 300; line-height: 14px; margin: 0; }
+.review-text-content { color: #acb2b8; font-size: 13px; line-height: 17px; padding: 0; margin: 0; white-space: pre-line; overflow-wrap: anywhere; }
+.review-metadata { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.review-date { margin: 0; font-size: 10px; line-height: 14px; color: #8091a2; text-transform: uppercase; }
 .review-excerpt { margin-left: auto; }
 .review-image-error { padding: 20px; color: #e5b4ae; background: #33282b; font-size: 14px; }
 .review-source-url-error { font-size: 11px; overflow-wrap: anywhere; color: var(--muted); }
@@ -156,7 +156,6 @@ body:not(.round-complete) .review-disclosure > summary { display: none; }
 .round-complete .review-disclosure[open] > summary::after, .feedback-disclosure[open] > summary::after { content: '−'; }
 .disclosure-note { margin-left: auto; font-size: 11px; color: #94a8b9; }
 .round-complete .review-disclosure[open] #reviews-container { padding-top: 24px; }
-.round-complete .review-text-content { font-size: 16px; }
 .round-complete .review-disclosure #previous-guesses-container { padding-bottom: 20px; }
 #clue-feedback { padding: 20px 0 4px; }
 #clue-feedback fieldset { border: 0; margin: 0; padding: 0; }
@@ -187,11 +186,9 @@ body:not(.round-complete) .review-disclosure > summary { display: none; }
     .puzzle-meta { margin-bottom: 22px; font-size: 10px; }
     .game-intro { margin-bottom: 28px; }
     .subtitle { font-size: 13px; }
-    .review-recommendation { padding: 14px 18px 0; }
-    .review-text-content { font-size: 17px; padding: 18px; }
-    .review-metadata { padding: 12px 18px; gap: 7px 12px; }
-    .reviewer-name { max-width: 170px; }
-    .review-excerpt { margin-left: 0; }
+    .steam-review-card { flex-direction: column; gap: 18px; }
+    .review-header { width: 100%; flex-basis: auto; padding-right: 0; }
+    .review-content { width: 100%; }
     #input-area { grid-template-columns: 1fr 1fr; }
     #autocomplete-wrapper { grid-column: 1 / -1; }
     #guess-input { font-size: 16px; }

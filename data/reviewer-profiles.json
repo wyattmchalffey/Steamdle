@@ -1,0 +1,1608 @@
+{
+  "version": 1,
+  "fetchedAt": "2026-11-13T02:21:25.269Z",
+  "profiles": {
+    "76561199111672860": {
+      "reviewerName": "|| OCTOFREAK ||",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/6e81201066b93a1bb7c2383cab723a56b421a10c_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199111672860/?xml=1",
+      "checkedAt": "2026-11-13T02:20:59.233Z",
+      "reviewerReviewCount": 25,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199111672860/recommended/3527290/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198055569704": {
+      "reviewerName": "Fluka",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/d7c961f7ae6d1bccfb8520d569e1bf53f6f9e8f4_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198055569704/?xml=1",
+      "checkedAt": "2026-11-13T02:20:59.454Z",
+      "reviewerReviewCount": 110,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198055569704/recommended/3527290/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199555929604": {
+      "reviewerName": "AndrewYo(Славянский)",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/d21b855ee97233e34cc3bc65437098656ef9e880_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199555929604/?xml=1",
+      "checkedAt": "2026-11-13T02:20:59.352Z",
+      "reviewerReviewCount": 9,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199555929604/recommended/3527290/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198334565254": {
+      "reviewerName": "Indigowater2",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/5089da6090a5650ed8142ee269ee2ead8a7c1697_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198334565254/?xml=1",
+      "checkedAt": "2026-11-13T02:20:59.231Z",
+      "reviewerReviewCount": 303,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198334565254/recommended/3527290/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198220549744": {
+      "reviewerName": "Feed_",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/a20bcaca774fa9eab5da5362032cd9b559caf63f_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198220549744/?xml=1",
+      "checkedAt": "2026-11-13T02:20:59.897Z",
+      "reviewerReviewCount": 4,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198220549744/recommended/3527290/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198254486323": {
+      "reviewerName": "Sir Miley",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/347b6cfdd745b7d1ee2d9078f270f6b04fb8ae2c_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198254486323/?xml=1",
+      "checkedAt": "2026-11-13T02:20:59.825Z",
+      "reviewerReviewCount": 3,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198254486323/recommended/3527290/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198117663048": {
+      "reviewerName": "Volibert",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/62296b2f011fcbcdc5e6b5a475105a6ccc31d7e4_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198117663048/?xml=1",
+      "checkedAt": "2026-11-13T02:21:00.004Z",
+      "reviewerReviewCount": 2,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198117663048/recommended/1771300/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198119404184": {
+      "reviewerName": "۶ৎ . graveyard faerie . ۶ৎ",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/6218233cf85b7ac343a12462d66aa58685a9499a_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198119404184/?xml=1",
+      "checkedAt": "2026-11-13T02:21:00.136Z",
+      "reviewerReviewCount": 107,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198119404184/recommended/1771300/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199007028442": {
+      "reviewerName": "CRUNK DA CONQUEROR",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/97f57b58d639bf7e7f0de30ba44f013c32281139_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199007028442/?xml=1",
+      "checkedAt": "2026-11-13T02:21:00.350Z",
+      "reviewerReviewCount": 39,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199007028442/recommended/1771300/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198228221776": {
+      "reviewerName": "RAAF",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/3d3d5d431d162a0639f6dde29bd0b188ed04787b_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198228221776/?xml=1",
+      "checkedAt": "2026-11-13T02:21:00.342Z",
+      "reviewerReviewCount": 13,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198228221776/recommended/1771300/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198070333442": {
+      "reviewerName": "Бодян",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/1933be42c0146efc012e48d92250466d7fa1881d_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198070333442/?xml=1",
+      "checkedAt": "2026-11-13T02:21:00.591Z",
+      "reviewerReviewCount": 8,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198070333442/recommended/1771300/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198037743369": {
+      "reviewerName": "Anakin Skywalker",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/f730b7016c71eaf6fd171d99c12af80c53a61ab4_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198037743369/?xml=1",
+      "checkedAt": "2026-11-13T02:21:00.663Z",
+      "reviewerReviewCount": 92,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198037743369/recommended/1771300/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198049206668": {
+      "reviewerName": "Collyce Tabernaque",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/48a7786a685e98353c30fd3dac6834aab0c84935_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198049206668/?xml=1",
+      "checkedAt": "2026-11-13T02:21:00.977Z",
+      "reviewerReviewCount": 8,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198049206668/recommended/1145350/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199100261339": {
+      "reviewerName": "elysium",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/e3fafb73caf1e3f8e4af54bd965834eb91f6acd8_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199100261339/?xml=1",
+      "checkedAt": "2026-11-13T02:21:00.863Z",
+      "reviewerReviewCount": 7,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199100261339/recommended/1145350/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198017026402": {
+      "reviewerName": "Ath 🐟",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/5b8825b34c5d77b00c3a18897f2f1175fa0e0e57_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198017026402/?xml=1",
+      "checkedAt": "2026-11-13T02:21:01.120Z",
+      "reviewerReviewCount": 24,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198017026402/recommended/1145350/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198013893108": {
+      "reviewerName": "Justicar",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/d5ff90ae073ba5e89555debf1f6db98c589e0371_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198013893108/?xml=1",
+      "checkedAt": "2026-11-13T02:21:01.153Z",
+      "reviewerReviewCount": 6,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198013893108/recommended/1145350/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198173620474": {
+      "reviewerName": "notkaelin",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/f3614d40114bb19a97de0a54adb0b6d2aa75bfb3_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198173620474/?xml=1",
+      "checkedAt": "2026-11-13T02:21:01.371Z",
+      "reviewerReviewCount": 9,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198173620474/recommended/1145350/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198058182867": {
+      "reviewerName": "Ayatorin",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/3017f64da039e05834f718537fc1fba48efe92e6_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198058182867/?xml=1",
+      "checkedAt": "2026-11-13T02:21:01.561Z",
+      "reviewerReviewCount": 13,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198058182867/recommended/1145350/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198358508942": {
+      "reviewerName": "HoldThePickles",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/d535a510fd96cc99627f5b89a61e9865cdb1e1ad_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198358508942/?xml=1",
+      "checkedAt": "2026-11-13T02:21:01.613Z",
+      "reviewerReviewCount": 6,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198358508942/recommended/2133760/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198858061398": {
+      "reviewerName": "eekz",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/0991bbd3efa9377856554d05849c756c1fd05e75_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198858061398/?xml=1",
+      "checkedAt": "2026-11-13T02:21:01.643Z",
+      "reviewerReviewCount": 187,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198858061398/recommended/2133760/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198037042063": {
+      "reviewerName": "Charcoal",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/90ded77289705c9202e9ea59d33e19f8581bc031_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198037042063/?xml=1",
+      "checkedAt": "2026-11-13T02:21:01.964Z",
+      "reviewerReviewCount": 92,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198037042063/recommended/2133760/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199687549228": {
+      "reviewerName": "megislikearainbow",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/d85de5b8b58742f2cda94bdfc83ee6a3532ea341_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199687549228/?xml=1",
+      "checkedAt": "2026-11-13T02:21:02.143Z",
+      "reviewerReviewCount": 6,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199687549228/recommended/2133760/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198053408270": {
+      "reviewerName": "jessi81",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/1c94dcff4c58a38f8b851a840353a7e2fe3c66a4_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198053408270/?xml=1",
+      "checkedAt": "2026-11-13T02:21:02.298Z",
+      "reviewerReviewCount": 121,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198053408270/recommended/2133760/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199074127149": {
+      "reviewerName": "Artiom4ik009",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/e4c5e2ab869df41657cb2108f0d01723d0ba7ba7_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199074127149/?xml=1",
+      "checkedAt": "2026-11-13T02:21:02.215Z",
+      "reviewerReviewCount": 61,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199074127149/recommended/2133760/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198263164322": {
+      "reviewerName": "Quipp",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/1d6bf15fe1df119c65e3025aca9f778a7e8ab5b6_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198263164322/?xml=1",
+      "checkedAt": "2026-11-13T02:21:02.498Z",
+      "reviewerReviewCount": 1,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198263164322/recommended/1903340/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198883826947": {
+      "reviewerName": "๋",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/59e2d689bbbf6c648af5d04b07776a227999c112_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198883826947/?xml=1",
+      "checkedAt": "2026-11-13T02:21:02.747Z",
+      "reviewerReviewCount": 2,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198883826947/recommended/1903340/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197981638563": {
+      "reviewerName": "Letande",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/3babb5a73ef00df173c874342d2f830de3f9c3bc_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197981638563/?xml=1",
+      "checkedAt": "2026-11-13T02:21:02.827Z",
+      "reviewerReviewCount": 683,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197981638563/recommended/1903340/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198075742770": {
+      "reviewerName": "THE RTN",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/bb9d5c5babeba8dddfe16b4f79a8af433f13b857_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198075742770/?xml=1",
+      "checkedAt": "2026-11-13T02:21:02.970Z",
+      "reviewerReviewCount": 291,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198075742770/recommended/1903340/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199196854868": {
+      "reviewerName": "Tito",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/a64e32a30325cd5e327de9186fe3242dc2ef1dc7_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199196854868/?xml=1",
+      "checkedAt": "2026-11-13T02:21:03.066Z",
+      "reviewerReviewCount": 25,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199196854868/recommended/1903340/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198097202609": {
+      "reviewerName": "Malfour",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/2e8b6be8e11c7ab016b57cd38896cbe1e9618679_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198097202609/?xml=1",
+      "checkedAt": "2026-11-13T02:21:03.252Z",
+      "reviewerReviewCount": 24,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198097202609/recommended/1903340/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198008480668": {
+      "reviewerName": "ChopSuey",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/1df3535a6f4c9bcf76d310fff46700d18b98412c_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198008480668/?xml=1",
+      "checkedAt": "2026-11-13T02:21:03.434Z",
+      "reviewerReviewCount": 183,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198008480668/recommended/2835570/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198026192734": {
+      "reviewerName": "m o r b o",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/56f38b91a890f8456172fe7cb99d8f8dc72892a9_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198026192734/?xml=1",
+      "checkedAt": "2026-11-13T02:21:03.585Z",
+      "reviewerReviewCount": 168,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198026192734/recommended/2835570/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198343806805": {
+      "reviewerName": "C̸͓͊l̶̤̈́a̷̧̕y̶̳͆9̴",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/15e7c54ec885eabd31573b87a5caeb1f5150f38a_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198343806805/?xml=1",
+      "checkedAt": "2026-11-13T02:21:03.571Z",
+      "reviewerReviewCount": 42,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198343806805/recommended/2835570/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199194404052": {
+      "reviewerName": "bonsai",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/53e5062f0e082fc0e8c5862a62e2f834ef54c350_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199194404052/?xml=1",
+      "checkedAt": "2026-11-13T02:21:04.647Z",
+      "reviewerReviewCount": 81,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199194404052/recommended/2835570/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198421768021": {
+      "reviewerName": "icaruswings",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/7cbc5fc94a530de495ea1252543505f2fbfc2850_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198421768021/?xml=1",
+      "checkedAt": "2026-11-13T02:21:03.914Z",
+      "reviewerReviewCount": 46,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198421768021/recommended/2835570/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198041199790": {
+      "reviewerName": "Layben",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/fd49ed3fd96ed555fd0dfe6b0c28e494232c1084_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198041199790/?xml=1",
+      "checkedAt": "2026-11-13T02:21:04.192Z",
+      "reviewerReviewCount": 51,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198041199790/recommended/2835570/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199480223366": {
+      "reviewerName": "SammyxVibez",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/3709c6cc1e650f51bc7c8bc4cf873da82a736a22_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199480223366/?xml=1",
+      "checkedAt": "2026-11-13T02:21:04.208Z",
+      "reviewerReviewCount": 4,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199480223366/recommended/1621690/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198083775999": {
+      "reviewerName": "EmberSpectre",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/fefd30995298a6085318b152c988fc2ebaee4682_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198083775999/?xml=1",
+      "checkedAt": "2026-11-13T02:21:04.469Z",
+      "reviewerReviewCount": 22,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198083775999/recommended/1621690/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198060352423": {
+      "reviewerName": "jansoe",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/a494588abedd61ece18c30240b5b2b8e968256a2_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198060352423/?xml=1",
+      "checkedAt": "2026-11-13T02:21:04.782Z",
+      "reviewerReviewCount": 15,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198060352423/recommended/1621690/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197992170560": {
+      "reviewerName": "Ceak",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/80e6d0593e72c451fe071009662b6bbc230fbb51_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197992170560/?xml=1",
+      "checkedAt": "2026-11-13T02:21:04.775Z",
+      "reviewerReviewCount": 19,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197992170560/recommended/1621690/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197992828584": {
+      "reviewerName": "Acuila&lt;3 |4TL ®",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/bf50d50cf4342f1071b18ba7e1490a371778a41a_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197992828584/?xml=1",
+      "checkedAt": "2026-11-13T02:21:05.070Z",
+      "reviewerReviewCount": 5,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197992828584/recommended/1621690/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198125396657": {
+      "reviewerName": "Dunsen",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/93599692bb03191426b18ead3ecafd01b7dd21e7_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198125396657/?xml=1",
+      "checkedAt": "2026-11-13T02:21:05.313Z",
+      "reviewerReviewCount": 7,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198125396657/recommended/1621690/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198423930524": {
+      "reviewerName": "M0h4mmadDF",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/8660ac4770980a535f630f8a8fd6a7e5826e1c85_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198423930524/?xml=1",
+      "checkedAt": "2026-11-13T02:21:05.362Z",
+      "reviewerReviewCount": 49,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198423930524/recommended/2001120/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198069573208": {
+      "reviewerName": "Inji",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/e80fe7a4a794c1c1e7af10706d9b664933f2de42_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198069573208/?xml=1",
+      "checkedAt": "2026-11-13T02:21:05.403Z",
+      "reviewerReviewCount": 12,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198069573208/recommended/2001120/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198083626821": {
+      "reviewerName": "Borazilla",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/e98adb99999ec62b75a94ceaf7d0a57ed05011b6_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198083626821/?xml=1",
+      "checkedAt": "2026-11-13T02:21:05.625Z",
+      "reviewerReviewCount": 50,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198083626821/recommended/2001120/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199080635077": {
+      "reviewerName": "erdbeerlime",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/95d8f1c00bbdc43e289e494f3dad027a6f930ac4_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199080635077/?xml=1",
+      "checkedAt": "2026-11-13T02:21:05.894Z",
+      "reviewerReviewCount": 1,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199080635077/recommended/2001120/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197976867065": {
+      "reviewerName": "Jean-Paul Software",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/6b61c898fab17cb6d1b5b6cdec0398f81b2888bd_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197976867065/?xml=1",
+      "checkedAt": "2026-11-13T02:21:06.060Z",
+      "reviewerReviewCount": 75,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197976867065/recommended/2001120/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198824835410": {
+      "reviewerName": "EliteWolf",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/646d144f58d193e05a517b437a3ee02bc9c1b316_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198824835410/?xml=1",
+      "checkedAt": "2026-11-13T02:21:06.021Z",
+      "reviewerReviewCount": 84,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198824835410/recommended/2001120/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198362831538": {
+      "reviewerName": "umaru",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/4ee947478ab0b394df2054bda70fd80228bf40e1_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198362831538/?xml=1",
+      "checkedAt": "2026-11-13T02:21:06.256Z",
+      "reviewerReviewCount": 60,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198362831538/recommended/1030300/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198801137733": {
+      "reviewerName": "Inkveon",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/c75b36307710cd5721be21f4e31402875f8f0984_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198801137733/?xml=1",
+      "checkedAt": "2026-11-13T02:21:06.479Z",
+      "reviewerReviewCount": 4,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198801137733/recommended/1030300/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198028104200": {
+      "reviewerName": "Soleris",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/64455b3f80e6419b182bf68c483de214f5f56d75_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198028104200/?xml=1",
+      "checkedAt": "2026-11-13T02:21:06.609Z",
+      "reviewerReviewCount": 9,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198028104200/recommended/1030300/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198230518744": {
+      "reviewerName": "Dańte",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/f50133a473c0551ff1b73d7b7423c68c76772fd0_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198230518744/?xml=1",
+      "checkedAt": "2026-11-13T02:21:06.667Z",
+      "reviewerReviewCount": 23,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198230518744/recommended/1030300/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197999048731": {
+      "reviewerName": "Jozzy",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/0f2689cb7acfaee0646f7e434ab4ad133d66fac4_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197999048731/?xml=1",
+      "checkedAt": "2026-11-13T02:21:06.906Z",
+      "reviewerReviewCount": 7,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197999048731/recommended/1030300/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198085740266": {
+      "reviewerName": "Aleyden",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/06e3776a34096e4fb15db3f361eb2b63675f0c29_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198085740266/?xml=1",
+      "checkedAt": "2026-11-13T02:21:06.985Z",
+      "reviewerReviewCount": 13,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198085740266/recommended/1030300/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198089275723": {
+      "reviewerName": "Kaalia",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/dca10fc7fe20d2b6145414ebb4edfbbeaea832d3_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198089275723/?xml=1",
+      "checkedAt": "2026-11-13T02:21:07.174Z",
+      "reviewerReviewCount": 3,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198089275723/recommended/3070070/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198002982583": {
+      "reviewerName": "MIDA",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/ddfc3dabdb4a92ef981660d5a45b406e8622b6d6_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198002982583/?xml=1",
+      "checkedAt": "2026-11-13T02:21:07.225Z",
+      "reviewerReviewCount": 1,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198002982583/recommended/3070070/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197996450068": {
+      "reviewerName": "Kozzy",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/44b3512f3cc8bc8ada01960ea969d723e8985b77_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197996450068/?xml=1",
+      "checkedAt": "2026-11-13T02:21:07.371Z",
+      "reviewerReviewCount": 414,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197996450068/recommended/3070070/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197998121471": {
+      "reviewerName": "Chris the Canadian",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/6db2ac365ae4ee52c350ac4e9a34fdbf013c64ce_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197998121471/?xml=1",
+      "checkedAt": "2026-11-13T02:21:07.611Z",
+      "reviewerReviewCount": 47,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197998121471/recommended/3070070/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198109901823": {
+      "reviewerName": "spicie",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/a705aa499b710fe8ad8efdea9c04d9159112a956_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198109901823/?xml=1",
+      "checkedAt": "2026-11-13T02:21:07.697Z",
+      "reviewerReviewCount": 8,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198109901823/recommended/3070070/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198971523668": {
+      "reviewerName": "houshi",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/ee5d5a187eb80541a5dbc06c8f2e6c2d61266b18_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198971523668/?xml=1",
+      "checkedAt": "2026-11-13T02:21:07.777Z",
+      "reviewerReviewCount": 28,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198971523668/recommended/3070070/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197971445273": {
+      "reviewerName": "Mr Bubbles",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/29cf3f94da7be66a2be0116a37e771aca4829b1c_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197971445273/?xml=1",
+      "checkedAt": "2026-11-13T02:21:07.847Z",
+      "reviewerReviewCount": 220,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197971445273/recommended/2677660/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198097055697": {
+      "reviewerName": "Twiig",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/13372d6b735f432ce83e319fdd33052d103104c7_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198097055697/?xml=1",
+      "checkedAt": "2026-11-13T02:21:08.265Z",
+      "reviewerReviewCount": 93,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198097055697/recommended/2677660/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197995894805": {
+      "reviewerName": "Sefu",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/9d248e64eec181ee7c21c40b724ff1a5ed447575_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197995894805/?xml=1",
+      "checkedAt": "2026-11-13T02:21:08.193Z",
+      "reviewerReviewCount": 149,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197995894805/recommended/2677660/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198112948959": {
+      "reviewerName": "Dwight Schrute",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/3a84c0c4a75dec4216caf30259e5264d0ccc84fd_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198112948959/?xml=1",
+      "checkedAt": "2026-11-13T02:21:08.301Z",
+      "reviewerReviewCount": 96,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198112948959/recommended/2677660/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198100766462": {
+      "reviewerName": "MrElectric",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/2d980f796f9e676f805bb1a99bc7906fbd646547_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198100766462/?xml=1",
+      "checkedAt": "2026-11-13T02:21:08.408Z",
+      "reviewerReviewCount": 26,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198100766462/recommended/2677660/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199076000250": {
+      "reviewerName": "Foxy_Leo",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/aef385d5e024c73973a832814e782156464fbca1_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199076000250/?xml=1",
+      "checkedAt": "2026-11-13T02:21:08.820Z",
+      "reviewerReviewCount": 3,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199076000250/recommended/2677660/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197961210173": {
+      "reviewerName": "Twirwilliger",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/2de19ebbe03fc50a7378de9377d9458ff94fe05c_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197961210173/?xml=1",
+      "checkedAt": "2026-11-13T02:21:08.825Z",
+      "reviewerReviewCount": 1,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197961210173/recommended/1296610/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197990018473": {
+      "reviewerName": "Satan",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/00c58083eda12d552ca4665faad949bcbe6c1b04_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197990018473/?xml=1",
+      "checkedAt": "2026-11-13T02:21:08.834Z",
+      "reviewerReviewCount": 1,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197990018473/recommended/1296610/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197980811349": {
+      "reviewerName": "DilTinman",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/dea169538e2e9b0d4f5ba8fce8fedaa8316bb6fc_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197980811349/?xml=1",
+      "checkedAt": "2026-11-13T02:21:09.030Z",
+      "reviewerReviewCount": 6,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197980811349/recommended/1296610/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198064050389": {
+      "reviewerName": "Jxt09",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/e80480eeb1cbe2e8abb7a2066e940ec3283e1c05_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198064050389/?xml=1",
+      "checkedAt": "2026-11-13T02:21:09.363Z",
+      "reviewerReviewCount": 151,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198064050389/recommended/1296610/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198003954648": {
+      "reviewerName": "Deek",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/d926f338f7cd19479273341284549ef3e95aac70_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198003954648/?xml=1",
+      "checkedAt": "2026-11-13T02:21:09.418Z",
+      "reviewerReviewCount": 16,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198003954648/recommended/1296610/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198049073478": {
+      "reviewerName": "Ze_eT",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/8b8c2aa0429871000d931d199c5aee23b63d2bfe_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198049073478/?xml=1",
+      "checkedAt": "2026-11-13T02:21:09.453Z",
+      "reviewerReviewCount": 17,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198049073478/recommended/1296610/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198019642494": {
+      "reviewerName": "BurgerCreature",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/105e33d620e4ff692447c763da8609c9a3089f20_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198019642494/?xml=1",
+      "checkedAt": "2026-11-13T02:21:09.535Z",
+      "reviewerReviewCount": 12,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198019642494/recommended/1808500/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198016916205": {
+      "reviewerName": "Darkest",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/48b7dd4a46bb7fa11ad9f35fcb9a6e9a581b387b_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198016916205/?xml=1",
+      "checkedAt": "2026-11-13T02:21:09.869Z",
+      "reviewerReviewCount": 73,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198016916205/recommended/1808500/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198029711481": {
+      "reviewerName": "Lord of Beards",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/6e103dc97af91dc37ee403a875c506aa200824a4_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198029711481/?xml=1",
+      "checkedAt": "2026-11-13T02:21:10.130Z",
+      "reviewerReviewCount": 26,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198029711481/recommended/1808500/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199059446244": {
+      "reviewerName": "Zulu_Mankiller",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/1532ae034400301477b7e6592c1b0dc9152c99b6_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199059446244/?xml=1",
+      "checkedAt": "2026-11-13T02:21:09.962Z",
+      "reviewerReviewCount": 12,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199059446244/recommended/1808500/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198806090370": {
+      "reviewerName": "✰ KikiChau ✰",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/e4d01c92ab7ed41efaf86fff66024a591bf6c70c_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198806090370/?xml=1",
+      "checkedAt": "2026-11-13T02:21:10.112Z",
+      "reviewerReviewCount": 51,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198806090370/recommended/1808500/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198246509730": {
+      "reviewerName": "Jasper Hale",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/70766ab0407079a87b28171f1fdb0f0da297e603_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198246509730/?xml=1",
+      "checkedAt": "2026-11-13T02:21:10.389Z",
+      "reviewerReviewCount": 1,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198246509730/recommended/1808500/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197983181103": {
+      "reviewerName": "RWD_Adam",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/2353fc16299dab7e76b1e0b79f90852f1be477a0_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197983181103/?xml=1",
+      "checkedAt": "2026-11-13T02:21:10.443Z",
+      "reviewerReviewCount": 9,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197983181103/recommended/2756920/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199640791723": {
+      "reviewerName": "deanmaxwellread",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/5076cb4b31180b9fb9b6520693e7906f4c89b8ba_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199640791723/?xml=1",
+      "checkedAt": "2026-11-13T02:21:10.704Z",
+      "reviewerReviewCount": 2,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199640791723/recommended/2756920/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197989020627": {
+      "reviewerName": "chompers",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/35947c9371666986f1b23fd6acf8ef865d3c9253_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197989020627/?xml=1",
+      "checkedAt": "2026-11-13T02:21:10.790Z",
+      "reviewerReviewCount": 63,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197989020627/recommended/2756920/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199006941935": {
+      "reviewerName": "Runwithscissors1397",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/bb3ef3a7103423dbfe4947ad72c6a43a84b53fa9_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199006941935/?xml=1",
+      "checkedAt": "2026-11-13T02:21:10.866Z",
+      "reviewerReviewCount": 12,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199006941935/recommended/2756920/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198870652201": {
+      "reviewerName": "kippriano",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/0cd388b24f39d215c739b500381dc5c343ecd202_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198870652201/?xml=1",
+      "checkedAt": "2026-11-13T02:21:10.962Z",
+      "reviewerReviewCount": 10,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198870652201/recommended/2756920/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198026675385": {
+      "reviewerName": "DZMaven",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/4494fe711e32fd5ad0d835b8739ef00dcacbf6d0_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198026675385/?xml=1",
+      "checkedAt": "2026-11-13T02:21:11.339Z",
+      "reviewerReviewCount": 92,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198026675385/recommended/2756920/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198089005817": {
+      "reviewerName": "hymntothesea",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/22305125914a7075809224ef115189b64a2f7336_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198089005817/?xml=1",
+      "checkedAt": "2026-11-13T02:21:11.308Z",
+      "reviewerReviewCount": 19,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198089005817/recommended/3764200/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198313392967": {
+      "reviewerName": "Xolha1",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/71462753ff7605e17630024be886081eaba268eb_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198313392967/?xml=1",
+      "checkedAt": "2026-11-13T02:21:11.367Z",
+      "reviewerReviewCount": 15,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198313392967/recommended/3764200/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199808548470": {
+      "reviewerName": "Scooby Helena-Doo",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/310f1e951950a8c16a54dbe00f70fdc28029e6be_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199808548470/?xml=1",
+      "checkedAt": "2026-11-13T02:21:11.606Z",
+      "reviewerReviewCount": 7,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199808548470/recommended/3764200/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198023453179": {
+      "reviewerName": "RabbitMonster",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/236caf4df5cd405840c6f01ca849e8bd345fb90e_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198023453179/?xml=1",
+      "checkedAt": "2026-11-13T02:21:11.979Z",
+      "reviewerReviewCount": 33,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198023453179/recommended/3764200/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199385880657": {
+      "reviewerName": "AYUSHHH",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/56cf3c9fd5bf840e4c462950d37e973eab9dbd4c_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199385880657/?xml=1",
+      "checkedAt": "2026-11-13T02:21:11.876Z",
+      "reviewerReviewCount": 44,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199385880657/recommended/3764200/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197960541466": {
+      "reviewerName": "All the other Kids",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/9eb6ccbdaf7b069edfd564e5a91ac327ddedff04_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197960541466/?xml=1",
+      "checkedAt": "2026-11-13T02:21:12.050Z",
+      "reviewerReviewCount": 1,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197960541466/recommended/2483190/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198984919279": {
+      "reviewerName": "Jasnax",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/7d02e481d46de9a14f6761c20a1232bd0aefb79c_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198984919279/?xml=1",
+      "checkedAt": "2026-11-13T02:21:12.082Z",
+      "reviewerReviewCount": 13,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198984919279/recommended/2483190/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198284848110": {
+      "reviewerName": "brokenbonez.",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/5550d0c6277e331a5aade3d9a93b76d43235e30c_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198284848110/?xml=1",
+      "checkedAt": "2026-11-13T02:21:12.639Z",
+      "reviewerReviewCount": 27,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198284848110/recommended/2483190/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198024812469": {
+      "reviewerName": "Tempest",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/48cde3f698f06b34230972448171d04ea15b0f93_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198024812469/?xml=1",
+      "checkedAt": "2026-11-13T02:21:12.551Z",
+      "reviewerReviewCount": 38,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198024812469/recommended/2483190/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198414781692": {
+      "reviewerName": "Saint ⚜",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/5267dcc8f7841f1f3ad271d97325b2be79f0f4ed_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198414781692/?xml=1",
+      "checkedAt": "2026-11-13T02:21:12.600Z",
+      "reviewerReviewCount": 78,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198414781692/recommended/2483190/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199085434407": {
+      "reviewerName": "Relax",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/0c1df24dea9b96e7d9f1acd8cde8dc2c0a05c7b4_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199085434407/?xml=1",
+      "checkedAt": "2026-11-13T02:21:12.720Z",
+      "reviewerReviewCount": 200,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199085434407/recommended/2483190/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198216537667": {
+      "reviewerName": "IFIYGD",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/a07c24647d2d82927385826deab932ad41605c99_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198216537667/?xml=1",
+      "checkedAt": "2026-11-13T02:21:13.191Z",
+      "reviewerReviewCount": 355,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198216537667/recommended/2475490/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197970819060": {
+      "reviewerName": "an_actual_whale",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/738345e90541ec9e092fdad6321ae639eed49e4b_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197970819060/?xml=1",
+      "checkedAt": "2026-11-13T02:21:13.160Z",
+      "reviewerReviewCount": 408,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197970819060/recommended/2475490/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198157308365": {
+      "reviewerName": "Fiesty",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/8c3ed45743b5bd849b15182e3e43371d7d22a5d2_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198157308365/?xml=1",
+      "checkedAt": "2026-11-13T02:21:13.171Z",
+      "reviewerReviewCount": 24,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198157308365/recommended/2475490/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198151060112": {
+      "reviewerName": "Symka",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/90b81bcb48155d2530be3885a63e7bd5556e313a_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198151060112/?xml=1",
+      "checkedAt": "2026-11-13T02:21:13.212Z",
+      "reviewerReviewCount": 73,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198151060112/recommended/2475490/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198282250333": {
+      "reviewerName": "spoooper!",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/4edda059779b11a8c077e9996eca47d7e79ea0dd_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198282250333/?xml=1",
+      "checkedAt": "2026-11-13T02:21:13.712Z",
+      "reviewerReviewCount": 147,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198282250333/recommended/2475490/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198076425684": {
+      "reviewerName": "Liquid Ginger",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/6d043fc9de5d66dcd54bad14f22a34473d2ccf1a_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198076425684/?xml=1",
+      "checkedAt": "2026-11-13T02:21:13.660Z",
+      "reviewerReviewCount": 14,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198076425684/recommended/2475490/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197993643985": {
+      "reviewerName": "gwelty",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/df3e125eff5783f73ae1e7b4ce08b127c07de517_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197993643985/?xml=1",
+      "checkedAt": "2026-11-13T02:21:13.661Z",
+      "reviewerReviewCount": 15,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197993643985/recommended/2185060/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198163121407": {
+      "reviewerName": "Cinder",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/0a8c04a27a600d2abaddd00316ac382c1be12e4f_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198163121407/?xml=1",
+      "checkedAt": "2026-11-13T02:21:13.903Z",
+      "reviewerReviewCount": 64,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198163121407/recommended/2185060/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199231084114": {
+      "reviewerName": "Amigoday",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/7c17d3160d0d80273043f429f88018d9307f4ba3_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199231084114/?xml=1",
+      "checkedAt": "2026-11-13T02:21:14.162Z",
+      "reviewerReviewCount": 5,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199231084114/recommended/2185060/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197971703379": {
+      "reviewerName": "Kinichie",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/a8091fa7e1c73cf1289ef49f74e105e0c0f5562f_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197971703379/?xml=1",
+      "checkedAt": "2026-11-13T02:21:14.234Z",
+      "reviewerReviewCount": 67,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197971703379/recommended/2185060/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198131830902": {
+      "reviewerName": "Punished_Peko",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/c26286f1a292309692f9a3a04eed8e0b8c15c66b_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198131830902/?xml=1",
+      "checkedAt": "2026-11-13T02:21:14.353Z",
+      "reviewerReviewCount": 16,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198131830902/recommended/2185060/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198007888370": {
+      "reviewerName": "Flavius Claudius Julianus",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/2eb1469f01f4781410cd4d249d79c98f448197ba_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198007888370/?xml=1",
+      "checkedAt": "2026-11-13T02:21:14.598Z",
+      "reviewerReviewCount": 964,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198007888370/recommended/2185060/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198356123369": {
+      "reviewerName": "Tyrinon",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/d3c0bdb5bdf75329b4068602fc41792913f34bb0_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198356123369/?xml=1",
+      "checkedAt": "2026-11-13T02:21:14.722Z",
+      "reviewerReviewCount": 1,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198356123369/recommended/2868840/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198095431641": {
+      "reviewerName": "Cannoliy",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/25be4e583d43998e8f4f44dd14aefac7193703c5_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198095431641/?xml=1",
+      "checkedAt": "2026-11-13T02:21:14.758Z",
+      "reviewerReviewCount": 9,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198095431641/recommended/2868840/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198127595992": {
+      "reviewerName": "Trexem",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/0ae81ca7c6209a3391ea86d2da7ff019658732e0_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198127595992/?xml=1",
+      "checkedAt": "2026-11-13T02:21:14.869Z",
+      "reviewerReviewCount": 407,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198127595992/recommended/2868840/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198044682809": {
+      "reviewerName": "erN",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/61fec39a84f1804e3223f58359790c476e7d6c52_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198044682809/?xml=1",
+      "checkedAt": "2026-11-13T02:21:15.123Z",
+      "reviewerReviewCount": 96,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198044682809/recommended/2868840/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198094570958": {
+      "reviewerName": "Eruda",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/12f49bd6e8944a9c4bf3ecf37c2df013acba8cec_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198094570958/?xml=1",
+      "checkedAt": "2026-11-13T02:21:15.295Z",
+      "reviewerReviewCount": 13,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198094570958/recommended/2868840/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198034402756": {
+      "reviewerName": "TNTFTB",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/5f495321b9c6ae57b8de0982c40e277edaa09473_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198034402756/?xml=1",
+      "checkedAt": "2026-11-13T02:21:15.355Z",
+      "reviewerReviewCount": 399,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198034402756/recommended/2868840/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198048832862": {
+      "reviewerName": "Sawovsky",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/ba457ccc7342345a9b34ccdc346067aa43d00d7b_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198048832862/?xml=1",
+      "checkedAt": "2026-11-13T02:21:15.460Z",
+      "reviewerReviewCount": 50,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198048832862/recommended/1601570/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198042190979": {
+      "reviewerName": "Lord Penguin VIIII",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/9910b21b36a7a67e340f24c60d697f23308d82df_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198042190979/?xml=1",
+      "checkedAt": "2026-11-13T02:21:15.817Z",
+      "reviewerReviewCount": 24,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198042190979/recommended/1601570/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199082183315": {
+      "reviewerName": "kabaab",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/b6d6af7c214c1e64c34135a507e6793ba950278c_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199082183315/?xml=1",
+      "checkedAt": "2026-11-13T02:21:15.938Z",
+      "reviewerReviewCount": 39,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199082183315/recommended/1601570/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198067635275": {
+      "reviewerName": "Luriam",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/6c41e5e2b9bffde619cf56157623af96b5bfd8f2_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198067635275/?xml=1",
+      "checkedAt": "2026-11-13T02:21:15.959Z",
+      "reviewerReviewCount": 124,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198067635275/recommended/1601570/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197971724802": {
+      "reviewerName": "DanishScorpio",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/e336c1bc26ee42e7973f39fc43a9e5c16c097432_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197971724802/?xml=1",
+      "checkedAt": "2026-11-13T02:21:16.096Z",
+      "reviewerReviewCount": 432,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197971724802/recommended/1601570/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198010217378": {
+      "reviewerName": "alphyna",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/fb17867c9a733e35191234c1da113051c848c4cc_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198010217378/?xml=1",
+      "checkedAt": "2026-11-13T02:21:16.390Z",
+      "reviewerReviewCount": 303,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198010217378/recommended/1601570/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198061807327": {
+      "reviewerName": "Darn",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/30209ae83a83ef45c010094324f225a714e47768_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198061807327/?xml=1",
+      "checkedAt": "2026-11-13T02:21:16.421Z",
+      "reviewerReviewCount": 58,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198061807327/recommended/1714040/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198069663154": {
+      "reviewerName": "Gmastern",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/8e481bfd4b5ceae7707cdd4207e519df8c94327f_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198069663154/?xml=1",
+      "checkedAt": "2026-11-13T02:21:16.595Z",
+      "reviewerReviewCount": 43,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198069663154/recommended/1714040/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199072058896": {
+      "reviewerName": "owowo42",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/ce199fb48e1836737908c02f76ada4940d7a214d_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199072058896/?xml=1",
+      "checkedAt": "2026-11-13T02:21:16.586Z",
+      "reviewerReviewCount": 7,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199072058896/recommended/1714040/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198009432120": {
+      "reviewerName": "Armando Penblade [Qt3]",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/0ca66a320e247af21e0020110cfad39a96db067e_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198009432120/?xml=1",
+      "checkedAt": "2026-11-13T02:21:16.909Z",
+      "reviewerReviewCount": 3,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198009432120/recommended/1714040/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198044433744": {
+      "reviewerName": "halal taste of ♥♥♥♥",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/b45640421e344bb0597409c5382a21285c2c0c35_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198044433744/?xml=1",
+      "checkedAt": "2026-11-13T02:21:16.979Z",
+      "reviewerReviewCount": 4,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198044433744/recommended/1714040/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198166295523": {
+      "reviewerName": "Kerico",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/c7c53cc8a83f5058f6c42efb3aa579c91597ef8e_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198166295523/?xml=1",
+      "checkedAt": "2026-11-13T02:21:17.161Z",
+      "reviewerReviewCount": 9,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198166295523/recommended/1714040/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198066200885": {
+      "reviewerName": "Sparta",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/b0a7d9587721672ee9b3c200a3ca7f5498c3e6a5_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198066200885/?xml=1",
+      "checkedAt": "2026-11-13T02:21:17.244Z",
+      "reviewerReviewCount": 54,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198066200885/recommended/1962700/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198061872301": {
+      "reviewerName": "ladything",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/d4c312ceeac845353e628baf8206e5f2a02f2a15_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198061872301/?xml=1",
+      "checkedAt": "2026-11-13T02:21:17.357Z",
+      "reviewerReviewCount": 5,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198061872301/recommended/1962700/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198025081863": {
+      "reviewerName": "Douge",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/bd40b1e8cf28e3ebb471d06e6bdc6660ab64d22f_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198025081863/?xml=1",
+      "checkedAt": "2026-11-13T02:21:17.570Z",
+      "reviewerReviewCount": 1,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198025081863/recommended/1962700/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198312386994": {
+      "reviewerName": "Bladee",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/a4dee0aed89a5deb94c071794fce7d4d1ddfb9cf_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198312386994/?xml=1",
+      "checkedAt": "2026-11-13T02:21:17.795Z",
+      "reviewerReviewCount": 102,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198312386994/recommended/1962700/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198206362619": {
+      "reviewerName": "Bear",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/dd8c1d31778a02b259eb8389eb8246aca07d5e3e_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198206362619/?xml=1",
+      "checkedAt": "2026-11-13T02:21:17.790Z",
+      "reviewerReviewCount": 9,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198206362619/recommended/1962700/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199467772537": {
+      "reviewerName": "The Funkster",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/be0b9dabb18ec7cf5cb3778dc8d7875e31bc4df7_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199467772537/?xml=1",
+      "checkedAt": "2026-11-13T02:21:18.015Z",
+      "reviewerReviewCount": 55,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199467772537/recommended/1962700/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199470529081": {
+      "reviewerName": "InkSamaa",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/4603802ef111810e14f1da00e4f53d4f616579ad_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199470529081/?xml=1",
+      "checkedAt": "2026-11-13T02:21:18.179Z",
+      "reviewerReviewCount": 50,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199470529081/recommended/3017860/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198048889896": {
+      "reviewerName": "Die Letzte Legion",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/a3516f8e938797a8c727f604814529f608438516_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198048889896/?xml=1",
+      "checkedAt": "2026-11-13T02:21:18.330Z",
+      "reviewerReviewCount": 112,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198048889896/recommended/3017860/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199553770745": {
+      "reviewerName": "BlondedPablo",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/4a01e530a46eaf91d8a03d5541c247f42bea3a5c_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199553770745/?xml=1",
+      "checkedAt": "2026-11-13T02:21:18.426Z",
+      "reviewerReviewCount": 28,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199553770745/recommended/3017860/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198098975172": {
+      "reviewerName": "KOVEIRA",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/6534b78b607cedadd7926b1621c6a052ec221806_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198098975172/?xml=1",
+      "checkedAt": "2026-11-13T02:21:18.508Z",
+      "reviewerReviewCount": 308,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198098975172/recommended/3017860/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198057482238": {
+      "reviewerName": "Mori Povich",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/efc5adb87bf1b06b4d8907144a7912f29613b6ac_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198057482238/?xml=1",
+      "checkedAt": "2026-11-13T02:21:19.010Z",
+      "reviewerReviewCount": 13,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198057482238/recommended/3017860/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198827112545": {
+      "reviewerName": "HAYUL",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/b2e37425973384a1c9c062fc73a90ca548210268_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198827112545/?xml=1",
+      "checkedAt": "2026-11-13T02:21:18.826Z",
+      "reviewerReviewCount": 1672,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198827112545/recommended/3017860/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198200548735": {
+      "reviewerName": "monomanik",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/b62f9a1187b034834fd0c61ac6f9a441d570aa79_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198200548735/?xml=1",
+      "checkedAt": "2026-11-13T02:21:18.947Z",
+      "reviewerReviewCount": 14,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198200548735/recommended/1062090/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199178096654": {
+      "reviewerName": "Axellotl",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/6766a9cac8f29b027c4796c3f9efa1b34576ed82_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199178096654/?xml=1",
+      "checkedAt": "2026-11-13T02:21:19.089Z",
+      "reviewerReviewCount": 134,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199178096654/recommended/1062090/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198019546157": {
+      "reviewerName": "farmer3902",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198019546157/?xml=1",
+      "checkedAt": "2026-11-13T02:21:19.356Z",
+      "reviewerReviewCount": 12,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198019546157/recommended/1062090/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198066820798": {
+      "reviewerName": "DR__MW__V_R",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/7848aa608ace6fc4a0e6af514588f6368f9d4ebb_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198066820798/?xml=1",
+      "checkedAt": "2026-11-13T02:21:19.576Z",
+      "reviewerReviewCount": 2,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198066820798/recommended/1062090/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198000590106": {
+      "reviewerName": "namelesswalaby",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/a3bc0ea5123824bc6753b392aef9b48ca57341c9_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198000590106/?xml=1",
+      "checkedAt": "2026-11-13T02:21:19.611Z",
+      "reviewerReviewCount": 40,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198000590106/recommended/1062090/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198023086585": {
+      "reviewerName": "Nekrocvlt",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/caccff3ec8b443672c992f3b3c4268694b4e0bb7_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198023086585/?xml=1",
+      "checkedAt": "2026-11-13T02:21:19.555Z",
+      "reviewerReviewCount": 9,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198023086585/recommended/1062090/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198405478217": {
+      "reviewerName": "DelfinSquad",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/60382da199f8b2760dacfcdee12e0a071d742810_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198405478217/?xml=1",
+      "checkedAt": "2026-11-13T02:21:19.906Z",
+      "reviewerReviewCount": 5,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198405478217/recommended/2592160/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197997585360": {
+      "reviewerName": "Kait.Sidhe1",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/7b546f00c3d1f391300e4de60f0ef7dd3d15b1a0_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197997585360/?xml=1",
+      "checkedAt": "2026-11-13T02:21:20.099Z",
+      "reviewerReviewCount": 3,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197997585360/recommended/2592160/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197994233936": {
+      "reviewerName": "Gloominary",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/8caaae73806434eb9915a8204a0a44a8f6b98d2f_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197994233936/?xml=1",
+      "checkedAt": "2026-11-13T02:21:20.196Z",
+      "reviewerReviewCount": 50,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197994233936/recommended/2592160/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197996837753": {
+      "reviewerName": "RED27",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/189e56530ff08856f21cf5edd1383df5227dd1b9_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197996837753/?xml=1",
+      "checkedAt": "2026-11-13T02:21:20.180Z",
+      "reviewerReviewCount": 86,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197996837753/recommended/2592160/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197964140971": {
+      "reviewerName": "nutcrackr",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/bf1256108af43b929d6456ac6392af9bbac47c7d_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197964140971/?xml=1",
+      "checkedAt": "2026-11-13T02:21:20.506Z",
+      "reviewerReviewCount": 272,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197964140971/recommended/2592160/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198133014543": {
+      "reviewerName": "Dr. Fauci",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/7251a8cdadb36c0c0c14ad673a1c1d6392822bdc_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198133014543/?xml=1",
+      "checkedAt": "2026-11-13T02:21:20.632Z",
+      "reviewerReviewCount": 20,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198133014543/recommended/1809540/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197995626204": {
+      "reviewerName": "shikanomnom",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/3d05dc4fd2513f04f7288fbd6987dcda25da3834_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197995626204/?xml=1",
+      "checkedAt": "2026-11-13T02:21:20.740Z",
+      "reviewerReviewCount": 5,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197995626204/recommended/1809540/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198061837685": {
+      "reviewerName": "a passerby",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/9964e2683bf71da3eeebed6f68dd5cb52d47a736_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198061837685/?xml=1",
+      "checkedAt": "2026-11-13T02:21:20.859Z",
+      "reviewerReviewCount": 108,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198061837685/recommended/1809540/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198070919766": {
+      "reviewerName": "Katatonik",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/66d84482797ec5fc99031e389d15d6d9ff4f8379_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198070919766/?xml=1",
+      "checkedAt": "2026-11-13T02:21:21.013Z",
+      "reviewerReviewCount": 108,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198070919766/recommended/1809540/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198983746717": {
+      "reviewerName": "insignificant_other",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/360236e555049f204b12d3a8685a3b9b9764ebfe_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198983746717/?xml=1",
+      "checkedAt": "2026-11-13T02:21:21.241Z",
+      "reviewerReviewCount": 8,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198983746717/recommended/1809540/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197993298158": {
+      "reviewerName": "Geardan",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/932c7588203d586a24bcc200fd7028888162f331_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197993298158/?xml=1",
+      "checkedAt": "2026-11-13T02:21:21.535Z",
+      "reviewerReviewCount": 127,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197993298158/recommended/1809540/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198041057829": {
+      "reviewerName": "Can Gaming",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/96939c8f28fa74395b2b225169250cf8c0cbdbf9_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198041057829/?xml=1",
+      "checkedAt": "2026-11-13T02:21:21.382Z",
+      "reviewerReviewCount": 38,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198041057829/recommended/2062430/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197970339840": {
+      "reviewerName": "Chicken Fillet Roll",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/cddd7537c4bbcd3810c956f99a453fcbca7db3d0_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197970339840/?xml=1",
+      "checkedAt": "2026-11-13T02:21:21.456Z",
+      "reviewerReviewCount": 119,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197970339840/recommended/2062430/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198061118997": {
+      "reviewerName": "Blossom",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/973133ed8da35686db35f0883ef12a9e84c69bb1_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198061118997/?xml=1",
+      "checkedAt": "2026-11-13T02:21:21.793Z",
+      "reviewerReviewCount": 6,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198061118997/recommended/2062430/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198046647021": {
+      "reviewerName": "Rei",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/82adf3fb3436e59199c51235db802206ce0f0557_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198046647021/?xml=1",
+      "checkedAt": "2026-11-13T02:21:22.018Z",
+      "reviewerReviewCount": 116,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198046647021/recommended/2062430/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197972392547": {
+      "reviewerName": "A Vacuum Full of Bees",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/90797afc6b48f96dc145653fa9c4591f2096f732_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197972392547/?xml=1",
+      "checkedAt": "2026-11-13T02:21:22.163Z",
+      "reviewerReviewCount": 29,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197972392547/recommended/2062430/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198157971148": {
+      "reviewerName": "Shiki",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/d3a5049d1be10c87be0ec13d4a402eec14cff61d_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198157971148/?xml=1",
+      "checkedAt": "2026-11-13T02:21:22.057Z",
+      "reviewerReviewCount": 17,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198157971148/recommended/2062430/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199083208162": {
+      "reviewerName": "Magic Shop",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/3d9aa3ce60a9e670f9e8ae5387d519b4b70c8e6a_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199083208162/?xml=1",
+      "checkedAt": "2026-11-13T02:21:22.327Z",
+      "reviewerReviewCount": 3,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199083208162/recommended/835960/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197993105437": {
+      "reviewerName": "Dreanor",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/a129bd3a8d2836eed578f1e757504dec1e6496e6_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197993105437/?xml=1",
+      "checkedAt": "2026-11-13T02:21:22.576Z",
+      "reviewerReviewCount": 16,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197993105437/recommended/835960/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198035294855": {
+      "reviewerName": "Mysterio",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/64d6d55a294ceff0fe2a4bf242382eeb8d2eb331_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198035294855/?xml=1",
+      "checkedAt": "2026-11-13T02:21:22.701Z",
+      "reviewerReviewCount": 26,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198035294855/recommended/835960/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197999106627": {
+      "reviewerName": "sqlboy2000",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/7ae537b6b7b7b09e68f52e76cdb8f0727f5cb270_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197999106627/?xml=1",
+      "checkedAt": "2026-11-13T02:21:22.860Z",
+      "reviewerReviewCount": 45,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197999106627/recommended/835960/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198000199346": {
+      "reviewerName": "Walk",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/7ae70ea5cab227caec0e4998d4917ff34023eccb_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198000199346/?xml=1",
+      "checkedAt": "2026-11-13T02:21:22.893Z",
+      "reviewerReviewCount": 10,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198000199346/recommended/835960/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199189409587": {
+      "reviewerName": "MEGA the micro",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/dfbf70d0587f9d558b2f602f19e6917156612b2c_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199189409587/?xml=1",
+      "checkedAt": "2026-11-13T02:21:23.039Z",
+      "reviewerReviewCount": 84,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199189409587/recommended/835960/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198048520339": {
+      "reviewerName": "Komthur",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/752eb38c3b0bc6f74708ec2c3d44d00bda41edde_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198048520339/?xml=1",
+      "checkedAt": "2026-11-13T02:21:23.243Z",
+      "reviewerReviewCount": 16,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198048520339/recommended/1663850/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198130224032": {
+      "reviewerName": "Bill_4780",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/42a079592e8051a5738e866203686425d70cc557_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198130224032/?xml=1",
+      "checkedAt": "2026-11-13T02:21:23.446Z",
+      "reviewerReviewCount": 26,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198130224032/recommended/1663850/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198140851887": {
+      "reviewerName": "ramleethal",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/ec93419f99c57c5ac31fe094ffe04c2419ca5bbd_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198140851887/?xml=1",
+      "checkedAt": "2026-11-13T02:21:23.459Z",
+      "reviewerReviewCount": 7,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198140851887/recommended/1663850/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199180292272": {
+      "reviewerName": "JIN",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/d43f661af57b359e4884d9421c36521fd8a7dfbb_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199180292272/?xml=1",
+      "checkedAt": "2026-11-13T02:21:23.600Z",
+      "reviewerReviewCount": 9,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199180292272/recommended/1663850/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199835176105": {
+      "reviewerName": "QUETZAL",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/a960af94cbe7a1288920e1e1e3016d3415e852d6_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199835176105/?xml=1",
+      "checkedAt": "2026-11-13T02:21:23.811Z",
+      "reviewerReviewCount": 78,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199835176105/recommended/1663850/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199579882945": {
+      "reviewerName": "umarbm1007",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/3f47c3634c822270cbccf23f4cb4fcf2272e23d1_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199579882945/?xml=1",
+      "checkedAt": "2026-11-13T02:21:24.008Z",
+      "reviewerReviewCount": 2,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199579882945/recommended/1663850/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561197981257615": {
+      "reviewerName": "Roy the Boy",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/bd53db6e439513fc77ebdfa29f08458609d59e95_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561197981257615/?xml=1",
+      "checkedAt": "2026-11-13T02:21:24.281Z",
+      "reviewerReviewCount": 12,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561197981257615/recommended/686060/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198070253925": {
+      "reviewerName": "A Space Knight",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/ff07b023961442f972dc40fa765eeb69e2b9284c_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198070253925/?xml=1",
+      "checkedAt": "2026-11-13T02:21:24.144Z",
+      "reviewerReviewCount": 51,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198070253925/recommended/686060/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198071592469": {
+      "reviewerName": "Danny",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/840c3970f5b4c73c0f2038d910c4e75263de622b_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198071592469/?xml=1",
+      "checkedAt": "2026-11-13T02:21:24.274Z",
+      "reviewerReviewCount": 58,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198071592469/recommended/686060/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199223902802": {
+      "reviewerName": "Shimwer",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/d09abe52e9eb8146a6788050ee94586f50d8d612_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199223902802/?xml=1",
+      "checkedAt": "2026-11-13T02:21:24.575Z",
+      "reviewerReviewCount": 1,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199223902802/recommended/686060/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561199543982059": {
+      "reviewerName": "PAINBURGER",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/6902205ea0d1ea5e15377d6d32fb309a25f07343_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561199543982059/?xml=1",
+      "checkedAt": "2026-11-13T02:21:24.846Z",
+      "reviewerReviewCount": 9,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561199543982059/recommended/686060/",
+      "reviewCountCheckedAt": "2026-11-12"
+    },
+    "76561198447985921": {
+      "reviewerName": "Mystical",
+      "reviewerAvatarUrl": "https://avatars.fastly.steamstatic.com/9abd7f8f8b63ef81f0caf7fe4c816892b76bf104_medium.jpg",
+      "sourceUrl": "https://steamcommunity.com/profiles/76561198447985921/?xml=1",
+      "checkedAt": "2026-11-13T02:21:24.862Z",
+      "reviewerReviewCount": 11,
+      "reviewCountSourceUrl": "https://steamcommunity.com/profiles/76561198447985921/recommended/686060/",
+      "reviewCountCheckedAt": "2026-11-12"
+    }
+  }
+}

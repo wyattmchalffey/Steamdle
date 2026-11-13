@@ -4,6 +4,7 @@ const { buildSearchIndex, buildGuessAliases, searchGames } = require('./game-sea
 const cors = require('cors');
 const db = require('./db.js');
 const { createDailyPuzzles, utcDay } = require('./daily-puzzles');
+const { decoratePuzzleReviewers } = require('./reviewer-profiles');
 const { createAnalytics } = require('./analytics');
 const { createStatsRoutes } = require('./stats-routes');
 const axios = require('axios');
@@ -111,7 +112,7 @@ app.get('/api/daily-game', async (req, res) => {
     try {
         const game = await dailyPuzzles.forDay(day);
         res.set('X-Next-Puzzle-Ready', preparedThrough && preparedThrough > day ? 'true' : 'false');
-        if (game) return res.json({ ...game, guessAliases: searchCatalog.guessAliases });
+        if (game) return res.json({ ...decoratePuzzleReviewers(game), guessAliases: searchCatalog.guessAliases });
         res.status(503).json({ error: "A complete set of review clues isn't available yet." });
     } catch (err) {
         console.error('[DAILY_GAME] Could not load the daily puzzle:', err.message);

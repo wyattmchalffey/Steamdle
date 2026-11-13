@@ -409,14 +409,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function appendReview(index, animate) {
         const reviewData = currentGame.reviews[index];
         if (reviewData.error) {
-            // Handle cases where scraping failed for this specific review
             const errorWrapper = document.createElement('div');
             errorWrapper.classList.add('review-item-wrapper', 'loaded', 'review-error-item');
-            errorWrapper.innerHTML = `
-            <span class="clue-number">Clue ${index + 1} of ${currentGame.reviews.length}:</span>
-            <p class="review-image-error">Oops! Could not load this review clue. '${reviewData.message}'</p>
-            <p class="review-source-url-error">(Source: ${reviewData.originalUrl || 'N/A'})</p>
-        `;
+            const number = document.createElement('span');
+            number.className = 'clue-number';
+            number.textContent = `Clue ${index + 1} / ${currentGame.reviews.length}`;
+            const message = document.createElement('p');
+            message.className = 'review-image-error';
+            message.textContent = 'This review could not be loaded. Please try again later.';
+            // A source URL or upstream error may expose the mystery game's app ID.
+            errorWrapper.append(number, message);
             reviewsContainer.appendChild(errorWrapper);
             reviewsContainer.scrollTop = reviewsContainer.scrollHeight;
             return;
@@ -432,45 +434,45 @@ document.addEventListener('DOMContentLoaded', () => {
         clueNumberSpan.textContent = `Clue ${index + 1} / ${currentGame.reviews.length}`;
         reviewWrapper.appendChild(clueNumberSpan);
 
-        // Main review card div (add recommendation state to card for left border styling)
+        // Match Steam's reviewer column and review-content column.
         const reviewCard = document.createElement('div');
         reviewCard.classList.add('steam-review-card');
-        const reviewMetadata = document.createElement('div');
-        reviewMetadata.className = 'review-metadata';
+        const reviewContent = document.createElement('div');
+        reviewContent.className = 'review-content';
         const isRec = reviewData.recommendation && reviewData.recommendation.toLowerCase() === 'recommended';
         const isNotRec = reviewData.recommendation && reviewData.recommendation.toLowerCase() === 'not recommended';
         if (isRec) reviewCard.classList.add('recommended');
         else if (isNotRec) reviewCard.classList.add('not-recommended');
 
-        // Review Header Section
         const reviewHeader = document.createElement('div');
         reviewHeader.classList.add('review-header');
-        let headerHasContent = false;
 
         // Add Avatar if available
         if (reviewData.reviewerAvatarUrl) {
             const avatarImg = document.createElement('img');
             avatarImg.src = reviewData.reviewerAvatarUrl;
-            avatarImg.alt = "Reviewer avatar";
+            avatarImg.alt = '';
+            avatarImg.width = 36;
+            avatarImg.height = 36;
             avatarImg.classList.add('reviewer-avatar');
+            avatarImg.addEventListener('error', () => avatarImg.remove(), { once: true });
             reviewHeader.appendChild(avatarImg);
-            headerHasContent = true;
         }
 
-        // Add Name if available (or use fallback)
+        const reviewerIdentity = document.createElement('div');
+        reviewerIdentity.className = 'reviewer-identity';
         const reviewerNameSpan = document.createElement('span');
         reviewerNameSpan.classList.add('reviewer-name');
-        reviewerNameSpan.textContent = reviewData.reviewerName || "A Steam User";
-        reviewHeader.appendChild(reviewerNameSpan);
-        headerHasContent = true;
-
-
-        // Append header to card ONLY if it has content
-        if (headerHasContent) {
-            reviewMetadata.appendChild(reviewHeader);
+        reviewerNameSpan.textContent = reviewData.reviewerName || 'Reviewer unavailable';
+        reviewerIdentity.appendChild(reviewerNameSpan);
+        if (Number.isInteger(reviewData.reviewerReviewCount) && reviewData.reviewerReviewCount >= 0) {
+            const reviewCount = document.createElement('span');
+            reviewCount.className = 'reviewer-review-count';
+            reviewCount.textContent = `${reviewData.reviewerReviewCount} ${reviewData.reviewerReviewCount === 1 ? 'review' : 'reviews'}`;
+            reviewerIdentity.appendChild(reviewCount);
         }
-        // End Review Header Section
-
+        reviewHeader.appendChild(reviewerIdentity);
+        reviewCard.appendChild(reviewHeader);
 
         // Recommendation Block
         const recommendationDiv = document.createElement('div');
@@ -478,9 +480,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isRec) recommendationDiv.classList.add('recommended');
         else if (isNotRec) recommendationDiv.classList.add('not-recommended');
 
-        const iconDiv = document.createElement('div');
-        iconDiv.classList.add('recommendation-icon');
-        recommendationDiv.appendChild(iconDiv);
+        if (isRec || isNotRec) {
+            const iconDiv = document.createElement('div');
+            iconDiv.classList.add('recommendation-icon');
+            iconDiv.setAttribute('aria-hidden', 'true');
+            recommendationDiv.appendChild(iconDiv);
+        }
 
         const detailsDiv = document.createElement('div');
         detailsDiv.classList.add('recommendation-details');
@@ -500,10 +505,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (detailsDiv.hasChildNodes()) { recommendationDiv.appendChild(detailsDiv); }
-        if (recommendationDiv.hasChildNodes()) { reviewCard.appendChild(recommendationDiv); }
+        if (recommendationDiv.hasChildNodes()) { reviewContent.appendChild(recommendationDiv); }
         // End Recommendation Block
 
-        // Date Posted
+        const reviewMetadata = document.createElement('div');
+        reviewMetadata.className = 'review-metadata';
         if (reviewData.datePosted && reviewData.datePosted !== "Date not found") {
             const dateP = document.createElement('p');
             dateP.classList.add('review-date');
@@ -519,16 +525,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 excerptLabel.textContent = 'Review excerpt';
                 reviewMetadata.appendChild(excerptLabel);
             }
+            if (reviewMetadata.hasChildNodes()) reviewContent.appendChild(reviewMetadata);
             const reviewTextP = document.createElement('p');
             reviewTextP.classList.add('review-text-content');
             reviewTextP.style.whiteSpace = 'pre-line';
             reviewTextP.textContent = reviewData.reviewText;
-            reviewCard.appendChild(reviewTextP);
+            reviewContent.appendChild(reviewTextP);
+        } else if (reviewMetadata.hasChildNodes()) {
+            reviewContent.appendChild(reviewMetadata);
         }
 
         // End Review Card Content
 
-        reviewCard.appendChild(reviewMetadata);
+        reviewCard.appendChild(reviewContent);
         reviewWrapper.appendChild(reviewCard);
         reviewsContainer.appendChild(reviewWrapper);
 
